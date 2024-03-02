@@ -1,17 +1,18 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+
 const labServer = http.createServer((req, res) => {
     let fPath = '.' + req.url;
 
     if (fPath == './') {
-        fPath = './PHASE2/index.html';
-    }else{
-        fPath = './PHASE2' + req.url;
+        fPath = './index.html';
+    } else {
+        fPath = '.' + req.url;
     }
 
     const ext = path.extname(fPath);
-    
+
     let cType = 'text/html';
 
     switch(ext){
@@ -26,16 +27,16 @@ const labServer = http.createServer((req, res) => {
     fs.readFile(fPath, (err, content) => {
         if (err){
             if (err.code == 'ENOENT'){
-                fs.readFile('./PHASE2/404.html', (err, content) => {
-                    res.writeHead(404, { 'Content Type': 'text/html' });
+                fs.readFile('./404.html', (err, content) => {
+                    res.writeHead(404, { 'Content-Type': 'text/html' });
                     res.end(content, 'utf-8');
                 });
-            }else{
+            } else {
                 res.writeHead(500);
                 res.end('Server Error: ' + err.code);
             }
-        }else{
-            res.writeHead(200, { 'Content Type': cType});
+        } else {
+            res.writeHead(200, { 'Content-Type': cType });
             res.end(content, 'utf-8');
         }
     });
@@ -43,5 +44,9 @@ const labServer = http.createServer((req, res) => {
 
 const PORT = process.env.PORT || 3000;
 labServer.listen(PORT, () => {
-    console.log('Server running on port ${PORT}');
+    console.log(`Server running on port ${PORT}`);
 });
+
+// MONGODB
+const { connectToDB } = require('./mongodb');
+connectToDB();
