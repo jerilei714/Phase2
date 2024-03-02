@@ -13,7 +13,7 @@ to this after.
 3. You should see "New Connection", and in the URI textbox below, paste this: mongodb+srv://masterUser122:Y6SDtkXn09rMDZTO@cluster0.req0igx.mongodb.net/
 4. Click connect, and you should be able to see a schema called "lab_reserve", click on that.
   (If you want to test registration, go to users collection and you should see the info added there after registering.
-5. DO NOT CLOSE MonggoDB Compass, and open your terminal/command prompt.
+5. DO NOT CLOSE MongoDB Compass, and open your terminal/command prompt.
 6. CD to the path of Phase2 on your machine
 7. After that, start the server by typing "node server.js" on your command prompt/terminal, and if successful, you should see these:
   Server running on port 3000
