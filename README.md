@@ -15,7 +15,7 @@ to this after.
   (If you want to test registration, go to users collection and you should see the info added there after registering.
 5. DO NOT CLOSE MonggoDB Compass, and open your terminal/command prompt.
 6. CD to the path of Phase2 on your machine
-7. After that, start the server by typing "node server.js" on your command prompt/terminal, and if succesfull, you should see these:
+7. After that, start the server by typing "node server.js" on your command prompt/terminal, and if successful, you should see these:
   Server running on port 3000
   Connected to MongoDB Atlas :)
 8. If you don't see that, message me. If you do see that, go to your preffered web browser.
