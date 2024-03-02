@@ -1,52 +1,60 @@
-const http = require('http');
-const fs = require('fs');
+const express = require('express');
 const path = require('path');
+const { connectToDB } = require('./labDatabase');
+const { createUser } = require('./models/labUsers');
 
-const labServer = http.createServer((req, res) => {
-    let fPath = '.' + req.url;
+const app = express();
 
-    if (fPath == './') {
-        fPath = './index.html';
-    } else {
-        fPath = '.' + req.url;
-    }
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-    const ext = path.extname(fPath);
+app.use('/styles', express.static(path.join(__dirname, 'Styles')));
+app.use('/scripts', express.static(path.join(__dirname, 'Scripts')));
+app.use('/view', express.static(path.join(__dirname, 'View')));
+app.use('/images', express.static(path.join(__dirname, 'Images')));
 
-    let cType = 'text/html';
-
-    switch(ext){
-        case '.css':
-            cType = 'text/css';
-            break;
-        case '.js':
-            cType = 'text/javascript';
-            break;
-    }
-
-    fs.readFile(fPath, (err, content) => {
-        if (err){
-            if (err.code == 'ENOENT'){
-                fs.readFile('./404.html', (err, content) => {
-                    res.writeHead(404, { 'Content-Type': 'text/html' });
-                    res.end(content, 'utf-8');
-                });
-            } else {
-                res.writeHead(500);
-                res.end('Server Error: ' + err.code);
-            }
-        } else {
-            res.writeHead(200, { 'Content-Type': cType });
-            res.end(content, 'utf-8');
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'), (err) => {
+        if (err) {
+            res.status(500).send('Server Error: ' + err.code);
         }
     });
 });
 
-const PORT = process.env.PORT || 3000;
-labServer.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+app.get('/view/:page', (req, res) => {
+    const page = req.params.page;
+    res.sendFile(path.join(__dirname, 'View', `${page}.html`), (err) => {
+        if (err) {
+            res.status(500).send('Server Error: ' + err.code);
+        }
+    });
 });
 
-// MONGODB
-const { connectToDB } = require('./mongodb');
-connectToDB();
+app.post('/register', async (req, res) => {
+    try {
+
+        const { username, name, password, email, course, accountType } = req.body;
+
+        const user = {
+            username,
+            name,
+            password,
+            email,
+            course,
+            accountType
+        };
+
+        const userId = await createUser(user);
+
+        res.status(201).send('Registration successful!');
+    } catch (error) {
+        console.error('Error creating user:', error);
+        res.status(500).send('Internal server error');
+    }
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+    connectToDB(); 
+});
