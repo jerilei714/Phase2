@@ -1,0 +1,208 @@
+@import url("https://fonts.google.com/specimen/Poppins?fbclid=IwAR11HMpEDVf1zxq6Z3cXuoFJ26x4j1VCWk29_KDpl5Wfp1Vsjhyt6gnAoU4");
+
+:root {
+    background: rgba(4, 39, 5, 0.7);
+}
+
+body {
+    font-family: "Poppins", sans-serif;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.login-container {
+    display: flex;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    width: 1000px; 
+    height: 500px; 
+    overflow: hidden; 
+}
+
+.background-image img{
+    opacity: 0.4;
+}
+
+.left-section {
+    padding: 20px;
+    text-align: center;
+    flex: 1; 
+}
+
+.left-section label {
+    text-align: left;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.password-input-container {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.toggle-password {
+    position: absolute;
+    top: 42%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #5A814F;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    vertical-align: middle;
+}
+
+.toggle-password:hover {
+    color: #3A5A40;
+}
+
+.right-section {
+    background-color: #3A5A40;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    flex: 1; 
+    position: relative;
+    overflow: hidden; 
+}
+
+.background-image {
+    width: 100%;
+    height: 100%;
+    object-fit:contain; 
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    z-index: -1; 
+    opacity: 0.7;
+}
+
+.username {
+    margin-bottom: 20px;
+}
+
+.name {
+    font-weight: bold;
+    font-size: 2em;
+    color: #3A5A40;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+.description {
+    font-size: 20px;
+    color: black;
+    margin-top: 20px;
+}
+
+.right-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    z-index: -1;
+}
+
+.text-overlay {
+    font-size: 25px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: black;
+    text-align: center;
+    z-index: 1;
+    padding: 15px 20px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+
+
+input {
+    font-family: Arial, Helvetica, sans-serif;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+button {
+    font-family: "Poppins", sans-serif;
+    font-weight: 100;
+    background-color: #3A5A40;
+    color: #fff;
+    padding: 10px 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 60%;
+}
+
+.additional-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.remember-me {
+    display: flex;
+    align-items: baseline;
+    white-space: nowrap;
+}
+
+.remember-me input {
+    margin-right: 5px; 
+}
+
+.remember-me label {
+    margin: 0; 
+}
+
+.forgot-password {
+    display: flex;
+    align-items: baseline; 
+}
+
+.forgot-password span {
+    color: #A3B18A;
+    text-decoration: underline;
+    cursor: pointer;
+    transition: color 0.3s; 
+}
+
+.forgot-password span:hover {
+    color: #3A5A40; 
+}
+
+.register-link {
+    text-align: center;
+    margin-top: 20px; 
+}
+
+.register-link a {
+    color: #A3B18A;
+    text-decoration: underline;
+    transition: color 0.3s; 
+}
+
+.register-link a:hover {
+    color: #3A5A40; 
+}
+
+h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #3A5A40;
+}

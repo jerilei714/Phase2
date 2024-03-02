@@ -1,0 +1,42 @@
+body, html {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    height: 100%;
+}
+
+.home-content {
+    display: flex;
+    height:100%;
+}
+
+.left-section {
+    flex: 1;
+    margin: 1em;
+    height: 88%;
+}
+
+.about-us {
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 5px;
+    height: 100%;
+}
+
+.right-section {
+    flex: 1;
+    margin: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.featured-labs,
+.how-it-works {
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 5px;
+    height:100%;
+}
+

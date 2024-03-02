@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Page</title>
+    <link rel="stylesheet" href="../Styles/register_style.css">
+</head>
+<body>
+    <div class="register-container">
+        <div class="left-section">
+            <div class="background-image">
+                <div class="text-overlay">
+                    <h2>Welcome to Register Page</h2>
+                    <p>Fill in the details below to create an account</p>
+                </div>
+            </div>
+        </div>
+        <div class="right-section">
+            <h2>Register</h2>
+            <form action="#" id="registerForm">
+                <label for="username" class="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+
+                <label for="course">Course:</label>
+                <input type="text" id="course" name="course" required>
+
+                <label for="accountType">Account Type:</label>
+                <select id="accountType" name="accountType" required>
+                    <option value="Student">Student</option>
+                    <option value="Lab Facilitator">Lab Facilitator</option>
+                </select>
+                <br>
+                <br>
+                <button type="submit">Register</button>
+               <br><br>
+                <div id="message"></div>
+
+                <p class="login-link">Already have an account? <a href="login.html">Login</a></p>
+            </form>
+        </div>
+    </div>
+</body>
+<script src="../Scripts/register.js" defer></script>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../Scripts/nav.js" defer></script>
+    <link rel="stylesheet" href="../Styles/editStudentReservations.css">
+    <script src="../Scripts/editStudentReservations.js" defer></script>
+    <title>Reservations</title>
+</head>
+<body>
+    <div id="nav"></div>
+    <div class="body-container">
+        <div id="lab-selection">
+            <span>
+                <label for="lab">Choose a Lab:</label>
+                <select id="lab">
+                    <option value="GK304A">GK304A</option>
+                    <option value="GK304B">GK304B</option>
+                    <option value="GK305A">GK305A</option>
+                    <option value="GK305B">GK305B</option>
+                    <option value="GK306A">GK306A</option>
+                    <option value="GK306B">GK306B</option>
+                </select>
+            </span>
+
+            <span>
+                <label for="date">Select Date:</label>
+                <input type="date" id="date">
+            </span>
+
+            <span>
+                <label for="time">Select Time:</label>
+                <select id="time" required>
+                </select>
+            </span>
+            
+        </div>
+        <button onclick="viewAvailability()">Filter</button>
+        <section class="current-reservations">
+            <h2>Current Reservations</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Reserved Seats</th>
+                            <th class="edit-reservation">Edit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Kyla</td>
+                            <td>20</td>
+                            <td><button>Edit</button></td>
+                        </tr>
+                        <tr>
+                            <td>Lab 2</td>
+                            <td>50</td>
+                            <td><button>Edit</button></td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    
+    </div>
+
+
+    <footer>
+        <p>&copy; 2024 Lab Reservation System</p>
+    </footer>
+</body>
+
+</html>
