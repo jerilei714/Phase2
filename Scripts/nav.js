@@ -13,7 +13,7 @@ function loadNav() {
     <div class = "nav-left">
         <div class="logo">
             <img src="../Images/logo.png" alt="logo">
-            <div class="logo-text"><a href = "../index.html">DLSU Laboratory Reservation System</a></div>
+            <div class="logo-text"><a href = "../">DLSU Laboratory Reservation System</a></div>
         </div>
     </div>
     <div class = "nav-right">
