@@ -30,7 +30,7 @@ while (tbody.firstChild) {
 }
 
 function goToHomePage(){
-    window.location.href='../index.html';
+    window.location.href='../';
 }
 
 const display_pfp = document.getElementById('pfpStudent')

@@ -6,9 +6,9 @@ async function createUser(user) {
   return result.insertedId;
 }
 
-async function getUser(userId) {
+async function getUser(username) {
   const db = await connectToDB();
-  return db.collection('users').findOne({ _id: userId });
+  return db.collection('users').findOne({ username: username });
 }
 
 async function updateUser(userId, updatedUser) {

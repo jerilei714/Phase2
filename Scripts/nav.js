@@ -1,7 +1,6 @@
 function getCurrentPath() {
-    const currentUrl = window.location.href;
-    const baseUrl = currentUrl.includes('/View/') ? '../View/' : './View/';
-    return baseUrl;
+    // Assuming that index.html is served at localhost:3000
+    return '/View/';
 }
 
 function loadNav() {
@@ -69,128 +68,73 @@ function loadNav() {
     `;
     
     document.getElementById('nav').innerHTML = navHtml;
-    auth(); 
+
+    let authorizedUsername = sessionStorage.getItem('authorizedUsername') || localStorage.getItem('authorizedUsername');
+
+    if (authorizedUsername) {
+        auth();
+    } else {
+        console.error('authorizedUsername is not defined.');
+    }
 }
 
+function auth() {
+    let profile = document.getElementById('viewProfile');
+    let editProfile = document.getElementById('editProfile');
+    let deleteProfile = document.getElementById('deleteProfile');
+    let viewSlots = document.getElementById('viewSlotAvailability');
+    let viewReservations = document.getElementById('viewReservations');
+    let reserveSlot = document.getElementById('reserveSlot');
+    let editReservation = document.getElementById('editReservation');
+    let reserveForStudent = document.getElementById('reserveForStudent');
+    let removeReservations = document.getElementById('removeReservations');
+    let editStudentReservation = document.getElementById('editStudentReservation');
+    let reservationDropdown = document.querySelector('.reservation');
+    let EditDropdown = document.querySelector('.edit');
+    let viewSlotAvailability = document.getElementById('viewSlotAvailability');
 
-  function auth() {
-    let profile = document.getElementById('viewProfile')
-    let editProfile = document.getElementById('editProfile')
-    let deleteProfile = document.getElementById('deleteProfile')
-    let viewSlots = document.getElementById('viewSlotAvailability')
-    let viewReservations = document.getElementById('viewReservations')
-    let reserveSlot = document.getElementById('reserveSlot')
-    let editReservation = document.getElementById('editReservation')
-    let reserveForStudent = document.getElementById('reserveForStudent')
-    let removeReservations = document.getElementById('removeReservations')
-    let editStudentReservation = document.getElementById('editStudentReservation')
-    let reservationDropdown = document.querySelector('.reservation')
-    let EditDropdown = document.querySelector('.edit')
-    let viewSlotAvailability = document.getElementById('viewSlotAvailability')
-    
-      if (!sessionStorage.getItem('authorized')) {
-            let profileArea = document.querySelector('.user-actions');
-            let unauthorized = '<button id="signInButton">Sign-in</button>';
-            profileArea.innerHTML = unauthorized;
-            let signInButton = document.getElementById("signInButton");
-            reservationDropdown.style.display = "none"
-            EditDropdown.style.display = "none"
-            document.getElementById('viewReservations').style.display="none"
-            viewSlotAvailability.textContent="View Current Slot Availability"
-            signInButton.onclick = function (){
-                window.location.href=getCurrentPath() + 'login.html';
-            }
-            profile.onclick = function(){
-                window.location.href=getCurrentPath() + 'profile.html';
-            }
-            editProfile.onclick = function(){
-                window.location.href = getCurrentPath() + 'profile.html?edit=true';
-            };
-            viewSlots.onclick = function(){
-                window.location.href = getCurrentPath() + 'viewSlots.html';
-            };
-            viewReservations.onclick = function(){
-                window.location.href = getCurrentPath() + 'reservations.html';
-            };
-            reserveSlot.onclick = function(){
-                window.location.href = getCurrentPath() + 'reserveSlots.html';
-            };
-            editReservation.onclick = function(){
-                window.location.href = getCurrentPath() + 'editReservations.html';
-            };
-            editStudentReservation.onclick = function(){
-                window.location.href = getCurrentPath() + 'editStudentReservations.html';
-            };
-            reserveForStudent.onclick = function(){
-                window.location.href = getCurrentPath() + 'reserveForStudent.html';
-            };
-            removeReservations.onclick = function(){
-                window.location.href = getCurrentPath() + 'deleteReservations.html';
-            };
+    profile.addEventListener('click', function() {
+        window.location.href = getCurrentPath() + 'profile.html';
+    });
 
-      } else {
-            const authorizedUsername = sessionStorage.getItem('authorizedUsername');
-            const users = JSON.parse(localStorage.getItem('users'))
-            const user = users.find(user => user.username === authorizedUsername)
-            const profilePictureBase64 = user.profilePicture; 
-            const display_pfp = document.getElementById('pfp')
-            const dropdownpfp = document.getElementById('dropdownpfp')
-            if (user.profilePicture){
-                display_pfp.src = profilePictureBase64; 
-                dropdownpfp.src = profilePictureBase64;
-            }
-            
-            let usernameDisplay = document.querySelector('.username');
-            if (usernameDisplay) {
-                usernameDisplay.textContent = authorizedUsername;
-            }
+    editProfile.addEventListener('click', function() {
+        window.location.href = getCurrentPath() + 'profile.html?edit=true';
+    });
 
-            if (sessionStorage.getItem('AccountType') === "Student"){
-              document.getElementById('reserveForStudent').style.display="none"
-              document.getElementById('removeReservations').style.display="none"
-              editStudentReservation.style.display="none"
-            } else if (sessionStorage.getItem('AccountType')=== "Lab Facilitator"){
-                editReservation.style.display="none"
-                document.getElementById('reserveSlot').style.display="none"
-                document.getElementById('viewReservations').style.display="none"  
-            }
-            
-        
-            profile.onclick = function(){
-                window.location.href=getCurrentPath() + 'profile.html';
-            }
-            editProfile.onclick = function(){
-                window.location.href = getCurrentPath() + 'profile.html?edit=true';
-            };
-            viewSlots.onclick = function(){
-                window.location.href = getCurrentPath() + 'viewSlots.html';
-            };
-            viewReservations.onclick = function(){
-                window.location.href = getCurrentPath() + 'reservations.html';
-            };
-            reserveSlot.onclick = function(){
-                window.location.href = getCurrentPath() + 'reserveSlots.html';
-            };
-            editReservation.onclick = function(){
-                window.location.href = getCurrentPath() + 'editReservations.html';
-            };
-            editStudentReservation.onclick = function(){
-                window.location.href = getCurrentPath() + 'editStudentReservations.html';
-            };
-            reserveForStudent.onclick = function(){
-                window.location.href = getCurrentPath() + 'resForStudent.html';
-            };
-            removeReservations.onclick = function(){
-                window.location.href = getCurrentPath() + 'deleteReservations.html';
-            };
+    viewSlots.addEventListener('click', function() {
+        window.location.href = getCurrentPath() + 'viewSlots.html';
+    });
 
-      }
-  }
-  loadNav();
+    viewReservations.addEventListener('click', function() {
+        window.location.href = getCurrentPath() + 'reservations.html';
+    });
+
+    reserveSlot.addEventListener('click', function() {
+        window.location.href = getCurrentPath() + 'reserveSlots.html';
+    });
+
+    editReservation.addEventListener('click', function() {
+        window.location.href = getCurrentPath() + 'editReservations.html';
+    });
+
+    editStudentReservation.addEventListener('click', function() {
+        window.location.href = getCurrentPath() + 'editStudentReservations.html';
+    });
+
+    reserveForStudent.addEventListener('click', function() {
+        window.location.href = getCurrentPath() + 'resForStudent.html';
+    });
+
+    removeReservations.addEventListener('click', function() {
+        window.location.href = getCurrentPath() + 'deleteReservations.html';
+    });
+}
+
+loadNav();
 
 if (!localStorage.getItem('Generated') || localStorage.getItem('Generated') === 'false') {
-    generateDefault(); 
-    localStorage.setItem('Generated', 'true'); 
+    generateDefault();
+    localStorage.setItem('Generated', 'true');
 }
 
 function generateDefault(){

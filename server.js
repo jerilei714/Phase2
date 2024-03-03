@@ -1,7 +1,8 @@
 const express = require('express');
 const path = require('path');
 const { connectToDB } = require('./labDatabase');
-const { createUser } = require('./models/labUsers');
+const registrationController = require('./controllers/regController');
+const loginController = require('./controllers/loginController');
 
 const app = express();
 
@@ -21,40 +22,11 @@ app.get('/', (req, res) => {
     });
 });
 
-app.get('/view/:page', (req, res) => {
-    const page = req.params.page;
-    res.sendFile(path.join(__dirname, 'View', `${page}.html`), (err) => {
-        if (err) {
-            res.status(500).send('Server Error: ' + err.code);
-        }
-    });
-});
-
-app.post('/register', async (req, res) => {
-    try {
-
-        const { username, name, password, email, course, accountType } = req.body;
-
-        const user = {
-            username,
-            name,
-            password,
-            email,
-            course,
-            accountType
-        };
-
-        const userId = await createUser(user);
-
-        res.status(201).send('Registration successful!');
-    } catch (error) {
-        console.error('Error creating user:', error);
-        res.status(500).send('Internal server error');
-    }
-});
+app.use('/register', registrationController);
+app.use('/login', loginController);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
-    connectToDB(); 
+    connectToDB();
 });
