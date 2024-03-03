@@ -138,7 +138,7 @@ function logout() {
 }
 
 function goToHomePage() {
-    window.location.href = '../';
+    window.location.href = '../index.html';
 }
 
 function deleteUser() {

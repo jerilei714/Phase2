@@ -3,6 +3,7 @@ const path = require('path');
 const { connectToDB } = require('./labDatabase');
 const registrationController = require('./controllers/regController');
 const loginController = require('./controllers/loginController');
+const userController = require('./controllers/userController');
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.get('/', (req, res) => {
 
 app.use('/register', registrationController);
 app.use('/login', loginController);
+app.use('/users', userController);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
