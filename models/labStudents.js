@@ -18,12 +18,23 @@ async function getStudent(studentId) {
 }
 
 async function updateStudent(studentId, updatedStudent) {
-    const db = await connectToDB();
-    const result = await db.collection('student').updateOne(
-        { _id: studentId },
-        { $set: updatedStudent }
-    );
-    return result.modifiedCount > 0;
+    try {
+        const db = await connectToDB();
+        const result = await db.collection('student').updateOne(
+            { _id: studentId },
+            {
+                $set: {
+                    username: updatedStudent.username,
+                    course: updatedStudent.course,
+                    description: `${updatedStudent.course} student`
+                }
+            }
+        );
+        return result.modifiedCount > 0;
+    } catch (error) {
+        console.error('Error updating student:', error);
+        return false;
+    }
 }
 
 async function deleteStudent(studentId) {

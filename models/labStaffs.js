@@ -11,12 +11,12 @@ async function createUserStaff(user_id, username) {
 
 async function getStaff(staffId) {
     const db = await connectToDB();
-    return db.collection('staffs').findOne({ _id: staffId });
+    return db.collection('staff').findOne({ _id: staffId });
 }
 
 async function updateStaff(staffId, updatedStaff) {
     const db = await connectToDB();
-    const result = await db.collection('staffs').updateOne(
+    const result = await db.collection('staff').updateOne(
         { _id: staffId },
         { $set: updatedStaff }
     );
@@ -25,7 +25,7 @@ async function updateStaff(staffId, updatedStaff) {
 
 async function deleteStaff(staffId) {
     const db = await connectToDB();
-    const result = await db.collection('staffs').deleteOne({ _id: staffId });
+    const result = await db.collection('staff').deleteOne({ _id: staffId });
     return result.deletedCount > 0;
 }
 

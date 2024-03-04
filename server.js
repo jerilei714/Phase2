@@ -4,6 +4,11 @@ const { connectToDB } = require('./labDatabase');
 const registrationController = require('./controllers/regController');
 const loginController = require('./controllers/loginController');
 const userController = require('./controllers/userController');
+const labController = require('./controllers/labController');
+const reservationController = require('./controllers/reservationController');
+const seatController = require('./controllers/seatController');
+const redSeatsController = require('./controllers/redSeatsController');
+const reserveSlotsController = require('./controllers/reserveSlotsController');
 
 const app = express();
 
@@ -26,6 +31,11 @@ app.get('/', (req, res) => {
 app.use('/register', registrationController);
 app.use('/login', loginController);
 app.use('/users', userController);
+app.use('/labs', labController);
+app.use('/reservations', reservationController); 
+app.use('/seats', seatController);
+app.use('/reservedseats', redSeatsController);
+app.use('/reserve-slots', reserveSlotsController);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
