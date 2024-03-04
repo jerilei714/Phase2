@@ -21,7 +21,7 @@ to this after.
 8. If you don't see that, message me. If you do see that, go to your preferred web browser.
 9. In your web browser, enter: localhost:3000
 10. After entering, you should see the frontend website.
-11. For now, only the registration is implemented. Other features will be implemented soon.
+11. For now, only the registration, login, logout and view profile is implemented. Other features will be implemented soon.
 12. You can go to the register and after registering, you should be able to see the info added on the mongodb compass :)
 
 That's it for now :)))) HAPPY CODING!
