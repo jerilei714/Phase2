@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const exphbs  = require('express-handlebars');
 const { connectToDB } = require('./labDatabase');
 const registrationController = require('./controllers/regController');
 const loginController = require('./controllers/loginController');
@@ -14,18 +15,22 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.engine('handlebars', exphbs());
 
 app.use('/styles', express.static(path.join(__dirname, 'Styles')));
 app.use('/scripts', express.static(path.join(__dirname, 'Scripts')));
-app.use('/view', express.static(path.join(__dirname, 'View')));
 app.use('/images', express.static(path.join(__dirname, 'Images')));
 
+app.engine('.hbs', exphbs({
+    extname: '.hbs',
+    defaultLayout: 'main',
+    layoutsDir: path.join(__dirname, 'View', 'layouts')
+}));
+app.set('view engine', '.hbs');
+app.set('views', path.join(__dirname, 'View'));
+
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'), (err) => {
-        if (err) {
-            res.status(500).send('Server Error: ' + err.code);
-        }
-    });
+    res.render('index');
 });
 
 app.use('/register', registrationController);

@@ -1,0 +1,28 @@
+{
+  "name": "phase2",
+  "version": "1.0.0",
+  "description": "Laboratory Reservation System",
+  "main": "server.js",
+  "scripts": {
+    "test": "node server.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jerilei714/Phase2.git"
+  },
+  "keywords": [
+    "reservation",
+    "system"
+  ],
+  "author": "Group2",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jerilei714/Phase2/issues"
+  },
+  "homepage": "https://github.com/jerilei714/Phase2#readme",
+  "dependencies": {
+    "express-handlebars": "^7.1.2",
+    "handlebars": "^4.7.8"
+  }
+}
