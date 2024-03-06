@@ -159,22 +159,6 @@ document.addEventListener('DOMContentLoaded', async function () {
         const amPm = hour < 12 ? 'AM' : 'PM';
         return `${hour12}:${minute < 10 ? '0' + minute : minute} ${amPm}`;
     }
-
-    /* async function viewAvailability() {
-        try {
-            currentLab = document.getElementById('lab').value;
-            const response = await fetch(`/seats/available/${currentLab}`);
-            if (!response.ok) {
-                throw new Error('Failed to fetch available seats');
-            }
-            const availableSeatCount = await response.json();
-            const availabilityResults = document.getElementById('availability-results');
-            availabilityResults.innerHTML = `<h3>${currentLab} Availability</h3><p class="Available">Available Seats: ${availableSeatCount}</p>`;
-            availabilityResults.style.display = 'block';
-        } catch (error) {
-            console.error('Error fetching available seats:', error);
-        }
-    }     */
     
     async function viewAvailability() {
         try {
@@ -298,7 +282,8 @@ document.addEventListener('DOMContentLoaded', async function () {
                 seat_number: seatNumber,
                 username: user.username,
                 reserve_date: date,
-                reserve_time: time
+                reserve_time: time,
+                tnd_requested: new Date().toISOString()
             };
             const reservationResponse = await fetch('/reservations', {
                 method: 'POST',

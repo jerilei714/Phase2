@@ -1,5 +1,6 @@
 const express = require('express');
-const { createReservation, getReservation, updateReservation, deleteReservation } = require('../models/labReserves');
+const { ObjectId } = require('mongodb');
+const { createReservation, getReservation, updateReservation, deleteReservation , getReservedSeatsByUsername, findReservationByDetails } = require('../models/labReserves');
 const { updateSeatStatus } = require('../models/labSeats');
 const { createReservedSeat } = require('../models/labReservedSeats');
 const router = express.Router();
@@ -15,7 +16,8 @@ router.post('/', async (req, res) => {
             username,
             reserve_date,
             reserve_time,
-            seat_number
+            seat_number,
+            tnd_requested: new Date().toISOString()
         };
         const reservationId = await createReservation(reservationData);
         const reservedSeatData = {
@@ -78,6 +80,33 @@ router.delete('/:reservationId', async (req, res) => {
         }
     } catch (error) {
         console.error('Error deleting reservation:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+router.get('/userReservations/:username', async (req, res) => {
+    try {
+        const { username } = req.params;
+        const userReservations = await getReservedSeatsByUsername(username);
+        res.json({ userReservations });
+    } catch (error) {
+        console.error('Error fetching user reservations:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+router.put('/update/:reservationId', async (req, res) => {
+    try {
+        const { reservationId } = req.params;
+        const updatedDetails = req.body;
+        const success = await updateReservation(new ObjectId(reservationId), updatedDetails);
+        if (success) {
+            res.json({ success: true, message: 'Reservation updated successfully' });
+        } else {
+            res.status(404).json({ error: 'Failed to update reservation' });
+        }
+    } catch (error) {
+        console.error('Error updating reservation:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 });

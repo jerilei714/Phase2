@@ -1,6 +1,7 @@
 const express = require('express');
+const { ObjectId } = require('mongodb');
 const router = express.Router();
-const { createReservedSeat, getReservedSeat, updateReservedSeat, deleteReservedSeat, getReservedSeatsByLab } = require('../models/labReservedSeats');
+const { createReservedSeat, getReservedSeat, updateReservedSeat, deleteReservedSeat, getReservedSeatsByLab, updateReservedSeatByReservationId } = require('../models/labReservedSeats');
 
 router.post('/', async (req, res) => {
     try {
@@ -77,6 +78,22 @@ router.get('/lab/:labId', async (req, res) => {
         res.json(reservedSeats);
     } catch (error) {
         console.error('Error fetching reserved seats:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+router.put('/updateByReservationId/:reservationId', async (req, res) => {
+    try {
+        const { reservationId } = req.params;
+        const updatedSeatData = req.body;
+        const success = await updateReservedSeatByReservationId(new ObjectId(reservationId), updatedSeatData);
+        if (success) {
+            res.json({ success: true, message: 'Reserved seat updated successfully' });
+        } else {
+            res.status(404).json({ error: 'Reserved seat not found' });
+        }
+    } catch (error) {
+        console.error('Error updating reserved seat by reservation ID:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 });

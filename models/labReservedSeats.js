@@ -1,4 +1,5 @@
 const { connectToDB } = require('../labDatabase');
+const { ObjectId } = require('mongodb');
 
 async function createReservedSeat(seat) {
   const db = await connectToDB();
@@ -31,5 +32,15 @@ async function getReservedSeatsByLab(labId) {
     return db.collection('reserved_seats').find({ lab_id: labId }).toArray();
 }
 
-module.exports = { createReservedSeat, getReservedSeat, updateReservedSeat, deleteReservedSeat, getReservedSeatsByLab };
+async function updateReservedSeatByReservationId(reservationId, updatedSeat) {
+  const db = await connectToDB();
+  const result = await db.collection('reserved_seats').updateOne(
+    { "reservation_id": new ObjectId(reservationId) },
+    { $set: updatedSeat }
+  );
+  return result.modifiedCount > 0;
+}
+
+module.exports = { createReservedSeat, getReservedSeat, updateReservedSeat, deleteReservedSeat, getReservedSeatsByLab, updateReservedSeatByReservationId };
+
 
