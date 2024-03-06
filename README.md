@@ -1,8 +1,7 @@
 BEFORE PROCEEDING: This README assumes that you HAVE INSTALLED the following on your machine:
 1. Node.js 
-2. Express.js
-3. MongoDB Community Server
-4. MongoDB Compass
+2. MongoDB Community Server
+3. MongoDB Compass
 
 If you have not installed everything that is mentioned above, do install them first and come back
 to this after. 
