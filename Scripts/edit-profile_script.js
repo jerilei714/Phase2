@@ -1,4 +1,3 @@
-
 function submitEditProfile(event) {
     event.preventDefault();
     const authorizedUsername = sessionStorage.getItem('authorizedUsername');

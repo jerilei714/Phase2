@@ -54,8 +54,8 @@ app.get('/reserveForStudent', (req, res) => {
     res.render('reserveForStudent');
 });
 
-app.get('/deleteReservation', (req, res) => {
-    res.render('deleteReservation');
+app.get('/deleteReservations', (req, res) => {
+    res.render('deleteReservations');
 });
 
 app.get('/reservations', (req, res) => {
