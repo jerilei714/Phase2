@@ -17,7 +17,7 @@ users.forEach(user => {
         const editButton = document.createElement('button');
         editButton.textContent = 'Reserve For Student';
         editButton.addEventListener('click', function() {
-            window.location.href = `reserveForStudent.html?studentUsername=${encodeURIComponent(user.username)}`;
+            window.location.href = `reserveForStudent.hbs?studentUsername=${encodeURIComponent(user.username)}`;
         });
 
         actionsCell.appendChild(editButton);

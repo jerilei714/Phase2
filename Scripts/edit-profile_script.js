@@ -20,7 +20,7 @@ function submitEditProfile(event) {
         localStorage.setItem('users', JSON.stringify(users));
         sessionStorage.setItem('authorizedUsername', newUsername);
         sessionStorage.setItem('AccountType', newAccountType);
-        window.location.href = 'profile.html'; 
+        window.location.href = 'profile.hbs'; 
     } else {
         console.error('User not found');
     }
@@ -54,7 +54,7 @@ document.getElementById('fileInput').onchange = function(event) {
         };
         reader.readAsDataURL(file); 
     }
-    window.location.href='profile.html'
+    window.location.href='profile.hbs'
 };
 
 

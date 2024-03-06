@@ -15,22 +15,75 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.engine('handlebars', exphbs());
 
 app.use('/styles', express.static(path.join(__dirname, 'Styles')));
 app.use('/scripts', express.static(path.join(__dirname, 'Scripts')));
 app.use('/images', express.static(path.join(__dirname, 'Images')));
 
-app.engine('.hbs', exphbs({
+const hbs = exphbs.create({
     extname: '.hbs',
     defaultLayout: 'main',
     layoutsDir: path.join(__dirname, 'View', 'layouts')
-})); 
-app.set('view engine', '.hbs');
+  });
+  
+app.engine('handlebars', hbs.engine);
+app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'View'));
 
 app.get('/', (req, res) => {
     res.render('index');
+});
+
+app.get('/viewSlots', (req, res) => {
+    res.render('viewSlots');
+});
+
+app.get('/viewProfile', (req, res) => {
+    res.render('viewProfile');
+});
+
+app.get('/resForStudent', (req, res) => {
+    res.render('resForStudent');
+});
+
+app.get('/reserveSlots', (req, res) => {
+    res.render('reserveSlots');
+});
+
+app.get('/reserveForStudent', (req, res) => {
+    res.render('reserveForStudent');
+});
+
+app.get('/deleteReservation', (req, res) => {
+    res.render('deleteReservation');
+});
+
+app.get('/reservations', (req, res) => {
+    res.render('reservations');
+});
+
+app.get('/register', (req, res) => {
+    res.render('register');
+});
+
+app.get('/profile', (req, res) => {
+    res.render('profile');
+});
+
+app.get('/login', (req, res) => {
+    res.render('login');
+});
+
+app.get('/editStudentReservations', (req, res) => {
+    res.render('editStudentReservations');
+});
+
+app.get('/editReservationContent', (req, res) => {
+    res.render('editReservationContent');
+});
+
+app.get('/editReservations', (req, res) => {
+    res.render('editReservations');
 });
 
 app.use('/register', registrationController);

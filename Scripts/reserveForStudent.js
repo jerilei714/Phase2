@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function () {
             document.querySelector('.seatNumber').innerHTML = seat.innerText; 
             popup.style.display = 'flex';
             userNameElement.addEventListener('click', function() {
-                window.location.href = `viewProfile.html?username=${encodeURIComponent(studentUsername)}`;
+                window.location.href = `viewProfile.hbs?username=${encodeURIComponent(studentUsername)}`;
             });
         }
     }

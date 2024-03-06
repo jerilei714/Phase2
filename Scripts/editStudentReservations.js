@@ -42,7 +42,7 @@ users.forEach(user => {
         const editButton = document.createElement('button');
         editButton.textContent = 'Edit';
         editButton.addEventListener('click', function() {
-            window.location.href = `editReservationsContent.html?studentUsername=${encodeURIComponent(user.username)}`;
+            window.location.href = `editReservationsContent.hbs?studentUsername=${encodeURIComponent(user.username)}`;
         });
 
         actionsCell.appendChild(editButton);

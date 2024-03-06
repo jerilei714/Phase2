@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
             document.querySelector('.seatNumber').innerHTML = seatNumber.toString();
             popup.style.display = 'flex';
             userNameElement.addEventListener('click', function() {
-                window.location.href = `viewProfile.html?username=${encodeURIComponent(resUsername)}`;
+                window.location.href = `viewProfile.hbs?username=${encodeURIComponent(resUsername)}`;
             });
         }
     }

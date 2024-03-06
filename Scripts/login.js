@@ -6,7 +6,7 @@
     const user = users.find(user => user.username === username && user.password === password);
     if (user) {
         alert('Login successful!');
-        window.location.href='../index.html'
+        window.location.href='../index.hbs'
         sessionStorage.setItem('authorized', true);
         sessionStorage.setItem('authorizedUsername', username);
         sessionStorage.setItem('AccountType', user.accountType);

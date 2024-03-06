@@ -68,7 +68,7 @@ function submitEdit(event) {
         user.reservations[editingReservationIndex].date = updatedDate;
         user.reservations[editingReservationIndex].time = updatedTime;
         localStorage.setItem('users', JSON.stringify(users));
-        window.location.href = `editReservationsContent.html?studentUsername=${encodeURIComponent(user.username)}`;
+        window.location.href = `editReservationsContent.hbs?studentUsername=${encodeURIComponent(user.username)}`;
         closeEditProfilePopup(); 
     }
 }

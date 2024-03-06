@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function () {
             };
             const userNameElement = document.querySelector('#userName');
             userNameElement.addEventListener('click', function() {
-                window.location.href = `viewProfile.html?username=${encodeURIComponent(resUsername)}`;
+                window.location.href = `viewProfile.hbs?username=${encodeURIComponent(resUsername)}`;
             });
         }
     }

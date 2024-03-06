@@ -114,7 +114,7 @@
             popup.style.display = 'flex';
             const userNameElement = document.querySelector('#userName');
             userNameElement.addEventListener('click', function() {
-                window.location.href = `viewProfile.html?username=${encodeURIComponent(user.username)}`;
+                window.location.href = `viewProfile.hbs?username=${encodeURIComponent(user.username)}`;
             });
         }
     }
@@ -247,7 +247,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             popup.style.display = 'flex';
             const userNameElement = document.querySelector('#userName');
             userNameElement.addEventListener('click', function() {
-                window.location.href = `viewProfile.html?username=${encodeURIComponent(user.username)}`;
+                window.location.href = `viewProfile.hbs?username=${encodeURIComponent(user.username)}`;
             });
         }
     }

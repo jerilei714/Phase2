@@ -1,6 +1,6 @@
 function getCurrentPath() {
     const currentUrl = window.location.href;
-    const baseUrl = currentUrl.includes('/View/') ? '../View/' : './View/';
+    const baseUrl = currentUrl.includes('/View/') ? '../' : './'; // Adjust base URL
     return baseUrl;
 }
 
@@ -60,7 +60,7 @@ function loadNav() {
                 <div class="dropdown-content">
                     <img id="dropdownpfp" src="../Images/Default_pfp.jpg" alt="Pfp">
                     <a id = "viewProfile">Profile</a>
-                    <a id="editProfile" href="./View/profile.html?edit=true">Edit Profile</a>
+                    <a id="editProfile" href="./View/profile?edit=true">Edit Profile</a>
                 </div>
             </div>
         </div>
@@ -97,34 +97,34 @@ function loadNav() {
             document.getElementById('viewReservations').style.display="none"
             viewSlotAvailability.textContent="View Current Slot Availability"
             signInButton.onclick = function (){
-                window.location.href=getCurrentPath() + 'login.html';
+                window.location.href=getCurrentPath() + 'login';
             }
             profile.onclick = function(){
-                window.location.href=getCurrentPath() + 'profile.html';
+                window.location.href=getCurrentPath() + 'profile';
             }
             editProfile.onclick = function(){
-                window.location.href = getCurrentPath() + 'profile.html?edit=true';
+                window.location.href = getCurrentPath() + 'profile?edit=true';
             };
             viewSlots.onclick = function(){
-                window.location.href = getCurrentPath() + 'viewSlots.html';
+                window.location.href = getCurrentPath() + 'viewSlots';
             };
             viewReservations.onclick = function(){
-                window.location.href = getCurrentPath() + 'reservations.html';
+                window.location.href = getCurrentPath() + 'reservations';
             };
             reserveSlot.onclick = function(){
-                window.location.href = getCurrentPath() + 'reserveSlots.html';
+                window.location.href = getCurrentPath() + 'reserveSlots';
             };
             editReservation.onclick = function(){
-                window.location.href = getCurrentPath() + 'editReservations.html';
+                window.location.href = getCurrentPath() + 'editReservations';
             };
             editStudentReservation.onclick = function(){
-                window.location.href = getCurrentPath() + 'editStudentReservations.html';
+                window.location.href = getCurrentPath() + 'editStudentReservations';
             };
             reserveForStudent.onclick = function(){
-                window.location.href = getCurrentPath() + 'reserveForStudent.html';
+                window.location.href = getCurrentPath() + 'reserveForStudent';
             };
             removeReservations.onclick = function(){
-                window.location.href = getCurrentPath() + 'deleteReservations.html';
+                window.location.href = getCurrentPath() + 'deleteReservations';
             };
 
       } else {
@@ -156,31 +156,31 @@ function loadNav() {
                 }
                 
                 profile.onclick = function(){
-                    window.location.href = getCurrentPath() + 'profile.html';
+                    window.location.href = getCurrentPath() + 'profile';
                 };
                 editProfile.onclick = function(){
-                    window.location.href = getCurrentPath() + 'profile.html?edit=true';
+                    window.location.href = getCurrentPath() + 'profile?edit=true';
                 };
                 viewSlots.onclick = function(){
-                    window.location.href = getCurrentPath() + 'viewSlots.html';
+                    window.location.href = getCurrentPath() + 'viewSlots';
                 };
                 viewReservations.onclick = function(){
-                    window.location.href = getCurrentPath() + 'reservations.html';
+                    window.location.href = getCurrentPath() + 'reservations';
                 };
                 reserveSlot.onclick = function(){
-                    window.location.href = getCurrentPath() + 'reserveSlots.html';
+                    window.location.href = getCurrentPath() + 'reserveSlots';
                 };
                 editReservation.onclick = function(){
-                    window.location.href = getCurrentPath() + 'editReservations.html';
+                    window.location.href = getCurrentPath() + 'editReservations';
                 };
                 editStudentReservation.onclick = function(){
-                    window.location.href = getCurrentPath() + 'editStudentReservations.html';
+                    window.location.href = getCurrentPath() + 'editStudentReservations';
                 };
                 reserveForStudent.onclick = function(){
-                    window.location.href = getCurrentPath() + 'resForStudent.html';
+                    window.location.href = getCurrentPath() + 'resForStudent';
                 };
                 removeReservations.onclick = function(){
-                    window.location.href = getCurrentPath() + 'deleteReservations.html';
+                    window.location.href = getCurrentPath() + 'deleteReservations';
                 };
             })
             .catch(error => {
