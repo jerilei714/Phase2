@@ -21,11 +21,11 @@ app.use('/styles', express.static(path.join(__dirname, 'Styles')));
 app.use('/scripts', express.static(path.join(__dirname, 'Scripts')));
 app.use('/images', express.static(path.join(__dirname, 'Images')));
 
-/* app.engine('.hbs', exphbs({
+app.engine('.hbs', exphbs({
     extname: '.hbs',
     defaultLayout: 'main',
     layoutsDir: path.join(__dirname, 'View', 'layouts')
-})); */
+})); 
 app.set('view engine', '.hbs');
 app.set('views', path.join(__dirname, 'View'));
 
