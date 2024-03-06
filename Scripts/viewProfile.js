@@ -70,6 +70,9 @@ const course = document.getElementById('course');
 const accountType = document.getElementById('accountType');
 const display_pfp = document.getElementById('pfpStudent');
 const tbody = document.querySelector('.table-container tbody');
+while (tbody.firstChild) {
+    tbody.removeChild(tbody.firstChild);
+}
 
 fetch(`/users/${authorizedUsername}`)
     .then(response => {
