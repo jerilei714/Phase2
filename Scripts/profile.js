@@ -106,7 +106,7 @@ fetch(`/users/${authorizedUsername}`)
         course.innerHTML = user.course;
         accountType.innerHTML = user.accountType;
         description.innerHTML = user.description;
-
+        
         if (user.profilePic) {
             display_pfp.src = user.profilePic;
         }

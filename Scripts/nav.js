@@ -132,12 +132,11 @@ function loadNav() {
         fetch(`/users/${authorizedUsername}`)
             .then(response => response.json())
             .then(user => {
-                const profilePictureBase64 = user.profilePicture; 
                 const display_pfp = document.getElementById('pfp');
                 const dropdownpfp = document.getElementById('dropdownpfp');
-                if (user.profilePicture) {
-                    display_pfp.src = profilePictureBase64; 
-                    dropdownpfp.src = profilePictureBase64;
+                if (user.profilePic) {
+                    display_pfp.src = user.profilePic; 
+                    dropdownpfp.src = user.profilePic;
                 }
                 
                 let usernameDisplay = document.querySelector('.username');
