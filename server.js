@@ -1,15 +1,15 @@
 const express = require('express');
 const path = require('path');
 const exphbs  = require('express-handlebars');
-const { connectToDB } = require('./labDatabase');
-const registrationController = require('./controllers/regController');
-const loginController = require('./controllers/loginController');
-const userController = require('./controllers/userController');
-const labController = require('./controllers/labController');
-const reservationController = require('./controllers/reservationController');
-const seatController = require('./controllers/seatController');
-const redSeatsController = require('./controllers/redSeatsController');
-const reserveSlotsController = require('./controllers/reserveSlotsController');
+const { connectToDB } = require('./Model/labDatabase');
+const registrationController = require('./Controller/regController');
+const loginController = require('./Controller/loginController');
+const userController = require('./Controller/userController');
+const labController = require('./Controller/labController');
+const reservationController = require('./Controller/reservationController');
+const seatController = require('./Controller/seatController');
+const redSeatsController = require('./Controller/redSeatsController');
+const reserveSlotsController = require('./Controller/reserveSlotsController');
 
 const app = express();
 
