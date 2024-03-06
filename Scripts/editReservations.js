@@ -129,8 +129,11 @@ fetch(`/reservations/userReservations/${authorizedUsername}`)
                 reservation.seat_number,
                 reservation.reserve_date,
                 reservation.reserve_time,
-                formatTndRequested(reservation.tnd_requested)
             ];
+            
+            const formattedTndRequested = formatTndRequested(reservation.tnd_requested);
+            details.push(formattedTndRequested);
+
             details.forEach(detail => {
                 const cell = document.createElement('td');
                 cell.textContent = detail;
@@ -151,6 +154,7 @@ fetch(`/reservations/userReservations/${authorizedUsername}`)
         console.error('Error fetching user reservations:', error);
     });
 
+
 function formatTime(hour, minute) {
     const hour12 = hour % 12 === 0 ? 12 : hour % 12;
     const amPm = hour < 12 ? 'AM' : 'PM';
@@ -169,7 +173,7 @@ function formatTndRequested(tndRequested) {
         month: 'numeric',
         day: 'numeric',
         year: 'numeric',
-    }).replace(',', '').replace(' ', ' '); // Adjusts format to 12:15AM 2-14-2024
+    }).replace(',', '').replace(' ', ' ');
 }
 
 const tbody = document.querySelector('.table-container tbody');
@@ -231,6 +235,7 @@ function submitEdit(event) {
 
     const updatedReservationDetails = {
         lab_id: updatedLab,
+        lab_name: updatedLab,
         seat_number: updatedSeat,
         reserve_date: updatedDate,
         reserve_time: updatedTime

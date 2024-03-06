@@ -7,9 +7,15 @@ const router = express.Router();
 
 router.post('/', async (req, res) => {
     try {
-        const { username, name, password, email, course, accountType, profilePic } = req.body;
+        const { username, name, password, email, course, accountType, profilePic, description } = req.body;
 
-        const defaultProfilePic = '../Images/Default_pfp.jpg';
+        let defaultProfilePic = '../Images/Default_pfp.jpg';
+        let defaultDescription = 'Comp Sci Baddie Account';
+        if (accountType === 'Student') {
+            defaultDescription = 'Student Account';
+        } else if (accountType === 'Lab Facilitator') {
+            defaultDescription = 'Lab Facilitator Account';
+        }
         const user = {
             username,
             name,
@@ -17,7 +23,8 @@ router.post('/', async (req, res) => {
             email,
             course,
             accountType,
-            profilePic: profilePic || defaultProfilePic
+            profilePic: profilePic || defaultProfilePic,
+            description: description || defaultDescription
         };
 
         const userId = await createUser(user);

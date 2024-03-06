@@ -15,7 +15,8 @@ router.post('/', async (req, res) => {
             user_name,
             reservation_id,
             date_reserved,
-            time_reserved
+            time_reserved,
+            tnd_requested
         };
         const reservedSeatId = await createReservedSeat(reservedSeat);
         res.status(201).json({ reservedSeatId });

@@ -25,8 +25,7 @@ async function updateStudent(studentId, updatedStudent) {
             {
                 $set: {
                     username: updatedStudent.username,
-                    course: updatedStudent.course,
-                    description: `${updatedStudent.course} student`
+                    course: updatedStudent.course
                 }
             }
         );

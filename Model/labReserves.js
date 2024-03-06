@@ -3,7 +3,10 @@ const { ObjectId } = require('mongodb');
 
 async function createReservation(reservation) {
   const db = await connectToDB();
-  const result = await db.collection('reservations').insertOne(reservation);
+  const result = await db.collection('reservations').insertOne({
+    ...reservation,
+    tnd_requested: new Date().toISOString()
+  });
   return result.insertedId;
 }
 
@@ -33,16 +36,4 @@ async function getReservedSeatsByUsername(username) {
   return userReservations;
 }
 
-async function findReservationByDetails(details) {
-  const db = await connectToDB();
-  const reservation = await db.collection('reservations').findOne({
-      username: details.username,
-      lab_id: details.lab_id,
-      seat_number: details.seat_number,
-      reserve_date: details.reserve_date,
-      reserve_time: details.reserve_time
-  });
-  return reservation;
-}
-
-module.exports = { createReservation, getReservation, updateReservation, deleteReservation , getReservedSeatsByUsername, findReservationByDetails };
+module.exports = { createReservation, getReservation, updateReservation, deleteReservation , getReservedSeatsByUsername };

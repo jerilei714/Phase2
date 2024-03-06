@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.post('/', async (req, res) => {
     try {
-        const { lab_id, lab_name, user_id, username, reserve_date, reserve_time, seat_number } = req.body;
+        const { lab_id, lab_name, user_id, username, reserve_date, reserve_time, seat_number, tnd_requested } = req.body;
         const reservationData = {
             lab_id,
             lab_name,
@@ -16,8 +16,7 @@ router.post('/', async (req, res) => {
             username,
             reserve_date,
             reserve_time,
-            seat_number,
-            tnd_requested: new Date().toISOString()
+            seat_number
         };
         const reservationId = await createReservation(reservationData);
         const reservedSeatData = {
@@ -26,7 +25,8 @@ router.post('/', async (req, res) => {
             seat_number,
             username,
             reserve_date,
-            reserve_time
+            reserve_time,
+            tnd_requested
         };
         await createReservedSeat(reservedSeatData);
 
@@ -41,7 +41,7 @@ router.post('/', async (req, res) => {
 router.get('/:reservationId', async (req, res) => {
     try {
         const { reservationId } = req.params;
-        const reservation = await getReservation(reservationId);
+        const reservation = await getReservation(new ObjectId(reservationId));
         if (reservation) {
             res.json(reservation);
         } else {

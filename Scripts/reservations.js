@@ -128,6 +128,21 @@ for (let hour = startTime; hour < endTime; hour++) {
     }
 }
 
+function formatTndRequested(tndRequested) {
+    const tndRequestDate = new Date(tndRequested);
+    if (isNaN(tndRequestDate)) {
+        return 'Invalid Date';
+    }
+    return tndRequestDate.toLocaleString('en-US', {
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: true,
+        month: 'numeric',
+        day: 'numeric',
+        year: 'numeric',
+    }).replace(',', '').replace(' ', ' '); // Adjusts format to 12:15AM 2-14-2024
+}
+
 fetch(`/reservations/userReservations/${authorizedUsername}`)
     .then(response => response.json())
     .then(data => {
@@ -140,7 +155,7 @@ fetch(`/reservations/userReservations/${authorizedUsername}`)
                 reservation.seat_number,
                 reservation.reserve_date,
                 reservation.reserve_time,
-                reservation.tnd_requested
+                formatTndRequested(reservation.tnd_requested)
             ];
             details.forEach(detail => {
                 const cell = document.createElement('td');
