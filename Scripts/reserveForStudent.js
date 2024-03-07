@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function () {
     async function viewAvailability() {
         try {
             currentLab = document.getElementById('lab').value;
-            const selectedDate = document.getElementById('date').value; // Get the selected date
+            const selectedDate = document.getElementById('date').value;
             const response = await fetch(`/seats/available/${currentLab}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch available seats');
@@ -107,36 +107,6 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Error releasing reservation:', error);
         }
     }  
-
-    /* window.reserve = function() {
-        const date = document.getElementById('date').value;
-        let time = document.getElementById('time').value;
-        const seatNumber = parseInt(selectedSeat.innerText, 10);
-        const curLab = labs[currentLab];
-        selectedSeat.classList.add('selected');
-        curLab.reservedSeats.push({
-            seat: seatNumber, 
-            username: user.username, 
-            date: date, 
-            time: time
-        });
-        curLab.availableSeats -= 1;
-        if (user) {
-            if (!user.reservations) {
-                user.reservations = [];
-            }
-            user.reservations.push({
-                lab: currentLab,
-                seat: seatNumber,
-                date: date,
-                time: time 
-            });
-        }
-        saveLabs();
-        saveUsers();
-        hideIt(); 
-        document.querySelector('.Available').innerHTML = `Available Seats: ${curLab.availableSeats}`;
-    }; */
 
     window.reserve = async function () {
         const currentLab = document.getElementById('lab').value;
@@ -209,7 +179,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     return response.json();
                 })
                 .then(student => {
-                    document.querySelector('#userName').innerHTML = student.username; 
+                    document.querySelector('#userName').innerHTML = student.username;
+                    const userNameElement = document.querySelector('#userName');
+                    userNameElement.addEventListener('click', function() {
+                        window.location.href = `viewProfile?username=${encodeURIComponent(student.username)}`;
+                    }); 
                 })
                 .catch(error => {
                     console.error('Error fetching student data:', error);
@@ -217,13 +191,9 @@ document.addEventListener('DOMContentLoaded', function () {
             document.querySelector('#popup-time').textContent = time; 
             document.querySelector('.seatNumber').innerHTML = seat.innerText; 
             popup.style.display = 'flex';
-            const userNameElement = document.querySelector('#userName');
-            userNameElement.addEventListener('click', function() {
-                window.location.href = `viewProfile?username=${encodeURIComponent(student.username)}`;
-            });
         }
     }    
-    
+
     document.getElementById('buttonForAvailibility').addEventListener('submit', function(event) {
         event.preventDefault();
         viewAvailability();

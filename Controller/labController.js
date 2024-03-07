@@ -1,5 +1,6 @@
 const express = require('express');
 const { createLab, getLab, updateLab, deleteLab } = require('../Model/laboratory');
+const { ObjectId } = require('mongodb');
 
 const router = express.Router();
 
@@ -21,7 +22,7 @@ router.post('/', async (req, res) => {
 router.get('/:labId', async (req, res) => {
     try {
         const { labId } = req.params;
-        const lab = await getLab(labId);
+        const lab = await getLab(new ObjectId(labId));
         if (lab) {
             res.json(lab);
         } else {
@@ -37,7 +38,7 @@ router.put('/:labId', async (req, res) => {
     try {
         const { labId } = req.params;
         const updatedLabData = req.body;
-        const success = await updateLab(labId, updatedLabData);
+        const success = await updateLab(new ObjectId(labId), updatedLabData);
         if (success) {
             res.json({ success: true });
         } else {
@@ -52,7 +53,7 @@ router.put('/:labId', async (req, res) => {
 router.delete('/:labId', async (req, res) => {
     try {
         const { labId } = req.params;
-        const success = await deleteLab(labId);
+        const success = await deleteLab(new ObjectId(labId));
         if (success) {
             res.json({ success: true });
         } else {

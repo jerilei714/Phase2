@@ -78,8 +78,8 @@ app.get('/editStudentReservations', (req, res) => {
     res.render('editStudentReservations');
 });
 
-app.get('/editReservationContent', (req, res) => {
-    res.render('editReservationContent');
+app.get('/editReservationsContent', (req, res) => {
+    res.render('editReservationsContent');
 });
 
 app.get('/editReservations', (req, res) => {

@@ -62,7 +62,6 @@ user.reservations.forEach(reservation => {
 
 const authorizedUsername = sessionStorage.getItem('authorizedUsername');
 
-
 const username = document.getElementById('username');
 const name = document.getElementById('name');
 const email = document.getElementById('email');

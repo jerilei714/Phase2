@@ -251,15 +251,15 @@ document.addEventListener('DOMContentLoaded', async function () {
         fetch(`/users/${authorizedUsername}`)
             .then(response => response.json())
             .then(user => {
-            document.querySelector('#userName').innerHTML = user.username; 
+            document.querySelector('#userName').innerHTML = user.username;
+            const userNameElement = document.querySelector('#userName');
+            userNameElement.addEventListener('click', function() {
+                window.location.href = `viewProfile?username=${encodeURIComponent(user.username)}`;
+            }); 
             });
             document.querySelector('#popup-time').textContent = time; 
             document.querySelector('.seatNumber').innerHTML = seat.innerText; 
             popup.style.display = 'flex';
-            const userNameElement = document.querySelector('#userName');
-            userNameElement.addEventListener('click', function() {
-                window.location.href = `viewProfile?username=${encodeURIComponent(user.username)}`;
-            });
         }
     }
 

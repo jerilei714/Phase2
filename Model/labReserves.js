@@ -25,10 +25,27 @@ async function updateReservation(reservationId, updatedDetails) {
 }
 
 async function deleteReservation(reservationId) {
-  const db = await connectToDB();
-  const result = await db.collection('reservations').deleteOne({ _id: new ObjectId(reservationId) });
-  return result.deletedCount > 0;
+  try {
+    const db = await connectToDB();
+    const reservation = await db.collection('reservations').findOne({ _id: new ObjectId(reservationId) });
+    if (!reservation) {
+      throw new Error('Reservation not found');
+    }
+
+    await db.collection('reservations').deleteOne({ _id: new ObjectId(reservationId) });
+    await db.collection('reserved_seats').deleteOne({ reservation_id: new ObjectId(reservationId) });
+    await db.collection('seat').updateOne(
+      { lab_name: reservation.lab_name, seat_number: reservation.seat_number },
+      { $set: { seat_status: 'Available' } }
+    );
+
+    return true;
+  } catch (error) {
+    console.error('Error deleting reservation:', error);
+    return false;
+  }
 }
+
 
 async function getReservedSeatsByUsername(username) {
   const db = await connectToDB();
