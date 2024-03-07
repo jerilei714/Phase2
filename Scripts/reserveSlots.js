@@ -177,12 +177,10 @@ document.addEventListener('DOMContentLoaded', async function () {
             seatContainer.classList.add('seat-container');
             generateSeats(seatContainer, defaultTotalSeats);
             availabilityResults.appendChild(seatContainer);
-    
-            // Fetch reserved seats for the selected lab and selected date from the database
+
             const reservedSeatsResponse = await fetch(`/reservedseats/lab/${currentLab}?date=${selectedDate}`);
             const reservedSeatsData = await reservedSeatsResponse.json();
-    
-            // Mark reserved seats as selected
+
             reservedSeatsData.forEach(reservation => {
                 const seat = seatContainer.querySelector(`.seat:nth-child(${reservation.seat_number})`);
                 if (seat) {

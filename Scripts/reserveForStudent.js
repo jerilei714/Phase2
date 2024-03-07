@@ -27,20 +27,38 @@ document.addEventListener('DOMContentLoaded', function () {
         return `${hour12}:${minute < 10 ? '0' + minute : minute} ${amPm}`;
     }
 
-    function generateSeats(seatContainer, seatCount) {
+    async function generateSeats(seatContainer, seatCount, labId) {
         seatContainer.innerHTML = '';
-        for (let i = 1; i <= seatCount; i++) {
-            const seat = document.createElement('div');
-            const isReserved = labs[currentLab].reservedSeats.some(res => res.seat === i);
-            seat.classList.add('seat');
-            if (isReserved) {
-                seat.classList.add('selected');
+    
+        try {
+            const reservedSeatsResponse = await fetch(`/reservedseats/lab/${labId}`);
+            const reservedSeatsData = await reservedSeatsResponse.json();
+    
+            const currentTime = new Date();
+    
+            for (let i = 1; i <= seatCount; i++) {
+                const seat = document.createElement('div');
+                seat.classList.add('seat');
+    
+                const reservation = reservedSeatsData.find(seat => seat.seat_number === i);
+                if (reservation) {
+                    const reservationTime = new Date(reservation.time_reserved);
+                    if (reservationTime < currentTime) {
+                        await releaseReservation(reservation._id);
+                    } else {
+                        seat.classList.add('reserved');
+                    }
+                } else {
+                    seat.addEventListener('click', function () {
+                        showPopup(seat);
+                    });
+                }
+    
+                seat.innerText = i;
+                seatContainer.appendChild(seat);
             }
-            seat.innerText = i;
-            seat.addEventListener('click', function () {
-                showPopup(seat);
-            });
-            seatContainer.appendChild(seat);
+        } catch (error) {
+            console.error('Error fetching reserved seats data:', error);
         }
     }
     
@@ -48,6 +66,7 @@ document.addEventListener('DOMContentLoaded', function () {
     async function viewAvailability() {
         try {
             currentLab = document.getElementById('lab').value;
+            const selectedDate = document.getElementById('date').value; // Get the selected date
             const response = await fetch(`/seats/available/${currentLab}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch available seats');
@@ -61,12 +80,35 @@ document.addEventListener('DOMContentLoaded', function () {
             seatContainer.classList.add('seat-container');
             generateSeats(seatContainer, defaultTotalSeats);
             availabilityResults.appendChild(seatContainer);
+
+            const reservedSeatsResponse = await fetch(`/reservedseats/lab/${currentLab}?date=${selectedDate}`);
+            const reservedSeatsData = await reservedSeatsResponse.json();
+
+            reservedSeatsData.forEach(reservation => {
+                const seat = seatContainer.querySelector(`.seat:nth-child(${reservation.seat_number})`);
+                if (seat) {
+                    seat.classList.add('selected');
+                }
+            });
         } catch (error) {
             console.error('Error fetching available seats:', error);
         }
-    }
+    } 
 
-    window.reserve = function() {
+    async function releaseReservation(reservationId) {
+        try {
+            const response = await fetch(`/reservedseats/${reservationId}`, {
+                method: 'DELETE'
+            });
+            if (!response.ok) {
+                console.error('Failed to release reservation');
+            }
+        } catch (error) {
+            console.error('Error releasing reservation:', error);
+        }
+    }  
+
+    /* window.reserve = function() {
         const date = document.getElementById('date').value;
         let time = document.getElementById('time').value;
         const seatNumber = parseInt(selectedSeat.innerText, 10);
@@ -94,30 +136,93 @@ document.addEventListener('DOMContentLoaded', function () {
         saveUsers();
         hideIt(); 
         document.querySelector('.Available').innerHTML = `Available Seats: ${curLab.availableSeats}`;
-    };
-    
-    function saveUsers() {
-        localStorage.setItem('users', JSON.stringify(users));
-    }
-    
+    }; */
 
+    window.reserve = async function () {
+        const currentLab = document.getElementById('lab').value;
+        const date = document.getElementById('date').value;
+        const time = document.getElementById('time').value;
+        const seatNumber = parseInt(selectedSeat.innerText, 10);
+        const studentUsername = urlParams.get('studentUsername');
+    
+        try {
+            const response = await fetch(`/users/${studentUsername}`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch student data');
+            }
+            const student = await response.json();
+    
+            const labName = document.getElementById('lab').options[document.getElementById('lab').selectedIndex].text;
+            const reservationData = {
+                lab_id: currentLab,
+                lab_name: labName,
+                user_id: student._id,
+                seat_number: seatNumber,
+                username: student.username,
+                reserve_date: date,
+                reserve_time: time,
+                tnd_requested: new Date().toISOString()
+            };
+
+            const reservationResponse = await fetch('/reservations', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(reservationData)
+            });
+    
+            if (!reservationResponse.ok) {
+                throw new Error('Failed to make reservation');
+            }
+    
+            console.log('Reservation successful');
+            alert('Reservation successful!');
+    
+            selectedSeat.classList.add('selected');
+            selectedSeat.removeEventListener('click', showPopup);
+    
+            const selectedSeats = JSON.parse(localStorage.getItem('selectedSeats')) || [];
+            selectedSeats.push(selectedSeat.innerText);
+            localStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
+            location.reload();
+        } catch (error) {
+            console.error('Error making reservation:', error);
+            alert('Error: Could not make reservation');
+        }
+    };    
+    
     function showPopup(seat) {
-        date = document.getElementById('date').value;
-        time = document.getElementById('time').value;
-        const userNameElement = document.querySelector('#userName');
+        const date = document.getElementById('date').value;
+        const time = document.getElementById('time').value;
+        const studentUsername = urlParams.get('studentUsername');
+    
         if (!seat.classList.contains('selected')) {
             selectedSeat = seat;
             const popup = document.querySelector('.popup-contents');
             document.querySelector('#popup-date').innerHTML = date; 
-            document.querySelector('#userName').innerHTML = user.username; 
+            fetch(`/users/${studentUsername}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch student data');
+                    }
+                    return response.json();
+                })
+                .then(student => {
+                    document.querySelector('#userName').innerHTML = student.username; 
+                })
+                .catch(error => {
+                    console.error('Error fetching student data:', error);
+                });
             document.querySelector('#popup-time').textContent = time; 
             document.querySelector('.seatNumber').innerHTML = seat.innerText; 
             popup.style.display = 'flex';
+            const userNameElement = document.querySelector('#userName');
             userNameElement.addEventListener('click', function() {
-                window.location.href = `viewProfile.hbs?username=${encodeURIComponent(studentUsername)}`;
+                window.location.href = `viewProfile?username=${encodeURIComponent(student.username)}`;
             });
         }
-    }
+    }    
     
     document.getElementById('buttonForAvailibility').addEventListener('submit', function(event) {
         event.preventDefault();
