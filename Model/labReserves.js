@@ -46,11 +46,17 @@ async function deleteReservation(reservationId) {
   }
 }
 
-
 async function getReservedSeatsByUsername(username) {
   const db = await connectToDB();
   const userReservations = await db.collection('reserved_seats').find({ username: username }).toArray();
   return userReservations;
 }
 
-module.exports = { createReservation, getReservation, updateReservation, deleteReservation , getReservedSeatsByUsername };
+async function getReservationsByUsername(username) {
+  const db = await connectToDB();
+  const userReservations = await db.collection('reservations').find({ username: username }).toArray();
+  return userReservations;
+}
+
+
+module.exports = { createReservation, getReservation, updateReservation, deleteReservation , getReservedSeatsByUsername, getReservationsByUsername };

@@ -1,6 +1,6 @@
 const express = require('express');
 const { ObjectId } = require('mongodb');
-const { createReservation, getReservation, updateReservation, deleteReservation , getReservedSeatsByUsername, findReservationByDetails } = require('../Model/labReserves');
+const { createReservation, getReservation, updateReservation, deleteReservation , getReservedSeatsByUsername, getReservationsByUsername } = require('../Model/labReserves');
 const { updateSeatStatus } = require('../Model/labSeats');
 const { createReservedSeat } = require('../Model/labReservedSeats');
 const router = express.Router();
@@ -69,21 +69,6 @@ router.put('/:reservationId', async (req, res) => {
     }
 });
 
-router.delete('/:reservationId', async (req, res) => {
-    try {
-        const { reservationId } = req.params;
-        const success = await deleteReservation(reservationId);
-        if (success) {
-            res.json({ success: true });
-        } else {
-            res.status(404).json({ error: 'Reservation not found' });
-        }
-    } catch (error) {
-        console.error('Error deleting reservation:', error);
-        res.status(500).json({ error: 'Internal server error' });
-    }
-});
-
 router.get('/userReservations/:username', async (req, res) => {
     try {
         const { username } = req.params;
@@ -110,5 +95,33 @@ router.put('/update/:reservationId', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+
+router.get('/byUsername/:username', async (req, res) => {
+    try {
+        const { username } = req.params;
+        const userReservations = await getReservationsByUsername(username);
+        res.json({ userReservations });
+    } catch (error) {
+        console.error('Error fetching user reservations:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+router.delete('/:reservationId', async (req, res) => {
+    try {
+        const { reservationId } = req.params;
+        const success = await deleteReservation(reservationId);
+        if (success) {
+            res.json({ success: true });
+        } else {
+            res.status(404).json({ error: 'Reservation not found' });
+        }
+    } catch (error) {
+        console.error('Error deleting reservation:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+
 
 module.exports = router;

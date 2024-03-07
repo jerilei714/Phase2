@@ -155,7 +155,6 @@ document.addEventListener('DOMContentLoaded', function () {
             const selectedSeats = JSON.parse(localStorage.getItem('selectedSeats')) || [];
             selectedSeats.push(selectedSeat.innerText);
             localStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
-            location.reload();
         } catch (error) {
             console.error('Error making reservation:', error);
             alert('Error: Could not make reservation');

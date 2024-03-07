@@ -37,7 +37,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     seat.classList.remove('selected');
                 }
                 hidePopup();
-                location.reload();
             })
             .catch(error => {
                 console.error('Error deleting reservation:', error);
@@ -115,9 +114,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 document.querySelector('#popup-date').innerHTML = reservation.reserve_date;
                 document.querySelector('#popup-time').textContent = reservation.reserve_time;
                 document.querySelector('#userName').innerHTML = reservation.username;
-                userNameElement.addEventListener('click', function() {
-                    window.location.href = `viewProfile?username=${encodeURIComponent(resUsername)}`;
-                });
                 document.querySelector('.seatNumber').innerHTML = seat.innerText;
 
                 const deleteButton = document.getElementById('deleteButton');

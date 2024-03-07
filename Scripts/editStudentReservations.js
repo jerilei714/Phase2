@@ -27,27 +27,37 @@ while (tbody.firstChild) {
     tbody.removeChild(tbody.firstChild);
 }
 
-users.forEach(user => {
-    if (user.accountType === "Student") {
-        const row = document.createElement('tr');
-
-        const usernameCell = document.createElement('td');
-        usernameCell.textContent = user.username; 
-        row.appendChild(usernameCell);
-        const reservedSeatsCell = document.createElement('td');
-        const totalReservedSeats = user.reservations ? user.reservations.length : 0; 
-        reservedSeatsCell.textContent = totalReservedSeats;
-        row.appendChild(reservedSeatsCell);
-        const actionsCell = document.createElement('td');
-        const editButton = document.createElement('button');
-        editButton.textContent = 'Edit';
-        editButton.addEventListener('click', function() {
-            window.location.href = `editReservationsContent?studentUsername=${encodeURIComponent(user.username)}`;
+fetch(`/users/students`)
+    .then(response => response.json())
+    .then(users => {
+        console.log(users);
+        users.students.forEach(student => {
+            fetch(`/reservations/byUsername/${student.username}`)
+                .then(response => response.json())
+                .then(reservations => {
+                    const totalReservedSeats = reservations.userReservations.length;
+                    const row = document.createElement('tr');
+                    const usernameCell = document.createElement('td');
+                    usernameCell.textContent = student.username;
+                    row.appendChild(usernameCell);
+                    const reservedSeatsCell = document.createElement('td');
+                    reservedSeatsCell.textContent = totalReservedSeats;
+                    row.appendChild(reservedSeatsCell);
+                    const actionsCell = document.createElement('td');
+                    const editButton = document.createElement('button');
+                    editButton.textContent = 'Edit';
+                    editButton.addEventListener('click', function() {
+                        window.location.href = `editReservationsContent?studentUsername=${encodeURIComponent(student.username)}`;
+                    });
+                    actionsCell.appendChild(editButton);
+                    row.appendChild(actionsCell);
+                    tbody.appendChild(row);
+                })
+                .catch(error => {
+                    console.error('Error fetching reservations:', error);
+                });
         });
-
-        actionsCell.appendChild(editButton);
-        row.appendChild(actionsCell);
-        
-        tbody.appendChild(row);
-    }
-});
+    })
+    .catch(error => {
+        console.error('Error fetching students:', error);
+    });
