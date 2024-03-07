@@ -1,9 +1,20 @@
 const express = require('express');
-const { getUser } = require('../Model/labUsers');
+const { getUser, getUsersByAccountType } = require('../Model/labUsers');
 const { getReservedSeatsByLab } = require('../Model/labReservedSeats');
 const { getReservation } = require('../Model/labReserves');
 
 const router = express.Router();
+
+router.get('/students', async (req, res) => {
+  try {
+    const { accountType } = { accountType: 'Student' };
+    const students = await getUsersByAccountType(accountType);
+    res.json({ students });
+  } catch (error) {
+    console.error('Error getting students:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 router.get('/:username', async (req, res) => {
   try {

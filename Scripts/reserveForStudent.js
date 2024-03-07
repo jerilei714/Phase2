@@ -4,15 +4,12 @@ document.addEventListener('DOMContentLoaded', function () {
     let selectedSeat = null;
     let currentLab = null;
     let defaultTotalSeats = 40; 
-    let date = document.getElementById('date').value;
-    let time = document.getElementById('time').value;
     const authorizedUsername = sessionStorage.getItem('authorizedUsername');
-    const users = JSON.parse(localStorage.getItem('users'))
-    const user = users.find(user => user.username === studentUsername)
-    let labs = JSON.parse(localStorage.getItem('labs')) || {};
+
     const timeSelect = document.getElementById('time');
     const startTime = 6; 
     const endTime = 16; 
+
     for (let hour = startTime; hour < endTime; hour++) {
         for (let minute = 0; minute < 60; minute += 30) {
             const start = formatTime(hour, minute);
@@ -28,10 +25,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const hour12 = hour % 12 === 0 ? 12 : hour % 12; 
         const amPm = hour < 12 ? 'AM' : 'PM';
         return `${hour12}:${minute < 10 ? '0' + minute : minute} ${amPm}`;
-    }
-
-    function saveLabs() {
-        localStorage.setItem('labs', JSON.stringify(labs));
     }
 
     function generateSeats(seatContainer, seatCount) {
@@ -52,20 +45,26 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     
 
-    function viewAvailability () {    
-        currentLab = document.getElementById('lab').value;
-        if (!labs[currentLab]) {
-            labs[currentLab] = { totalSeats: defaultTotalSeats, reservedSeats: [], availableSeats: defaultTotalSeats };
+    async function viewAvailability() {
+        try {
+            currentLab = document.getElementById('lab').value;
+            const response = await fetch(`/seats/available/${currentLab}`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch available seats');
+            }
+            const availableSeatCount = await response.json();
+            const availabilityResults = document.getElementById('availability-results');
+            availabilityResults.innerHTML = `<h3>${currentLab} Availability</h3><p class="Available">Available Seats: ${availableSeatCount}</p>`;
+            availabilityResults.style.display = 'block';
+    
+            const seatContainer = document.createElement('div');
+            seatContainer.classList.add('seat-container');
+            generateSeats(seatContainer, defaultTotalSeats);
+            availabilityResults.appendChild(seatContainer);
+        } catch (error) {
+            console.error('Error fetching available seats:', error);
         }
-        const curLab = labs[currentLab];
-        const availabilityResults = document.getElementById('availability-results');
-        availabilityResults.innerHTML = `<h3>${currentLab} Availability</h3><p class="Available">Available Seats: ${curLab.availableSeats}</p>`;
-        const seatContainer = document.createElement('div');
-        seatContainer.classList.add('seat-container');
-        generateSeats(seatContainer, curLab.totalSeats); 
-        availabilityResults.appendChild(seatContainer);
-        availabilityResults.style.display = 'block'; 
-    };
+    }
 
     window.reserve = function() {
         const date = document.getElementById('date').value;

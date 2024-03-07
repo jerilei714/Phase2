@@ -60,7 +60,7 @@ function loadNav() {
                 <div class="dropdown-content">
                     <img id="dropdownpfp" src="../Images/Default_pfp.jpg" alt="Pfp">
                     <a id = "viewProfile">Profile</a>
-                    <a id="editProfile" href="./View/profile?edit=true">Edit Profile</a>
+                    <a id="editProfile" href="./profile?edit=true">Edit Profile</a>
                 </div>
             </div>
         </div>

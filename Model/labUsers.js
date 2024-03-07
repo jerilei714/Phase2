@@ -26,4 +26,10 @@ async function deleteUser(userId) {
   return result.deletedCount > 0;
 }
 
-module.exports = { createUser, getUser, updateUser, deleteUser };
+async function getUsersByAccountType(accountType) {
+  const db = await connectToDB();
+  const Students = db.collection('users').find({ accountType: accountType }).toArray();
+  return Students;
+}
+
+module.exports = { createUser, getUser, updateUser, deleteUser, getUsersByAccountType };

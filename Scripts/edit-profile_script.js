@@ -19,7 +19,7 @@ function submitEditProfile(event) {
         localStorage.setItem('users', JSON.stringify(users));
         sessionStorage.setItem('authorizedUsername', newUsername);
         sessionStorage.setItem('AccountType', newAccountType);
-        window.location.href = 'profile.hbs'; 
+        window.location.href = 'profile'; 
     } else {
         console.error('User not found');
     }

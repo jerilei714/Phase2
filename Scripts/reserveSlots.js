@@ -158,11 +158,12 @@ document.addEventListener('DOMContentLoaded', async function () {
         const hour12 = hour % 12 === 0 ? 12 : hour % 12;
         const amPm = hour < 12 ? 'AM' : 'PM';
         return `${hour12}:${minute < 10 ? '0' + minute : minute} ${amPm}`;
-    }
-    
+    }   
+
     async function viewAvailability() {
         try {
             currentLab = document.getElementById('lab').value;
+            const selectedDate = document.getElementById('date').value; // Get the selected date
             const response = await fetch(`/seats/available/${currentLab}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch available seats');
@@ -176,10 +177,22 @@ document.addEventListener('DOMContentLoaded', async function () {
             seatContainer.classList.add('seat-container');
             generateSeats(seatContainer, defaultTotalSeats);
             availabilityResults.appendChild(seatContainer);
+    
+            // Fetch reserved seats for the selected lab and selected date from the database
+            const reservedSeatsResponse = await fetch(`/reservedseats/lab/${currentLab}?date=${selectedDate}`);
+            const reservedSeatsData = await reservedSeatsResponse.json();
+    
+            // Mark reserved seats as selected
+            reservedSeatsData.forEach(reservation => {
+                const seat = seatContainer.querySelector(`.seat:nth-child(${reservation.seat_number})`);
+                if (seat) {
+                    seat.classList.add('selected');
+                }
+            });
         } catch (error) {
             console.error('Error fetching available seats:', error);
         }
-    }    
+    }       
     
     async function generateSeats(seatContainer, seatCount, labId) {
         seatContainer.innerHTML = '';
@@ -214,7 +227,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         } catch (error) {
             console.error('Error fetching reserved seats data:', error);
         }
-    }
+    }    
     
     async function releaseReservation(reservationId) {
         try {
@@ -247,7 +260,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             popup.style.display = 'flex';
             const userNameElement = document.querySelector('#userName');
             userNameElement.addEventListener('click', function() {
-                window.location.href = `viewProfile.hbs?username=${encodeURIComponent(user.username)}`;
+                window.location.href = `viewProfile?username=${encodeURIComponent(user.username)}`;
             });
         }
     }
@@ -299,8 +312,12 @@ document.addEventListener('DOMContentLoaded', async function () {
             alert('Reservation successful!');
 
             selectedSeat.classList.add('selected');
-            selectedSeat.removeEventListener('click', showPopup); 
-            
+            selectedSeat.removeEventListener('click', showPopup);
+
+            const selectedSeats = JSON.parse(localStorage.getItem('selectedSeats')) || [];
+            selectedSeats.push(selectedSeat.innerText);
+            localStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
+            location.reload();
         } catch (error) {
             console.error('Error making reservation:', error);
             alert('Error: Could not make reservation');
