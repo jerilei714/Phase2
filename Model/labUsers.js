@@ -11,10 +11,10 @@ async function getUser(username) {
   return db.collection('users').findOne({ username: username });
 }
 
-async function updateUser(userId, updatedUser) {
+async function updateUser(username, updatedUser) {
   const db = await connectToDB();
   const result = await db.collection('users').updateOne(
-    { _id: userId },
+    { username: username },
     { $set: updatedUser }
   );
   return result.modifiedCount > 0;

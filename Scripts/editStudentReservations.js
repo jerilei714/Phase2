@@ -1,7 +1,4 @@
 const tbody = document.querySelector('.table-container tbody');
-const users = JSON.parse(localStorage.getItem('users')) || [];
-
-
 const timeSelect = document.getElementById('time');
 const startTime = 6; 
 const endTime = 16; 

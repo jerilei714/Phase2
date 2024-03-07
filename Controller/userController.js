@@ -1,5 +1,5 @@
 const express = require('express');
-const { getUser, getUsersByAccountType } = require('../Model/labUsers');
+const { getUser, getUsersByAccountType, updateUser } = require('../Model/labUsers');
 const { getReservedSeatsByLab } = require('../Model/labReservedSeats');
 const { getReservation } = require('../Model/labReserves');
 
@@ -41,6 +41,22 @@ router.get('/:username/reservations', async (req, res) => {
   } catch (error) {
       console.error('Error fetching user reservations:', error);
       res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+router.put('/:username', async (req, res) => {
+  try {
+    const { username } = req.params;
+    const updatedUserData = req.body;
+    const success = await updateUser(username, updatedUserData);
+    if (success) {
+      res.status(200).json({ message: 'User updated successfully' });
+    } else {
+      res.status(404).json({ error: 'User not found' });
+    }
+  } catch (error) {
+    console.error('Error updating user:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
