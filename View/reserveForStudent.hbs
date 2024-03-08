@@ -3,16 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../Styles/view_style.css">
+    <link rel="stylesheet" href="css/view_style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Icons">
-    <link rel="stylesheet" href="../Styles/nav_style.css">
-    <script src="../Scripts/nav.js" defer></script>
-    <script src="../Scripts/reserveForStudent.js" defer></script>
+    <script src="script/reserveForStudent.js" defer></script>
     <title>Lab Reservation System</title>
 </head>
 <body>
-    <div id="nav">
-    </div>
+    {{> header}}
     <div class="main-section">  
         <h2>Reserve Slots</h2>
         <form id = "buttonForAvailibility" method="post">

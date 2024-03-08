@@ -1,6 +1,8 @@
 const express = require('express');
 const path = require('path');
+const hbsCtrl = require('hbs')
 const exphbs  = require('express-handlebars');
+const routes = require('./Routes/routes')
 const { connectToDB } = require('./Model/labDatabase');
 const registrationController = require('./Controller/regController');
 const loginController = require('./Controller/loginController');
@@ -16,75 +18,24 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/styles', express.static(path.join(__dirname, 'Styles')));
-app.use('/scripts', express.static(path.join(__dirname, 'Scripts')));
-app.use('/images', express.static(path.join(__dirname, 'Images')));
+app.use('/', express.static(path.join(__dirname, '/public')));
 
 const hbs = exphbs.create({
     extname: '.hbs',
-    defaultLayout: 'main',
-    layoutsDir: path.join(__dirname, 'View', 'layouts')
+    defaultLayout: 'index',
+    layoutsDir: path.join(__dirname, 'View', 'layouts'),
+    partialsDir: path.join(__dirname, 'View', 'partials')
   });
   
+hbsCtrl.registerPartials(path.join(__dirname, 'View', 'partials'))
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'View'));
+app.use((req,res,next) =>{
+    next()
+})
 
-app.get('/', (req, res) => {
-    res.render('index');
-});
-
-app.get('/viewSlots', (req, res) => {
-    res.render('viewSlots');
-});
-
-app.get('/viewProfile', (req, res) => {
-    res.render('viewProfile');
-});
-
-app.get('/resForStudent', (req, res) => {
-    res.render('resForStudent');
-});
-
-app.get('/reserveSlots', (req, res) => {
-    res.render('reserveSlots');
-});
-
-app.get('/reserveForStudent', (req, res) => {
-    res.render('reserveForStudent');
-});
-
-app.get('/deleteReservations', (req, res) => {
-    res.render('deleteReservations');
-});
-
-app.get('/reservations', (req, res) => {
-    res.render('reservations');
-});
-
-app.get('/register', (req, res) => {
-    res.render('register');
-});
-
-app.get('/profile', (req, res) => {
-    res.render('profile');
-});
-
-app.get('/login', (req, res) => {
-    res.render('login');
-});
-
-app.get('/editStudentReservations', (req, res) => {
-    res.render('editStudentReservations');
-});
-
-app.get('/editReservationsContent', (req, res) => {
-    res.render('editReservationsContent');
-});
-
-app.get('/editReservations', (req, res) => {
-    res.render('editReservations');
-});
+app.use('/', routes)
 
 app.use('/register', registrationController);
 app.use('/login', loginController);

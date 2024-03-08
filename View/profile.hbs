@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../Styles/profile.css"> 
-    <script src="../Scripts/nav.js" defer></script>
-    <script src="../Scripts/profile.js" defer></script>
-    <script src="../Scripts/edit-profile_script.js" defer></script>
+    <link rel="stylesheet" href="css/profile.css"> 
+    <script src="script/profile.js" defer></script>
+    <script src="script/edit-profile_script.js" defer></script>
     <title>Lab Reservation System</title>
 </head>
 <body>
-    <div id="nav">
+    {{> header}}
     </div>
     
     <section class="home-content">
@@ -18,10 +17,10 @@
             <section class="profile-details">
                 <button onclick="goToHomePage()" class="back-button">&#9664; Back</button>
                 <div class="profile-picture">
-                    <img id="pfpSelf" src="../Images/Default_pfp.jpg">
+                    <img id="pfpSelf" src="image/Default_pfp.jpg">
                     <div class="edit-pfp">
                         <input type="file" id="fileInput" accept="image/*">
-                        <img id="select_img" src="../Images/edit-pfp.png" alt="">
+                        <img id="select_img" src="image/edit-pfp.png" alt="">
                     </div>
                 </div>
                 <div class="profile-details">

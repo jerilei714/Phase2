@@ -3,24 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../Styles/profile.css"> 
-    <link rel="stylesheet" href="../Styles/viewProfile.css">
-    <script src="../Scripts/nav.js" defer></script>
-    <script src="../Scripts/viewProfile.js" defer></script>
+    <link rel="stylesheet" href="css/profile.css"> 
+    <link rel="stylesheet" href="style/viewProfile.css">
+    <script src="script/viewProfile.js" defer></script>
     <title>Lab Reservation System</title>
 </head>
 <body>
-    <div id="nav">
-    </div>
+    {{> header}}
     
     <section class="home-content">
         <div class="content">
             <section class="profile-details">
                 <button onclick="goToHomePage()" class="back-button">&#9664; Back</button>
                 <div class="profile-picture">
-                    <img id="pfpStudent" src="../Images/Default_pfp.jpg">
+                    <img id="pfpStudent" src="image/Default_pfp.jpg">
                     <div class="edit-pfp">
-                        <img id="select_img" src="../Images/edit-pfp.png" alt="">
+                        <img id="select_img" src="image/edit-pfp.png" alt="">
                     </div>
                 </div>
                 <div class="profile-details">

@@ -1,76 +1,3 @@
-function getCurrentPath() {
-    const currentUrl = window.location.href;
-    const baseUrl = currentUrl.includes('/View/') ? '../' : './'; // Adjust base URL
-    return baseUrl;
-}
-
-function loadNav() {
-    const navHtml = `
-    <link rel="stylesheet" href="./styles/nav_style.css"> 
-    <link rel="stylesheet" href="../styles/nav_style.css"> 
-
-        <nav>
-    <div class = "nav-left">
-        <div class="logo">
-            <img src="../Images/logo.png" alt="logo">
-            <div class="logo-text"><a href = "../">DLSU Laboratory Reservation System</a></div>
-        </div>
-    </div>
-    <div class = "nav-right">
-        <ul>
-            <li class="reservation" id="reservation">
-                <div class="dropdown">
-                    <button class="dropbtn">Reserve</button>
-                    <div class="dropdown-content" id="reservationDropDown">
-                        <a id = "reserveSlot">Reserve Slot</a>
-                        <a id = "reserveForStudent">Reserve for a Student</a>
-                        <a id = "removeReservations">Remove Reservation</a>
-                    </div>
-                </div>
-            </li>
-            <li class="edit" id="edit">
-                <div class="dropdown">
-                    <button class="dropbtn" id="EditDropdown">Edit</button>
-                    <div class="dropdown-content">
-                        <a id ="editReservation">Edit Reservation</a>
-                        <a id ="editStudentReservation">Edit Student Reservations</a>
-                    </div>
-                </div>
-            </li>
-            <li class="view">
-                <div class="dropdown">
-                    <button class="dropbtn">View</button>
-                    <div class="dropdown-content">
-                        <a id="viewSlotAvailability">View Slot Availability</a>
-                        <a id="viewReservations">View Reservation</a>
-                    </div>
-                </div>
-            </li>
-        </ul>
-        <div class="search-bar">
-            <input type="text" placeholder="Search for users">
-        </div>
-        <img class="search-image" src="../Images/search.png"> </img>
-        <div class="user-actions">
-            <div class="profile-info">
-                <img id = "pfp" src="../Images/Default_pfp.jpg" alt="pfp">
-            </div>
-            <div class="dropdown">
-                <button class="dropbtn">Welcome, <span class="username"></span></button>
-                <div class="dropdown-content">
-                    <img id="dropdownpfp" src="../Images/Default_pfp.jpg" alt="Pfp">
-                    <a id = "viewProfile">Profile</a>
-                    <a id="editProfile" href="./profile?edit=true">Edit Profile</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</nav>
-    `;
-    
-    document.getElementById('nav').innerHTML = navHtml;
-    auth(); 
-}
 
   function auth() {
     let profile = document.getElementById('viewProfile')
@@ -97,34 +24,34 @@ function loadNav() {
             document.getElementById('viewReservations').style.display="none"
             viewSlotAvailability.textContent="View Current Slot Availability"
             signInButton.onclick = function (){
-                window.location.href=getCurrentPath() + 'login';
+                window.location.href= 'login';
             }
             profile.onclick = function(){
-                window.location.href=getCurrentPath() + 'profile';
+                window.location.href= 'profile';
             }
             editProfile.onclick = function(){
-                window.location.href = getCurrentPath() + 'profile?edit=true';
+                window.location.href =  'profile?edit=true';
             };
             viewSlots.onclick = function(){
-                window.location.href = getCurrentPath() + 'viewSlots';
+                window.location.href =  'viewSlots';
             };
             viewReservations.onclick = function(){
-                window.location.href = getCurrentPath() + 'reservations';
+                window.location.href =  'reservations';
             };
             reserveSlot.onclick = function(){
-                window.location.href = getCurrentPath() + 'reserveSlots';
+                window.location.href =  'reserveSlots';
             };
             editReservation.onclick = function(){
-                window.location.href = getCurrentPath() + 'editReservations';
+                window.location.href =  'editReservations';
             };
             editStudentReservation.onclick = function(){
-                window.location.href = getCurrentPath() + 'editStudentReservations';
+                window.location.href =  'editStudentReservations';
             };
             reserveForStudent.onclick = function(){
-                window.location.href = getCurrentPath() + 'reserveForStudent';
+                window.location.href =  'reserveForStudent';
             };
             removeReservations.onclick = function(){
-                window.location.href = getCurrentPath() + 'deleteReservations';
+                window.location.href =  'deleteReservations';
             };
 
       } else {
@@ -155,31 +82,31 @@ function loadNav() {
                 }
                 
                 profile.onclick = function(){
-                    window.location.href = getCurrentPath() + 'profile';
+                    window.location.href =  'profile';
                 };
                 editProfile.onclick = function(){
-                    window.location.href = getCurrentPath() + 'profile?edit=true';
+                    window.location.href =  'profile?edit=true';
                 };
                 viewSlots.onclick = function(){
-                    window.location.href = getCurrentPath() + 'viewSlots';
+                    window.location.href =  'viewSlots';
                 };
                 viewReservations.onclick = function(){
-                    window.location.href = getCurrentPath() + 'reservations';
+                    window.location.href =  'reservations';
                 };
                 reserveSlot.onclick = function(){
-                    window.location.href = getCurrentPath() + 'reserveSlots';
+                    window.location.href =  'reserveSlots';
                 };
                 editReservation.onclick = function(){
-                    window.location.href = getCurrentPath() + 'editReservations';
+                    window.location.href =  'editReservations';
                 };
                 editStudentReservation.onclick = function(){
-                    window.location.href = getCurrentPath() + 'editStudentReservations';
+                    window.location.href =  'editStudentReservations';
                 };
                 reserveForStudent.onclick = function(){
-                    window.location.href = getCurrentPath() + 'resForStudent';
+                    window.location.href =  'resForStudent';
                 };
                 removeReservations.onclick = function(){
-                    window.location.href = getCurrentPath() + 'deleteReservations';
+                    window.location.href =  'deleteReservations';
                 };
             })
             .catch(error => {
@@ -188,7 +115,7 @@ function loadNav() {
             });
     }    
   }
-  loadNav();
+  auth();
 
 /* 
           const labsData = {
