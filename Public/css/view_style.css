@@ -17,6 +17,12 @@ body {
     row-gap: 1em;
 }
 
+#SelectTime{
+    display: flex;
+    column-gap: 1em;
+}
+
+
 #lab-selection select {
     padding: 8px;
     border-radius: 5px;
@@ -24,6 +30,10 @@ body {
     background-color: #fff;
     width: 300px;
     transition: border-color 0.3s ease;
+}
+
+#SelectTime select{
+    width: 150px;
 }
 
 

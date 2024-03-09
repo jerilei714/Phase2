@@ -34,7 +34,11 @@
     transition: border-color 0.3s ease;
 }
 
+.SelectTime{
+    display: flex;
+    flex-direction: row;
 
+}
 
 #lab-selection span{
     display: flex;
