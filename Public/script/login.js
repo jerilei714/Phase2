@@ -11,12 +11,8 @@ function togglePasswordVisibility() {
     }
 }
 
-document.querySelector('.toggle-password').addEventListener('click', function() {
-    togglePasswordVisibility();
-});
 
 document.getElementById('loginForm').addEventListener('submit', function(event) {
-    event.preventDefault();
 
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
@@ -37,11 +33,10 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     })
     .then(data => {
         const { username, accountType } = data;
-        alert('Login successful!');
         sessionStorage.setItem('authorized', true);
         sessionStorage.setItem('authorizedUsername', username);
         sessionStorage.setItem('AccountType', accountType);
-        window.location.href = '../';
+        window.location.href = '/';
     })    
     .catch(error => {
         alert(error.message);
