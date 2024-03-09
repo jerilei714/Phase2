@@ -113,6 +113,14 @@ function checkEditParameter() {
     }
 }
 
+
+function checkLogoutParameter() {
+    const logout1 = new URLSearchParams(window.location.search).get('logout');
+    if (logout1 === 'true') {
+        logout();
+    }
+}
+
 function logout() {
     sessionStorage.removeItem('authorized');
     sessionStorage.removeItem('authorizedUsername');
@@ -122,4 +130,5 @@ function logout() {
 document.addEventListener('DOMContentLoaded', () => {
     checkEditParameter();
     loadUserProfile();
+    checkLogoutParameter();
 });
