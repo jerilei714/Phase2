@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/reservations.css">
+    <script src="script/reservations.js" defer></script>
+    <title>Reservations</title>
+</head>
+<body>
+    {{> header}}
+    <div class="body-container">
+        <div id="lab-selection">
+            <span>
+                <label for="lab">Choose a Lab:</label>
+                <select id="lab">
+                    <option value="GK304A">GK304A</option>
+                    <option value="GK304B">GK304B</option>
+                    <option value="GK305A">GK305A</option>
+                    <option value="GK305B">GK305B</option>
+                    <option value="GK306A">GK306A</option>
+                    <option value="GK306B">GK306B</option>
+                </select>
+            </span>
+
+            <span>
+                <label for="date">Select Date:</label>
+                <input type="date" id="date">
+            </span>
+
+            <span>
+                <label for="time">Select Time:</label>
+                <select id="time" required>
+                </select>
+            </span>
+            
+        </div>
+        <button onclick="viewAvailability()">Filter</button>
+        <section class="current-reservations">
+            <h2>Current Reservations</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Lab</th>
+                            <th>Seat Number</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Time and Date requested</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each reservations}}
+                            <tr>
+                                <td>{{lab}}</td>
+                                <td>{{seatNumber}}</td>
+                                <td>{{date}}</td>
+                                <td>{{time}}</td>
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+</body>
+<footer>
+    <p>&copy; 2024 Lab Reservation System</p>
+</footer>
+</html>

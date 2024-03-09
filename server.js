@@ -1,32 +1,41 @@
 const express = require('express');
 const path = require('path');
-const { connectToDB } = require('./labDatabase');
-const registrationController = require('./controllers/regController');
-const loginController = require('./controllers/loginController');
-const userController = require('./controllers/userController');
-const labController = require('./controllers/labController');
-const reservationController = require('./controllers/reservationController');
-const seatController = require('./controllers/seatController');
-const redSeatsController = require('./controllers/redSeatsController');
-const reserveSlotsController = require('./controllers/reserveSlotsController');
+const hbsCtrl = require('hbs')
+const exphbs  = require('express-handlebars');
+const routes = require('./Routes/routes')
+const { connectToDB } = require('./Model/labDatabase');
+const registrationController = require('./Controller/regController');
+const loginController = require('./Controller/loginController');
+const userController = require('./Controller/userController');
+const labController = require('./Controller/labController');
+const reservationController = require('./Controller/reservationController');
+const seatController = require('./Controller/seatController');
+const redSeatsController = require('./Controller/redSeatsController');
+const reserveSlotsController = require('./Controller/reserveSlotsController');
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/styles', express.static(path.join(__dirname, 'Styles')));
-app.use('/scripts', express.static(path.join(__dirname, 'Scripts')));
-app.use('/view', express.static(path.join(__dirname, 'View')));
-app.use('/images', express.static(path.join(__dirname, 'Images')));
+app.use('/', express.static(path.join(__dirname, '/public')));
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'), (err) => {
-        if (err) {
-            res.status(500).send('Server Error: ' + err.code);
-        }
-    });
-});
+const hbs = exphbs.create({
+    extname: '.hbs',
+    defaultLayout: 'index',
+    layoutsDir: path.join(__dirname, 'View', 'layouts'),
+    partialsDir: path.join(__dirname, 'View', 'partials')
+  });
+  
+hbsCtrl.registerPartials(path.join(__dirname, 'View', 'partials'))
+app.engine('handlebars', hbs.engine);
+app.set('view engine', 'hbs');
+app.set('views', path.join(__dirname, 'View'));
+app.use((req,res,next) =>{
+    next()
+})
+
+app.use('/', routes)
 
 app.use('/register', registrationController);
 app.use('/login', loginController);
