@@ -1,4 +1,6 @@
 const authorizedUsername = sessionStorage.getItem('authorizedUsername');
+const urlParams = new URLSearchParams(window.location.search);
+const searchedUser = urlParams.get('username');
 
 const username = document.getElementById('username');
 const name = document.getElementById('name');
@@ -11,7 +13,7 @@ while (tbody.firstChild) {
     tbody.removeChild(tbody.firstChild);
 }
 
-fetch(`/users/${authorizedUsername}`)
+fetch(`/users/${searchedUser}`)
     .then(response => {
         if (response.ok) {
             return response.json();
@@ -32,10 +34,14 @@ fetch(`/users/${authorizedUsername}`)
         }
     })
     .catch(error => {
-        console.error('Error fetching user data:', error);
+        document.getElementById('profile-detail-container').innerHTML = 'User does not exist';
+        document.getElementById('profile-detail-container').style.fontSize = "30px"
+        document.querySelector('.profile-picture').innerHTML = "";
+        document.getElementById('reservationList').style.display="none"
+        document.getElementById('homeContent').style.height="80vh"
     });
 
-    fetch(`/reservations/userReservations/${authorizedUsername}`)
+    fetch(`/reservations/userReservations/${searchedUser}`)
     .then(response => response.json())
     .then(data => {
         console.log(data);

@@ -2,7 +2,8 @@ const express = require('express');
 const { getUser, getUsersByAccountType, updateUser } = require('../Model/labUsers');
 const { getReservedSeatsByLab } = require('../Model/labReservedSeats');
 const { getReservation } = require('../Model/labReserves');
-
+const { updateStudent } = require('../Model/labStudents'); 
+const { updateStaff } = require('../Model/labStaffs');
 const router = express.Router();
 
 router.get('/students', async (req, res) => {
@@ -49,7 +50,13 @@ router.put('/:username', async (req, res) => {
     const { username } = req.params;
     const updatedUserData = req.body;
     const success = await updateUser(username, updatedUserData);
+    console.log(updatedUserData.accountType)
     if (success) {
+      if(updatedUserData.accountType === 'Student') {
+          const studentUpdateSuccess = await updateStudent(username, updatedUserData);
+      } else if(updatedUserData.accountType === 'Staff') {
+          const staffUpdateSuccess = await updateStaff(username, updatedUserData);
+      }
       res.status(200).json({ message: 'User updated successfully' });
     } else {
       res.status(404).json({ error: 'User not found' });

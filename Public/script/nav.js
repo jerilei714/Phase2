@@ -15,8 +15,8 @@ document.addEventListener('DOMContentLoaded', function() {
 .catch(error => console.error('Error fetching user info:', error));
 });
 
-
   function auth() {
+
     let profile = document.getElementById('viewProfile')
     let editProfile = document.getElementById('editProfile')
     let deleteProfile = document.getElementById('deleteProfile')
@@ -132,7 +132,29 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }    
   }
+  document.querySelector('.search-image').onclick = function(){
+    let searchBar = document.getElementById('search-bar');
+    if(searchBar.value != "")
+    window.location.href = `viewProfile?username=${encodeURIComponent(searchBar.value)}`;
+  }
 
+
+  document.addEventListener('DOMContentLoaded', function(){
+    console.log('DOMContentLoaded'); 
+    let searchBar = document.getElementById('search-bar');
+    if (searchBar) {
+      searchBar.addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            if(searchBar.value !="")
+            window.location.href = `viewProfile?username=${encodeURIComponent(searchBar.value)}`;
+          event.preventDefault();
+        }
+      });
+    } else {
+      console.log('Search bar not found'); 
+    }
+  });
+  
 
 
 
