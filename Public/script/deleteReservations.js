@@ -3,24 +3,10 @@ document.addEventListener('DOMContentLoaded', function () {
     let currentLab = null;
     let defaultTotalSeats = 40;
     let date = document.getElementById('date').value;
-    let time = document.getElementById('time').value;
     const authorizedUsername = sessionStorage.getItem('authorizedUsername');
     const timeSelect = document.getElementById('time');
     const startTime = 6;
     const endTime = 16;
-
-    for (let hour = startTime; hour < endTime; hour++) {
-        for (let minute = 0; minute < 60; minute += 30) {
-            const start = formatTime(hour, minute);
-            const endHour = minute === 30 ? hour + 1 : hour;
-            const endMinute = minute === 30 ? 0 : 30;
-            const end = formatTime(endHour, endMinute);
-            const timeSlot = `${start} - ${end}`;
-            const option = new Option(timeSlot, timeSlot);
-            timeSelect.add(option);
-        }
-    }
-
     function deleteReservation(reservationId, seat) {
         fetch(`/reservations/${reservationId}`, {
             method: 'DELETE'

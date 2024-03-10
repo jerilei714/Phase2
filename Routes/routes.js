@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path'); 
 const router = express.Router();
 const authenticated = require('../Middleware/authenticated');
+const { getLabNamesAndIds  } = require('../Model/laboratory');
 
 router.get('/api/user-info', authenticated, (req, res) => {
     if (req.user) {
@@ -21,7 +22,18 @@ router.get('/api/user-info', authenticated, (req, res) => {
     console.log("Logged Out!")
   });
   
-  
+  router.get('/labs/names', async (req, res) => {
+    try {
+        const labs = await getLabNamesAndIds();
+        res.json(labs);
+    } catch (error) {
+        console.error('Error fetching lab names:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+
+
 router.get('/', (req, res) => {
     res.render('index');
 });

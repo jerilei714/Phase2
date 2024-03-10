@@ -1,5 +1,5 @@
 const express = require('express');
-const { createLab, getLab, updateLab, deleteLab } = require('../Model/laboratory');
+const { createLab, getLab, updateLab, deleteLab, getLabNamesAndIds  } = require('../Model/laboratory');
 const { ObjectId } = require('mongodb');
 
 const router = express.Router();
@@ -22,6 +22,9 @@ router.post('/', async (req, res) => {
 router.get('/:labId', async (req, res) => {
     try {
         const { labId } = req.params;
+        if (!/^[0-9a-fA-F]{24}$/.test(labId)) {
+            return res.status(400).json({ error: 'Invalid labId format' });
+        }
         const lab = await getLab(new ObjectId(labId));
         if (lab) {
             res.json(lab);
@@ -33,6 +36,7 @@ router.get('/:labId', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+
 
 router.put('/:labId', async (req, res) => {
     try {
@@ -64,6 +68,9 @@ router.delete('/:labId', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+
+
+
 
 router.get('/:labName', async (req, res) => {
     try {

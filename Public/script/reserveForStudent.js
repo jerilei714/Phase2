@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', function () {
     let defaultTotalSeats = 40; 
     const authorizedUsername = sessionStorage.getItem('authorizedUsername');
 
-    const timeSelect = document.getElementById('time');
     const startTime = 6; 
     const endTime = 16; 
 
@@ -18,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const end = formatTime(endHour, endMinute);
             const timeSlot = `${start} - ${end}`;
             const option = new Option(timeSlot, timeSlot);
-            timeSelect.add(option);
+
         }
     }
     function formatTime(hour, minute) {
@@ -111,7 +110,8 @@ document.addEventListener('DOMContentLoaded', function () {
     window.reserve = async function () {
         const currentLab = document.getElementById('lab').value;
         const date = document.getElementById('date').value;
-        const time = document.getElementById('time').value;
+        const StartTime = document.getElementById('StartTime').value;
+        const EndTime = document.getElementById('EndTime').value;
         const seatNumber = parseInt(selectedSeat.innerText, 10);
         const studentUsername = urlParams.get('studentUsername');
     
@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 seat_number: seatNumber,
                 username: student.username,
                 reserve_date: date,
-                reserve_time: time,
+                reserve_time: StartTime + " - " + EndTime,
                 tnd_requested: new Date().toISOString()
             };
 
@@ -163,7 +163,8 @@ document.addEventListener('DOMContentLoaded', function () {
     
     function showPopup(seat) {
         const date = document.getElementById('date').value;
-        const time = document.getElementById('time').value;
+        const StartTime = document.getElementById('StartTime').value;
+        const EndTime = document.getElementById('EndTime').value;
         const studentUsername = urlParams.get('studentUsername');
     
         if (!seat.classList.contains('selected')) {
@@ -187,8 +188,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 .catch(error => {
                     console.error('Error fetching student data:', error);
                 });
-            document.querySelector('#popup-time').textContent = time; 
+            document.querySelector('#popup-time').textContent = StartTime + " - " + EndTime; 
             document.querySelector('.seatNumber').innerHTML = seat.innerText; 
+            document.querySelector('#date-reserved').innerHTML = new Date().toLocaleDateString('en-GB').split('/').join('-');
+
             popup.style.display = 'flex';
         }
     }    

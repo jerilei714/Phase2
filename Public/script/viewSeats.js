@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let currentLab = null;
     let defaultTotalSeats = 40;
     let date = document.getElementById('date').value;
-    let time = document.getElementById('time').value;
+    let time = document.getElementById('StartTime').value;
     const authorizedUsername = sessionStorage.getItem('authorizedUsername');
     const timeSelect = document.getElementById('time');
     const startTime = 6;
@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', function () {
             const end = formatTime(endHour, endMinute);
             const timeSlot = `${start} - ${end}`;
             const option = new Option(timeSlot, timeSlot);
-            timeSelect.add(option);
         }
     }
 
@@ -92,6 +91,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 document.querySelector('#popup-date').innerHTML = reservation.reserve_date;
                 document.querySelector('#popup-time').textContent = reservation.reserve_time;
                 document.querySelector('.seatNumber').innerHTML = seat.innerText;
+                document.querySelector('#date-reserved').innerHTML = new Date(reservation.tnd_requested).toLocaleDateString('en-GB').split('/').join(' - ');
+
                 const userNameElement = document.querySelector('#userName');
                 userNameElement.innerHTML = reservation.username;
                 userNameElement.addEventListener('click', function() {

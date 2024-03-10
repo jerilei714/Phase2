@@ -3,32 +3,11 @@ document.addEventListener('DOMContentLoaded', async function () {
     let currentLab = null;
     let defaultTotalSeats = 40;
 
-    const timeSelect = document.getElementById('time');
-    const startTime = 6;
-    const endTime = 16;
-
-    for (let hour = startTime; hour < endTime; hour++) {
-        for (let minute = 0; minute < 60; minute += 30) {
-            const start = formatTime(hour, minute);
-            const endHour = minute === 30 ? hour + 1 : hour;
-            const endMinute = minute === 30 ? 0 : 30;
-            const end = formatTime(endHour, endMinute);
-            const timeSlot = `${start} - ${end}`;
-            const option = new Option(timeSlot, timeSlot);
-            timeSelect.add(option);
-        }
-    }
-
-    function formatTime(hour, minute) {
-        const hour12 = hour % 12 === 0 ? 12 : hour % 12;
-        const amPm = hour < 12 ? 'AM' : 'PM';
-        return `${hour12}:${minute < 10 ? '0' + minute : minute} ${amPm}`;
-    }   
-
     async function viewAvailability() {
         try {
             currentLab = document.getElementById('lab').value;
-            const selectedDate = document.getElementById('date').value; // Get the selected date
+            const selectedDate = document.getElementById('date').value; 
+    
             const response = await fetch(`/seats/available/${currentLab}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch available seats');
@@ -37,26 +16,26 @@ document.addEventListener('DOMContentLoaded', async function () {
             const availabilityResults = document.getElementById('availability-results');
             availabilityResults.innerHTML = `<h3>${currentLab} Availability</h3><p class="Available">Available Seats: ${availableSeatCount}</p>`;
             availabilityResults.style.display = 'block';
-    
             const seatContainer = document.createElement('div');
             seatContainer.classList.add('seat-container');
             generateSeats(seatContainer, defaultTotalSeats);
             availabilityResults.appendChild(seatContainer);
-
             const reservedSeatsResponse = await fetch(`/reservedseats/lab/${currentLab}?date=${selectedDate}`);
             const reservedSeatsData = await reservedSeatsResponse.json();
-
             reservedSeatsData.forEach(reservation => {
-                const seat = seatContainer.querySelector(`.seat:nth-child(${reservation.seat_number})`);
-                if (seat) {
-                    seat.classList.add('selected');
-                }
+                requestAnimationFrame(() => {
+                    const seat = seatContainer.querySelector(`.seat:nth-child(${reservation.seat_number})`);
+                    if (seat) {
+                        seat.classList.add('selected');
+                    }
+                });
             });
         } catch (error) {
             console.error('Error fetching available seats:', error);
         }
-    }       
+    }
     
+        
     async function generateSeats(seatContainer, seatCount, labId) {
         seatContainer.innerHTML = '';
     
@@ -107,7 +86,8 @@ document.addEventListener('DOMContentLoaded', async function () {
     
     function showPopup(seat) {
         date = document.getElementById('date').value;
-        time = document.getElementById('time').value;
+        Starttime = document.getElementById('StartTime').value;
+        EndTime = document.getElementById('EndTime').value;
         if (!seat.classList.contains('selected')) {
             selectedSeat = seat;
             const popup = document.querySelector('.popup-contents');
@@ -122,8 +102,9 @@ document.addEventListener('DOMContentLoaded', async function () {
                 window.location.href = `viewProfile?username=${encodeURIComponent(user.username)}`;
             }); 
             });
-            document.querySelector('#popup-time').textContent = time; 
+            document.querySelector('#popup-time').textContent = Starttime+EndTime; 
             document.querySelector('.seatNumber').innerHTML = seat.innerText; 
+            document.querySelector('#date-reserved').innerHTML = new Date().toLocaleDateString('en-GB').split('/').join('-');
             popup.style.display = 'flex';
         }
     }
@@ -137,11 +118,15 @@ document.addEventListener('DOMContentLoaded', async function () {
         const popup = document.querySelector('.popup-contents');
         popup.style.display = 'none';
     };
-
+    function hideIt() {
+        const popup = document.querySelector('.popup-contents');
+        popup.style.display = 'none';
+    };
     window.reserve = async function () {
         const currentLab = document.getElementById('lab').value;
         const date = document.getElementById('date').value;
-        const time = document.getElementById('time').value;
+        Starttime = document.getElementById('StartTime').value;
+        EndTime = document.getElementById('EndTime').value;
         const seatNumber = parseInt(selectedSeat.innerText, 10);
     
         try {
@@ -158,7 +143,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 seat_number: seatNumber,
                 username: user.username,
                 reserve_date: date,
-                reserve_time: time,
+                reserve_time: Starttime+EndTime,
                 tnd_requested: new Date().toISOString()
             };
             const reservationResponse = await fetch('/reservations', {
@@ -173,7 +158,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             }
             console.log('Reservation successful');
             alert('Reservation successful!');
-
+            hideIt()
             selectedSeat.classList.add('selected');
             selectedSeat.removeEventListener('click', showPopup);
 

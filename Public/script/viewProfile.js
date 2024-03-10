@@ -63,8 +63,6 @@ fetch(`/users/${searchedUser}`)
                 cell.textContent = detail;
                 row.appendChild(cell);
             });
-            const actionsCell = document.createElement('td');
-            row.appendChild(actionsCell);
             tbody.appendChild(row);
         });
     })

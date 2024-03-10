@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/editStudentReservations.css">
     <script src="script/editStudentReservations.js" defer></script>
+    <script src="script/filters.js" defer></script>
     <title>Reservations</title>
 </head>
 <body>
@@ -14,12 +15,7 @@
             <span>
                 <label for="lab">Choose a Lab:</label>
                 <select id="lab">
-                    <option value="GK304A">GK304A</option>
-                    <option value="GK304B">GK304B</option>
-                    <option value="GK305A">GK305A</option>
-                    <option value="GK305B">GK305B</option>
-                    <option value="GK306A">GK306A</option>
-                    <option value="GK306B">GK306B</option>
+
                 </select>
             </span>
 
@@ -30,8 +26,12 @@
 
             <span>
                 <label for="time">Select Time:</label>
-                <select id="time" required>
-                </select>
+                    <span id = "SelectTime">
+                        <select id="StartTime" required>
+                        </select>
+                        <select id="EndTime" required>
+                        </select>
+                    </span>
             </span>
             
         </div>

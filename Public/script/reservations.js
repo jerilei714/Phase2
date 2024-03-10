@@ -15,17 +15,7 @@ const popup = document.querySelector('.popup');
 const timeSelect = document.getElementById('time');
 const startTime = 6; 
 const endTime = 16; 
-for (let hour = startTime; hour < endTime; hour++) {
-    for (let minute = 0; minute < 60; minute += 30) {
-        const start = formatTime(hour, minute);
-        const endHour = minute === 30 ? hour + 1 : hour;
-        const endMinute = minute === 30 ? 0 : 30;
-        const end = formatTime(endHour, endMinute);
-        const timeSlot = `${start} - ${end}`;
-        const option = new Option(timeSlot, timeSlot);
-        timeSelect.add(option);
-    }
-}
+
 
 function formatTndRequested(tndRequested) {
     const tndRequestDate = new Date(tndRequested);
@@ -39,7 +29,7 @@ function formatTndRequested(tndRequested) {
         month: 'numeric',
         day: 'numeric',
         year: 'numeric',
-    }).replace(',', '').replace(' ', ' '); // Adjusts format to 12:15AM 2-14-2024
+    }).replace(',', '').replace(' ', ' '); 
 }
 
 fetch(`/reservations/userReservations/${authorizedUsername}`)
@@ -61,8 +51,6 @@ fetch(`/reservations/userReservations/${authorizedUsername}`)
                 cell.textContent = detail;
                 row.appendChild(cell);
             });
-            const actionsCell = document.createElement('td');
-            row.appendChild(actionsCell);
             tbody.appendChild(row);
         });
     })

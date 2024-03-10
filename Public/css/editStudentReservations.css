@@ -25,6 +25,12 @@
     color: #555; 
 }
 
+#SelectTime{
+    display: flex;
+
+    column-gap: 1em;
+}
+
 #lab-selection select {
     padding: 8px;
     border-radius: 5px;
@@ -32,6 +38,10 @@
     background-color: #fff;
     width: 300px;
     transition: border-color 0.3s ease;
+}
+
+#SelectTime select{
+    width: 150px;
 }
 
 #lab-selection span{
