@@ -1,3 +1,20 @@
+document.addEventListener('DOMContentLoaded', function() {
+  fetch('/api/user-info')
+.then(response => response.json())
+.then(data => {
+  if (data.authorized) {
+      sessionStorage.setItem('authorized', 'true');
+      sessionStorage.setItem('authorizedUsername', data.username);
+      sessionStorage.setItem('accountType', data.accountType);
+      auth()
+  } else {
+      console.log('User will not be remembered');
+      auth()
+  }
+})
+.catch(error => console.error('Error fetching user info:', error));
+});
+
 
   function auth() {
     let profile = document.getElementById('viewProfile')
@@ -115,108 +132,7 @@
             });
     }    
   }
-  auth();
 
-/* 
-          const labsData = {
-            "GK304A": {
-              "totalSeats": 40,
-              "reservedSeats": [
-                {"seat": 1, "username": "Jenny", "date": "2024-02-15", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 3, "username": "Jenny", "date": "2024-02-15", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 6, "username": "Jenny", "date": "2024-02-15", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 8, "username": "Jenny", "date": "2024-02-15", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 20, "username": "Mark", "date": "2024-02-16", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 21, "username": "Mark", "date": "2024-02-16", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 28, "username": "Mark", "date": "2024-02-16", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 29, "username": "Mark", "date": "2024-02-16", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 35, "username": "Mark", "date": "2024-02-16", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 38, "username": "Mark", "date": "2024-02-16", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 33, "username": "Sara", "date": "2024-03-12", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 18, "username": "Tom", "date": "2024-04-12", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 23, "username": "Tom", "date": "2024-04-12", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 40, "username": "Anna", "date": "2024-02-03", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 17, "username": "Anna", "date": "2024-02-03", "time": "6:00 AM - 6:30 AM"}
-              ],
-              "availableSeats": 25
-            },
-            "GK304B": {
-              "totalSeats": 40,
-              "reservedSeats": [
-                {"seat": 36, "username": "Jenny", "date": "2024-02-15", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 35, "username": "Jenny", "date": "2024-02-15", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 37, "username": "Jenny", "date": "2024-02-15", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 38, "username": "Jenny", "date": "2024-02-15", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 20, "username": "Sara", "date": "2024-03-12", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 21, "username": "Sara", "date": "2024-03-12", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 11, "username": "Sara", "date": "2024-03-12", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 14, "username": "Sara", "date": "2024-03-12", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 4, "username": "Tom", "date": "2024-04-12", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 5, "username": "Tom", "date": "2024-04-12", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 26, "username": "Tom", "date": "2024-04-12", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 31, "username": "Tom", "date": "2024-04-12", "time": "6:00 AM - 6:30 AM"}
-              ],
-              "availableSeats": 28
-            },
-            "GK305A": {
-              "totalSeats": 40,
-              "reservedSeats": [
-                {"seat": 11, "username": "Mark", "date": "2024-02-16", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 40, "username": "Mark", "date": "2024-02-16", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 33, "username": "Mark", "date": "2024-02-16", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 13, "username": "Sara", "date": "2024-03-12", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 12, "username": "Sara", "date": "2024-03-12", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 14, "username": "Sara", "date": "2024-03-12", "time": "6:00 AM - 6:30 AM"}
-              ],
-              "availableSeats": 34
-            },
-            "GK305B": {
-              "totalSeats": 40,
-              "reservedSeats": [
-                {"seat": 1, "username": "Mark", "date": "2024-02-16", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 40, "username": "Mark", "date": "2024-02-16", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 4, "username": "Sara", "date": "2024-03-12", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 35, "username": "Sara", "date": "2024-03-12", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 20, "username": "Tom", "date": "2024-04-12", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 21, "username": "Tom", "date": "2024-04-12", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 14, "username": "Tom", "date": "2024-04-12", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 11, "username": "Tom", "date": "2024-04-12", "time": "6:00 AM - 6:30 AM"}
-              ],
-              "availableSeats": 32
-            },
-            "GK306A": {
-              "totalSeats": 40,
-              "reservedSeats": [
-                {"seat": 4, "username": "Mark", "date": "2024-02-16", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 11, "username": "Sara", "date": "2024-03-12", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 38, "username": "Sara", "date": "2024-03-12", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 23, "username": "Sara", "date": "2024-03-12", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 2, "username": "Tom", "date": "2024-04-12", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 20, "username": "Tom", "date": "2024-04-12", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 29, "username": "Tom", "date": "2024-04-12", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 39, "username": "Tom", "date": "2024-04-12", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 6, "username": "Anna", "date": "2024-03-22", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 35, "username": "Anna", "date": "2024-03-22", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 18, "username": "Anna", "date": "2024-03-22", "time": "6:00 AM - 6:30 AM"}
-              ],
-              "availableSeats": 29
-            },
-            "GK306B": {
-              "totalSeats": 40,
-              "reservedSeats": [
-                {"seat": 8, "username": "Mark", "date": "2024-02-16", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 33, "username": "Sara", "date": "2024-03-12", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 37, "username": "Sara", "date": "2024-03-12", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 12, "username": "Sara", "date": "2024-03-12", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 3, "username": "Tom", "date": "2024-04-12", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 21, "username": "Tom", "date": "2024-04-12", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 6, "username": "Tom", "date": "2024-04-12", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 35, "username": "Anna", "date": "2024-03-22", "time": "6:00 AM - 6:30 AM"},
-                {"seat": 31, "username": "Anna", "date": "2024-03-22", "time": "6:00 AM - 6:30 AM"}
-              ],
-              "availableSeats": 31
-            }
-          };
-          localStorage.setItem('labs', JSON.stringify(labsData));
-          localStorage.setItem('users', JSON.stringify(usersData));
- */
+
+
+

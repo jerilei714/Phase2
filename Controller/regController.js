@@ -9,7 +9,7 @@ router.post('/', async (req, res) => {
     try {
         const { username, name, password, email, course, accountType, profilePic, description } = req.body;
 
-        let defaultProfilePic = '../Images/Default_pfp.jpg';
+        let defaultProfilePic = 'image/Default_pfp.jpg';
         let defaultDescription = 'Comp Sci Baddie Account';
         if (accountType === 'Student') {
             defaultDescription = 'Student Account';
@@ -30,7 +30,7 @@ router.post('/', async (req, res) => {
         const userId = await createUser(user);
 
         if (accountType === 'Student') {
-            await createUserStudent(userId, username, course);
+            await createUserStudent(userId, username, course, description);
         } else if (accountType === 'Lab Facilitator') {
             await createUserStaff(userId, username);
         }

@@ -7,6 +7,7 @@ function submitEditProfile(event) {
         email: document.getElementById('edit-email').value,
         course: document.getElementById('edit-course').value,
         accountType: document.getElementById('edit-accountType').value,
+        description: document.getElementById('edit-description').value, 
         password: document.getElementById('edit-password').value
     };
 
@@ -32,6 +33,7 @@ function submitEditProfile(event) {
 
     closeEditProfilePopup();
 }
+
 
 function openEditProfilePopup() {
     document.getElementById('edit-profile-popup').style.display = 'block';
@@ -122,10 +124,23 @@ function checkLogoutParameter() {
 }
 
 function logout() {
+    const cookies = document.cookie.split(';');
+  
+    fetch('/logout')
+    .then(response => {
+      if(response.ok) {
+        console.log("Logged out successfully");
+        sessionStorage.removeItem('authorized');
+        sessionStorage.removeItem('authorizedUsername');
+        goToHomePage();
+      }
+    })
+    .catch(error => console.error('Logout failed', error));
     sessionStorage.removeItem('authorized');
     sessionStorage.removeItem('authorizedUsername');
     goToHomePage();
 }
+
 
 document.addEventListener('DOMContentLoaded', () => {
     checkEditParameter();

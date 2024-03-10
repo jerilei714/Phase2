@@ -7,7 +7,6 @@ const client = new MongoClient(uri);
 async function connectToDB() {
   try {
     await client.connect();
-    console.log('Connected to MongoDB Atlas :)');
     return client.db();
   } catch (error) {
     console.error('Error connecting to MongoDB Atlas:', error);

@@ -1,7 +1,27 @@
 const express = require('express');
 const path = require('path'); 
 const router = express.Router();
+const authenticated = require('../Middleware/authenticated');
 
+router.get('/api/user-info', authenticated, (req, res) => {
+    if (req.user) {
+      res.json({
+        authorized: true,
+        username: req.user.username,
+        accountType: req.user.accountType,
+      });
+    } else {
+      res.json({ authorized: false });
+    }
+  });
+
+  router.get('/logout', function(req, res) {
+    res.cookie('rememberMe', '', { expires: new Date(0), path: '/', httpOnly: true, secure: true });
+    res.status(200).send('Logged out');
+    console.log("Logged Out!")
+  });
+  
+  
 router.get('/', (req, res) => {
     res.render('index');
 });

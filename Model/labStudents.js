@@ -1,8 +1,7 @@
 const { connectToDB } = require('./labDatabase.js');
 
-async function createUserStudent(user_id, username, course) {
+async function createUserStudent(user_id, username, course, description) {
     const db = await connectToDB();
-    const description = `${course} student`;
     const result = await db.collection('student').insertOne({
         user_id,
         username,

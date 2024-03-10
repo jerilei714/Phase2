@@ -86,6 +86,7 @@ fetch(`/users/${authorizedUsername}`)
 function logout() {
     sessionStorage.removeItem('authorized');
     sessionStorage.removeItem('authorizedUsername');
+    
     goToHomePage();
 }
 

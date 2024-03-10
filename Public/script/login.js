@@ -13,16 +13,18 @@ function togglePasswordVisibility() {
 
 
 document.getElementById('loginForm').addEventListener('submit', function(event) {
-
+    event.preventDefault();
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
+    const rememberMe = document.getElementById('rememberMe').checked;
 
     fetch('/login', {
+
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ username, password })
+        body: JSON.stringify({ username, password, rememberMe }) 
     })
     .then(response => {
         if (response.ok) {
@@ -32,14 +34,12 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
         }
     })
     .then(data => {
-        const { username, accountType } = data;
         sessionStorage.setItem('authorized', true);
-        sessionStorage.setItem('authorizedUsername', username);
-        sessionStorage.setItem('AccountType', accountType);
+        sessionStorage.setItem('authorizedUsername', data.username);
+        sessionStorage.setItem('AccountType', data.accountType);
         window.location.href = '/';
     })    
     .catch(error => {
         alert(error.message);
     });
 });
-
