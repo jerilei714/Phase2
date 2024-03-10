@@ -12,7 +12,6 @@ for (let hour = startTime; hour < endTime; hour++) {
         const end = formatTime(endHour, endMinute);
         const timeSlot = `${start} - ${end}`;
         const option = new Option(timeSlot, timeSlot);
-        timeSelect.add(option);
     }
 }
 
@@ -80,24 +79,18 @@ while (tbody.firstChild) {
     tbody.removeChild(tbody.firstChild);
 }
 
-function populateTimeOptions() {
-    const popupTimeSelect = document.getElementById('popup-time');
-    Array.from(timeSelect.options).forEach(option => {
-        const clonedOption = option.cloneNode(true);
-        popupTimeSelect.appendChild(clonedOption);
-    });
-}
+
 
 let currentEditingReservation = {};
 
 function openPopup(reservation, index) {
     console.log(reservation);
     editingReservationIndex = index;
-    populateTimeOptions();
     document.getElementById('popup-lab').value = reservation.lab_id || '';
     document.getElementById('popup-seat').value = reservation.seat_number || '';
     document.getElementById('popup-date').value = reservation.reserve_date || '';
-    document.getElementById('popup-time').value = reservation.reserve_time || '';
+    document.getElementById('popup-StartTime').value = reservation.reserve_time || '';
+    document.getElementById('popup-EndTime').value = reservation.reserve_time || '';
     popup.style.display = "block";
 
     currentEditingReservation = {
