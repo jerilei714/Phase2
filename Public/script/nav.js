@@ -1,22 +1,24 @@
 document.addEventListener('DOMContentLoaded', function() {
-  fetch('/api/user-info')
-.then(response => response.json())
-.then(data => {
-  if (data.authorized) {
-      sessionStorage.setItem('authorized', 'true');
-      sessionStorage.setItem('authorizedUsername', data.username);
-      sessionStorage.setItem('accountType', data.accountType);
-      auth()
-  } else {
-      console.log('User will not be remembered');
-      auth()
-  }
-})
-.catch(error => console.error('Error fetching user info:', error));
-});
+    async function fetchAndProcessUserInfo() {
+        try {
+            const response = await fetch('/api/user-info');
+            const data = await response.json();
 
+            if (data.authorized) {
+                sessionStorage.setItem('authorized', 'true');
+                sessionStorage.setItem('authorizedUsername', data.username);
+                sessionStorage.setItem('AccountType', data.accountType);
+                auth();
+            } else {
+                console.log('User will not be remembered');
+                auth();
+            }
+        } catch (error) {
+            console.error('Error fetching user info:', error);
+        }
+       
+    }
   function auth() {
-
     let profile = document.getElementById('viewProfile')
     let editProfile = document.getElementById('editProfile')
     let deleteProfile = document.getElementById('deleteProfile')
@@ -30,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let reservationDropdown = document.querySelector('.reservation')
     let EditDropdown = document.querySelector('.edit')
     let viewSlotAvailability = document.getElementById('viewSlotAvailability')
-    
+   
       if (!sessionStorage.getItem('authorized')) {
             let profileArea = document.querySelector('.user-actions');
             let unauthorized = '<button id="signInButton">Sign-in</button>';
@@ -73,6 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       } else {
         const authorizedUsername = sessionStorage.getItem('authorizedUsername');
+
         fetch(`/users/${authorizedUsername}`)
             .then(response => response.json())
             .then(user => {
@@ -88,6 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     usernameDisplay.textContent = authorizedUsername;
                 }
     
+                
                 if (sessionStorage.getItem('AccountType') === "Student") {
                     document.getElementById('reserveForStudent').style.display = "none";
                     document.getElementById('removeReservations').style.display = "none";
@@ -154,7 +158,7 @@ document.addEventListener('DOMContentLoaded', function() {
       console.log('Search bar not found'); 
     }
   });
-  
-
+  fetchAndProcessUserInfo();
+});
 
 

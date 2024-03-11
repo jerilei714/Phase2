@@ -115,7 +115,13 @@ function decrementLastHexChar(hexString) {
     return rest + lastChar;
 }
 
-function submitEdit(event) {
+async function isSeatAvailable(labId, seatNumber, date) {
+    const response = await fetch(`/reservations/checkAvailability?date=${date}&labId=${labId}&seatNumber=${seatNumber}`);
+    const availability = await response.json();
+    return availability.isAvailable; 
+}
+
+async function submitEdit(event) {
     event.preventDefault();
     const originalId = currentEditingReservation._id;
     const decrementedId = decrementLastHexChar(originalId);
@@ -125,6 +131,11 @@ function submitEdit(event) {
     const updatedDate = document.getElementById('popup-date').value;
     const updatedStart = document.getElementById('popup-StartTime').value;
     const updatedEnd = document.getElementById('popup-EndTime').value;
+    const seatAvailable = await isSeatAvailable(updatedLab, updatedSeat, updatedDate);
+    if (!seatAvailable) {
+        alert('This seat is already reserved for the selected date and time. Please choose another seat or time.');
+        return; 
+    }
     const updatedReservationDetails = {
         lab_id: updatedLab,
         lab_name: updatedLab,

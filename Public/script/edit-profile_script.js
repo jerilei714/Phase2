@@ -137,14 +137,12 @@ function logout() {
     .then(response => {
       if(response.ok) {
         console.log("Logged out successfully");
-        sessionStorage.removeItem('authorized');
-        sessionStorage.removeItem('authorizedUsername');
+        sessionStorage.clear()
         goToHomePage();
       }
     })
     .catch(error => console.error('Logout failed', error));
-    sessionStorage.removeItem('authorized');
-    sessionStorage.removeItem('authorizedUsername');
+    sessionStorage.clear()
     goToHomePage();
 }
 

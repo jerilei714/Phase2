@@ -43,6 +43,12 @@ fetch(`/reservations/userReservations/${authorizedUsername}`)
         console.error('Error fetching user reservations:', error);
     });
 
+async function isSeatAvailable(date, startTime, endTime, labId, seatNumber) {
+        const response = await fetch(`/reservations/checkAvailability?date=${date}&startTime=${startTime}&endTime=${endTime}&labId=${labId}&seatNumber=${seatNumber}`);
+        const availability = await response.json();
+        return availability.isAvailable; 
+}
+
 function formatTndRequested(tndRequested) {
     const tndRequestDate = new Date(tndRequested);
     if (isNaN(tndRequestDate)) {
@@ -107,7 +113,7 @@ function decrementLastHexChar(hexString) {
     return rest + lastChar;
 }
 
-function submitEdit(event) {
+async function submitEdit(event) {
     event.preventDefault();
     const originalId = currentEditingReservation._id;
     const decrementedId = decrementLastHexChar(originalId);
@@ -116,6 +122,13 @@ function submitEdit(event) {
     const updatedDate = document.getElementById('popup-date').value;
     const updatedStart = document.getElementById('popup-StartTime').value;
     const updatedEnd = document.getElementById('popup-EndTime').value;
+
+    const seatAvailable = await isSeatAvailable(updatedDate, updatedStart, updatedEnd, updatedLab, updatedSeat);
+
+    if (!seatAvailable) {
+        alert('This seat is already reserved for the selected date and time. Please choose another seat or time.');
+        return; 
+    }
     const updatedReservationDetails = {
         lab_id: updatedLab,
         lab_name: updatedLab,

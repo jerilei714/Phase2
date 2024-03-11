@@ -7,6 +7,17 @@ async function createReservedSeat(seat) {
   return result.insertedId;
 }
 
+async function checkSeatAvailability(lab_id, seat_number, reserve_date) {
+  const db = await connectToDB();
+  const existingReservation = await db.collection('reserved_seats').findOne({
+      lab_id: lab_id,
+      seat_number: seat_number,
+      reserve_date: reserve_date
+  });
+  return !existingReservation; 
+}
+
+
 async function getReservedSeat(seatId) {
   const db = await connectToDB();
   return db.collection('reserved_seats').findOne({ _id: seatId });
@@ -47,6 +58,6 @@ async function updateReservedSeatByReservationId(reservationId, updatedSeat) {
   return result.modifiedCount > 0;
 }
 
-module.exports = { createReservedSeat, getReservedSeat, updateReservedSeat, deleteReservedSeat, getReservedSeatsByLab, updateReservedSeatByReservationId };
+module.exports = { checkSeatAvailability, createReservedSeat, getReservedSeat, updateReservedSeat, deleteReservedSeat, getReservedSeatsByLab, updateReservedSeatByReservationId };
 
 

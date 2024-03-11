@@ -2,7 +2,7 @@ const express = require('express');
 const { ObjectId } = require('mongodb');
 const { createReservation, getReservation, updateReservation, deleteReservation , getReservedSeatsByUsername, getReservationsByUsername } = require('../Model/labReserves');
 const { updateSeatStatus } = require('../Model/labSeats');
-const { createReservedSeat } = require('../Model/labReservedSeats');
+const { createReservedSeat, checkSeatAvailability } = require('../Model/labReservedSeats');
 const router = express.Router();
 
 
@@ -41,6 +41,12 @@ router.post('/', async (req, res) => {
 });
 
 
+router.get('/checkAvailability', async (req, res) => {
+    const { date, labId, seatNumber } = req.query;
+    const isAvailable = await checkSeatAvailability(labId, seatNumber, date);
+    res.json({ isAvailable });
+});
+
 router.get('/:reservationId', async (req, res) => {
     try {
         const { reservationId } = req.params;
@@ -71,6 +77,8 @@ router.put('/:reservationId', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+
+
 
 router.get('/userReservations/:username', async (req, res) => {
     try {
