@@ -143,7 +143,6 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
 
-  document.addEventListener('DOMContentLoaded', function(){
     console.log('DOMContentLoaded'); 
     let searchBar = document.getElementById('search-bar');
     if (searchBar) {
@@ -157,7 +156,6 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
       console.log('Search bar not found'); 
     }
-  });
   fetchAndProcessUserInfo();
 });
 

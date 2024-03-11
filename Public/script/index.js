@@ -13,7 +13,7 @@
             labDiv.innerHTML = `
                 <h3>${lab.lab_name}</h3>
                 <p>Located in ${lab.location}</p>
-                <p>Current Reservations: ${lab.reservations}</p>
+                <p>Current Total Reservations: ${lab.reservations}</p>
             `;
             container.appendChild(labDiv);
         });
