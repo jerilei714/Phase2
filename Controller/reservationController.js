@@ -8,25 +8,27 @@ const router = express.Router();
 
 router.post('/', async (req, res) => {
     try {
-        const { lab_id, lab_name, user_id, username, reserve_date, reserve_time, seat_number, tnd_requested } = req.body;
+        const { lab_id, lab_name, user_id, username, reserve_date, reserve_time, seat_number, tnd_requested, anonymous } = req.body;
         const reservationData = {
             lab_id,
             lab_name,
             user_id,
-            username,
+            username: anonymous ? 'Anonymous' : username,
             reserve_date,
             reserve_time,
-            seat_number
+            seat_number,
+            anonymous
         };
         const reservationId = await createReservation(reservationData);
         const reservedSeatData = {
             lab_id,
             reservation_id: reservationId,
             seat_number,
-            username,
+            username: username,
             reserve_date,
             reserve_time,
-            tnd_requested
+            tnd_requested,
+            anonymous
         };
         await createReservedSeat(reservedSeatData);
 
@@ -37,6 +39,7 @@ router.post('/', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+
 
 router.get('/:reservationId', async (req, res) => {
     try {

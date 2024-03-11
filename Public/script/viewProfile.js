@@ -42,33 +42,34 @@ fetch(`/users/${searchedUser}`)
     });
 
     fetch(`/reservations/userReservations/${searchedUser}`)
-    .then(response => response.json())
-    .then(data => {
-        console.log(data);
-        const reservations = data.userReservations;
-        reservations.forEach((reservation, index) => {
-            const row = document.createElement('tr');
-            const details = [
-                reservation.lab_id, 
-                reservation.seat_number,
-                reservation.reserve_date,
-                reservation.reserve_time,
-            ];
-            
-            const formattedTndRequested = formatTndRequested(reservation.tnd_requested);
-            details.push(formattedTndRequested);
+.then(response => response.json())
+.then(data => {
+    console.log(data);
+    const reservations = data.userReservations.filter(reservation => !reservation.anonymous); 
+    reservations.forEach((reservation, index) => {
+        const row = document.createElement('tr');
+        const details = [
+            reservation.lab_id, 
+            reservation.seat_number,
+            reservation.reserve_date,
+            reservation.reserve_time,
+        ];
+        
+        const formattedTndRequested = formatTndRequested(reservation.tnd_requested);
+        details.push(formattedTndRequested);
 
-            details.forEach(detail => {
-                const cell = document.createElement('td');
-                cell.textContent = detail;
-                row.appendChild(cell);
-            });
-            tbody.appendChild(row);
+        details.forEach(detail => {
+            const cell = document.createElement('td');
+            cell.textContent = detail;
+            row.appendChild(cell);
         });
-    })
-    .catch(error => {
-        console.error('Error fetching user reservations:', error);
+        tbody.appendChild(row);
     });
+})
+.catch(error => {
+    console.error('Error fetching user reservations:', error);
+});
+
 
     function formatTndRequested(tndRequested) {
         const tndRequestDate = new Date(tndRequested);

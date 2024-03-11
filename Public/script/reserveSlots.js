@@ -125,9 +125,10 @@ document.addEventListener('DOMContentLoaded', async function () {
     window.reserve = async function () {
         const currentLab = document.getElementById('lab').value;
         const date = document.getElementById('date').value;
-        Starttime = document.getElementById('StartTime').value;
-        EndTime = document.getElementById('EndTime').value;
+        const startTime = document.getElementById('StartTime').value;
+        const endTime = document.getElementById('EndTime').value;
         const seatNumber = parseInt(selectedSeat.innerText, 10);
+        const isAnonymous = document.getElementById('reserveAnon').checked; 
     
         try {
             const response = await fetch(`/users/${sessionStorage.getItem('authorizedUsername')}`);
@@ -143,8 +144,9 @@ document.addEventListener('DOMContentLoaded', async function () {
                 seat_number: seatNumber,
                 username: user.username,
                 reserve_date: date,
-                reserve_time: Starttime+EndTime,
-                tnd_requested: new Date().toISOString()
+                reserve_time: startTime + endTime,
+                tnd_requested: new Date().toISOString(),
+                anonymous: isAnonymous 
             };
             const reservationResponse = await fetch('/reservations', {
                 method: 'POST',
@@ -158,10 +160,10 @@ document.addEventListener('DOMContentLoaded', async function () {
             }
             console.log('Reservation successful');
             alert('Reservation successful!');
-            hideIt()
+            hideIt();
             selectedSeat.classList.add('selected');
             selectedSeat.removeEventListener('click', showPopup);
-
+    
             const selectedSeats = JSON.parse(localStorage.getItem('selectedSeats')) || [];
             selectedSeats.push(selectedSeat.innerText);
             localStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
@@ -169,5 +171,6 @@ document.addEventListener('DOMContentLoaded', async function () {
             console.error('Error making reservation:', error);
             alert('Error: Could not make reservation');
         }
-    };    
+    };
+    
 });
