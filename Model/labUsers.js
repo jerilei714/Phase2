@@ -14,7 +14,7 @@ async function getUser(username) {
 
 async function addRememberMeToken(username, token) {
   const db = await connectToDB();
-  const expiryDate = new Date(Date.now() + 1 * 60 * 1000); 
+  const expiryDate = new Date(Date.now() + 1814400000); 
   const result = await db.collection('users').updateOne(
       { username: username },
       { $push: { rememberTokens: { token: token, expires: expiryDate } } }
