@@ -147,10 +147,8 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!reservationResponse.ok) {
                 throw new Error('Failed to make reservation');
             }
-    
+            hideIt()
             console.log('Reservation successful');
-            alert('Reservation successful!');
-    
             selectedSeat.classList.add('selected');
             selectedSeat.removeEventListener('click', showPopup);
     
@@ -203,9 +201,13 @@ document.addEventListener('DOMContentLoaded', function () {
         viewAvailability();
     });
 
-    window.hideIt = function() {
+    window.hideIt = function () {
         const popup = document.querySelector('.popup-contents');
-        popup.style.display='none';
+        popup.style.display = 'none';
+    };
+    function hideIt() {
+        const popup = document.querySelector('.popup-contents');
+        popup.style.display = 'none';
     };
    
 });

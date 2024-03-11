@@ -27,3 +27,36 @@ fetch(`/users/students`)
     .catch(error => {
         console.error('Error fetching students:', error);
     });
+
+    function filterStudents() {
+        const inputName = document.getElementById('studentNameFilter').value.toLowerCase();
+        tbody.innerHTML = ''; 
+    
+        fetch(`/users/students`)
+            .then(response => response.json())
+            .then(users => {
+                console.log(users);
+                const filteredStudents = users.students.filter(student => student.username.toLowerCase().includes(inputName));
+                filteredStudents.forEach(student => {
+                    const row = document.createElement('tr');
+                    const nameCell = document.createElement('td');
+                    nameCell.textContent = student.username;
+                    row.appendChild(nameCell);
+    
+                    const actionsCell = document.createElement('td');
+                    const editButton = document.createElement('button');
+                    editButton.textContent = 'Edit';
+                    editButton.addEventListener('click', function() {
+                        window.location.href = `reserveForStudent?studentUsername=${encodeURIComponent(student.username)}`; 
+                    });
+                    actionsCell.appendChild(editButton);
+                    row.appendChild(actionsCell);
+    
+                    tbody.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching students:', error);
+            });
+    }
+    
