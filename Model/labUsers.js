@@ -57,6 +57,12 @@ async function updateUser(username, updatedUser) {
   return result.modifiedCount > 0;
 }
 
+async function doesUserExist(username) {
+  const db = await connectToDB();
+  const user = await db.collection('users').findOne({ username: username });
+  return !!user; 
+}
+
 async function deleteUser(username) {
   const db = await connectToDB();
   const deleteUserResult = await db.collection('users').deleteOne({ username:username });
@@ -83,4 +89,4 @@ async function getUsersByAccountType(accountType) {
   return Students;
 }
 
-module.exports = { removeRememberMeToken, createUser, getUser, updateUser, deleteUser, getUsersByAccountType, addRememberMeToken, removeExpiredRememberMeTokens, getUserByToken };
+module.exports = { doesUserExist, removeRememberMeToken, createUser, getUser, updateUser, deleteUser, getUsersByAccountType, addRememberMeToken, removeExpiredRememberMeTokens, getUserByToken };

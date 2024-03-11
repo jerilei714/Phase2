@@ -3,9 +3,8 @@ document.getElementById('registerForm').addEventListener('submit', function(even
 
     const formData = new FormData(this);
     const jsonObject = {};
-    formData.forEach((value, key) => {
-        jsonObject[key] = value;
-    });
+    formData.forEach((value, key) => jsonObject[key] = value);
+
     fetch('/register', {
         method: 'POST',
         headers: {
@@ -16,6 +15,8 @@ document.getElementById('registerForm').addEventListener('submit', function(even
     .then(response => {
         if (response.ok) {
             return response.text();
+        } else if (response.status === 409) {
+            throw new Error('Username already exists');
         } else {
             throw new Error('Registration failed');
         }
@@ -25,6 +26,10 @@ document.getElementById('registerForm').addEventListener('submit', function(even
     })
     .catch(error => {
         console.error('Error:', error);
-        document.getElementById('message').textContent = "Registration failed!";
+        if (error.message === 'Username already exists') {
+            alert("Username already exists");
+        } else {
+            document.getElementById('message').textContent = error.message;
+        }
     });
 });

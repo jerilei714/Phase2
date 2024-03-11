@@ -1,5 +1,5 @@
 const express = require('express');
-const { createUser } = require('../Model/labUsers');
+const { createUser, doesUserExist } = require('../Model/labUsers');
 const { createUserStudent } = require('../Model/labStudents');
 const { createUserStaff } = require('../Model/labStaffs');
 
@@ -8,7 +8,10 @@ const router = express.Router();
 router.post('/', async (req, res) => {
     try {
         const { username, name, password, email, course, accountType, profilePic, description } = req.body;
-
+        const userExists = await doesUserExist(username);
+        if (userExists) {
+            return res.status(409).send('Username already exists.');
+        }
         let defaultProfilePic = 'image/Default_pfp.jpg';
         let defaultDescription = 'Comp Sci Baddie Account';
         if (accountType === 'Student') {

@@ -19,7 +19,7 @@ router.post('/', async (req, res) => {
                 const rememberToken = jwt.sign({ username: user.username, userId: user.id }, "fd619fbed37454c3c75b121d7e07e4e310f77f5b502b9dcb6a9f749952cab382", { expiresIn: '1h' }); 
                 await addRememberMeToken(username, rememberToken);
                 await removeExpiredRememberMeTokens(username);
-                res.cookie('rememberMe', rememberToken, { httpOnly: true, maxAge: 1 * 60 * 60 * 1000 });
+                res.cookie('rememberMe', rememberToken, { httpOnly: true, maxAge: 1814400000 });
             }
             res.status(200).json({ username: user.username, accountType: user.accountType, token: token });
         } else {
