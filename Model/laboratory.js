@@ -32,10 +32,29 @@ async function getLabByName(labName) {
   return db.collection('laboratory').findOne({ lab_name: labName });
 }
 
+async function getMostReservedLabs() {
+  const db = await connectToDB();
+  const labs = await db.collection('reserved_seats').aggregate([
+    { $group: { _id: "$lab_id", count: { $sum: 1 } } },
+    { $sort: { count: -1 } },
+    { $limit: 3 } 
+  ]).toArray();
+  const mostReservedLabs = await Promise.all(labs.map(async (lab) => {
+    const labDetails = await db.collection('laboratory').findOne({ lab_name: lab._id });
+    return {
+      lab_name: labDetails.lab_name,
+      location: labDetails.location, 
+      reservations: lab.count
+    };
+  }));
+  return mostReservedLabs;
+}
+
+
 async function deleteLab(labId) {
   const db = await connectToDB();
   const result = await db.collection('laboratory').deleteOne({ _id: new ObjectId(labId) });
   return result.deletedCount > 0;
 }
 
-module.exports = { createLab, getLab, updateLab, deleteLab, getLabNamesAndIds, getLabByName};
+module.exports = { createLab, getLab, updateLab, deleteLab, getLabNamesAndIds, getLabByName, getMostReservedLabs};

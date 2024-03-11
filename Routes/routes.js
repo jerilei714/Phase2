@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path'); 
 const router = express.Router();
 const authenticated = require('../Middleware/authenticated');
-const { getLabNamesAndIds  } = require('../Model/laboratory');
+const { getLabNamesAndIds, getMostReservedLabs} = require('../Model/laboratory');
 
 router.get('/api/user-info', authenticated, (req, res) => {
     if (req.user) {
@@ -15,6 +15,17 @@ router.get('/api/user-info', authenticated, (req, res) => {
       res.json({ authorized: false });
     }
   });
+
+  router.get('/most-reserved-labs', async (req, res) => {
+    try {
+        const labs = await getMostReservedLabs();
+        res.json(labs);
+    } catch (error) {
+        console.error('Error fetching most reserved labs:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 
   router.get('/logout', function(req, res) {
     res.cookie('rememberMe', '', { expires: new Date(0), path: '/', httpOnly: true, secure: true });
