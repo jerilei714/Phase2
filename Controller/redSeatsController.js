@@ -73,15 +73,18 @@ router.delete('/:seatId', async (req, res) => {
 });
 
 router.get('/lab/:labId', async (req, res) => {
+    console.log("HI")
     try {
         const { labId } = req.params;
-        const reservedSeats = await getReservedSeatsByLab(labId);
+        const { date } = req.query; 
+        const reservedSeats = await getReservedSeatsByLab(labId, date); 
         res.json(reservedSeats);
     } catch (error) {
         console.error('Error fetching reserved seats:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+
 
 router.put('/updateByReservationId/:reservationId', async (req, res) => {
     try {

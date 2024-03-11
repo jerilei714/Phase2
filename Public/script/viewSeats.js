@@ -56,7 +56,6 @@ document.addEventListener('DOMContentLoaded', function () {
             seatContainer.classList.add('seat-container');
             generateSeats(seatContainer, defaultTotalSeats);
             availabilityResults.appendChild(seatContainer);
-    
             const reservedSeatsResponse = await fetch(`/reservedseats/lab/${currentLab}?date=${selectedDate}`);
             if (!reservedSeatsResponse.ok) {
                 throw new Error('Failed to fetch reserved seats');

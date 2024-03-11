@@ -27,10 +27,16 @@ async function deleteReservedSeat(seatId) {
   return result.deletedCount > 0;
 }
 
-async function getReservedSeatsByLab(labId) {
-    const db = await connectToDB();
-    return db.collection('reserved_seats').find({ lab_id: labId }).toArray();
+async function getReservedSeatsByLab(labId, date) {
+  const db = await connectToDB();
+  console.log(labId + date)
+  let query = { lab_id: labId };
+  if (date) {
+      query.reserve_date = date;
+  }
+  return db.collection('reserved_seats').find(query).toArray();
 }
+
 
 async function updateReservedSeatByReservationId(reservationId, updatedSeat) {
   const db = await connectToDB();
