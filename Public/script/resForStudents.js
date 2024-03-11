@@ -6,7 +6,6 @@ while (tbody.firstChild) {
 fetch(`/users/students`)
     .then(response => response.json())
     .then(users => {
-        console.log(users);
         const data = users.students;
         data.forEach(student => {
             const row = document.createElement('tr');
@@ -35,7 +34,6 @@ fetch(`/users/students`)
         fetch(`/users/students`)
             .then(response => response.json())
             .then(users => {
-                console.log(users);
                 const filteredStudents = users.students.filter(student => student.username.toLowerCase().includes(inputName));
                 filteredStudents.forEach(student => {
                     const row = document.createElement('tr');

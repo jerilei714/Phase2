@@ -35,7 +35,6 @@ fetch(`/users/${authorizedUsername}`)
     fetch(`/reservations/userReservations/${authorizedUsername}`)
     .then(response => response.json())
     .then(data => {
-        console.log(data);
         const reservations = data.userReservations;
         reservations.forEach((reservation, index) => {
             const row = document.createElement('tr');
@@ -104,7 +103,6 @@ function deleteUser() {
         }
     })
     .then(data => {
-        console.log('User deleted:', data);
         logout();
     })
     .catch(error => {

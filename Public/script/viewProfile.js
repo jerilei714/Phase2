@@ -44,7 +44,6 @@ fetch(`/users/${searchedUser}`)
     fetch(`/reservations/userReservations/${searchedUser}`)
 .then(response => response.json())
 .then(data => {
-    console.log(data);
     const reservations = data.userReservations.filter(reservation => !reservation.anonymous); 
     reservations.forEach((reservation, index) => {
         const row = document.createElement('tr');

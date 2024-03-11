@@ -57,11 +57,25 @@ async function updateUser(username, updatedUser) {
   return result.modifiedCount > 0;
 }
 
-async function deleteUser(userId) {
+async function deleteUser(username) {
   const db = await connectToDB();
-  const result = await db.collection('users').deleteOne({ _id: userId });
-  return result.deletedCount > 0;
+  const deleteUserResult = await db.collection('users').deleteOne({ username:username });
+  const userDeletionSuccess = deleteUserResult.deletedCount > 0;
+  if (!userDeletionSuccess) {
+    console.log(`User with ID ${username} not found in 'users' collection.`);
+    return false;
+  }
+  await db.collection('student').deleteMany({ username:username });
+  await db.collection('staff').deleteMany({ username:username });
+  const reservations = await db.collection('reserved_seats').find({ username:username }).toArray();
+  reservations.forEach(async (reservation) => {
+    await db.collection('reservations').deleteMany({ _id: reservation.reservation_id });
+  });
+  await db.collection('reserved_seats').deleteMany({ username:username });
+  console.log(`All records related to user ID ${username} have been deleted.`);
+  return true;
 }
+
 
 async function getUsersByAccountType(accountType) {
   const db = await connectToDB();

@@ -13,7 +13,6 @@ const studentUsername = getUrlParam('studentUsername');
 fetch(`/reservations/userReservations/${studentUsername}`)
     .then(response => response.json())
     .then(data => {
-        console.log(data);
         const reservations = data.userReservations;
         reservations.forEach((reservation, index) => {
             const row = document.createElement('tr');
@@ -76,7 +75,6 @@ while (tbody.firstChild) {
 let currentEditingReservation = {};
 
 function openPopup(reservation, index) {
-    console.log(reservation);
     editingReservationIndex = index;
     fillTimeOptions();
     document.getElementById('popup-lab').value = reservation.lab_id || '';
@@ -130,7 +128,6 @@ function viewAvailability() {
             response.json())
 
         .then(data => {
-            console.log(JSON.stringify(data))
             updateReservationsTable(data);
         })
         .catch(error => console.error('Error:', error));

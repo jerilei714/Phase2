@@ -1,5 +1,5 @@
 const express = require('express');
-const { getUser, getUsersByAccountType, updateUser } = require('../Model/labUsers');
+const { getUser, getUsersByAccountType, updateUser, deleteUser} = require('../Model/labUsers');
 const { getReservedSeatsByLab } = require('../Model/labReservedSeats');
 const { getReservation } = require('../Model/labReserves');
 const { updateStudent } = require('../Model/labStudents'); 
@@ -44,6 +44,26 @@ router.get('/:username/reservations', async (req, res) => {
       res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+router.delete('/:username', async (req, res) => {
+  try {
+    const username = req.params.username;
+    const user = await getUser(username);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    const success = await deleteUser(user.username);
+    if (success) {
+      res.status(200).json({ message: 'User deleted successfully' });
+    } else {
+      res.status(500).json({ error: 'Failed to delete user' });
+    }
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 
 router.put('/:username', async (req, res) => {
   try {

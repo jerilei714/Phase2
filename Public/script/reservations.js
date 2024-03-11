@@ -8,10 +8,35 @@ const tbody = document.querySelector('.table-container tbody');
 while (tbody.firstChild) {
     tbody.removeChild(tbody.firstChild);
 }
-
-document.addEventListener('DOMContentLoaded', function () {
     const authorizedUsername = sessionStorage.getItem('authorizedUsername');
 
+    function viewAvailability() {
+        const labId = document.getElementById('lab').value;
+        const date = document.getElementById('date').value;
+        fetch(`reservations/byUsername/${authorizedUsername}?labId=${labId}&reserveDate=${date}`)
+            .then(response => 
+                response.json())
+            .then(data => {
+                updateReservationsTable(data);
+            })
+            .catch(error => console.error('Error:', error));
+    }
+    
+    function updateReservationsTable(reservations) {
+        const tbody = document.querySelector('.table-container tbody');
+        tbody.innerHTML = ''; 
+        reservations.userReservations.forEach((reservation, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${reservation.lab_id}</td>
+                <td>${reservation.seat_number}</td>
+                <td>${reservation.reserve_date}</td>
+                <td>${reservation.reserve_time}</td>
+                <td>${formatTndRequested(reservation.tnd_requested)}</td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
 
 
 function formatTndRequested(tndRequested) {
@@ -32,7 +57,6 @@ function formatTndRequested(tndRequested) {
 fetch(`/reservations/userReservations/${authorizedUsername}`)
     .then(response => response.json())
     .then(data => {
-        console.log(data);
         const reservations = data.userReservations;
         reservations.forEach((reservation, index) => {
             const row = document.createElement('tr');
@@ -54,4 +78,3 @@ fetch(`/reservations/userReservations/${authorizedUsername}`)
     .catch(error => {
         console.error('Error fetching user reservations:', error);
     });
-});

@@ -5,7 +5,6 @@ const popup = document.querySelector('.popup');
 fetch(`/reservations/userReservations/${authorizedUsername}`)
     .then(response => response.json())
     .then(data => {
-        console.log(data);
         const reservations = data.userReservations;
         reservations.forEach((reservation, index) => {
             const row = document.createElement('tr');
@@ -70,11 +69,8 @@ function viewAvailability() {
     const date = document.getElementById('date').value;
     fetch(`reservations/byUsername/${authorizedUsername}?labId=${labId}&reserveDate=${date}`)
         .then(response => 
-            
             response.json())
-
         .then(data => {
-            console.log(JSON.stringify(data))
             updateReservationsTable(data);
         })
         .catch(error => console.error('Error:', error));
@@ -107,7 +103,6 @@ function updateReservationsTable(reservations) {
 let currentEditingReservation = {};
 
 function openPopup(reservation, index) {
-    console.log(reservation);
     editingReservationIndex = index;
     fillTimeOptions();
     document.getElementById('popup-lab').value = reservation.lab_id || '';

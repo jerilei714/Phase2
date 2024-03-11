@@ -22,7 +22,15 @@
                     <label for="date">Select Date:</label>
                     <input type="date" id="date" required>
                 </span>
-    
+                <span style="display:none">
+                <label for="time">Select Time:</label>
+                    <span id = "SelectTime">
+                        <select id="StartTime" required>
+                        </select>
+                        <select id="EndTime" required>
+                        </select>
+                    </span>
+            </span>
             </div>
         <button onclick="viewAvailability()">Filter</button>
         <section class="current-reservations">
