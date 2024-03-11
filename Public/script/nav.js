@@ -5,9 +5,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const data = await response.json();
 
             if (data.authorized) {
-                sessionStorage.setItem('authorized', 'true');
-                sessionStorage.setItem('authorizedUsername', data.username);
-                sessionStorage.setItem('AccountType', data.accountType);
+                await sessionStorage.setItem('authorized', 'true');
+                await sessionStorage.setItem('authorizedUsername', data.username);
+                await sessionStorage.setItem('AccountType', data.accountType);
                 auth();
             } else {
                 console.log('User will not be remembered');
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
        
     }
-  function auth() {
+  async function auth() {
     let profile = document.getElementById('viewProfile')
     let editProfile = document.getElementById('editProfile')
     let deleteProfile = document.getElementById('deleteProfile')

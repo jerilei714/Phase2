@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             currentLab = document.getElementById('lab').value;
             const selectedDate = document.getElementById('date').value; 
     
-            const response = await fetch(`/seats/available/${currentLab}`);
+            const response = await fetch(`/seats/available/${currentLab}?date=${encodeURIComponent(selectedDate)}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch available seats');
             }
@@ -18,18 +18,27 @@ document.addEventListener('DOMContentLoaded', async function () {
             availabilityResults.style.display = 'block';
             const seatContainer = document.createElement('div');
             seatContainer.classList.add('seat-container');
-            generateSeats(seatContainer, defaultTotalSeats);
+            const labInfoResponse = await fetch(`/labs/name/${encodeURIComponent(currentLab)}`);
+            if (!labInfoResponse.ok) {
+                throw new Error('Failed to fetch lab info');
+            }
+            const labInfo = await labInfoResponse.json();
+            defaultTotalSeats = labInfo.total_seats;
+            await generateSeats(seatContainer, defaultTotalSeats);
             availabilityResults.appendChild(seatContainer);
+
             const reservedSeatsResponse = await fetch(`/reservedseats/lab/${currentLab}?date=${selectedDate}`);
             const reservedSeatsData = await reservedSeatsResponse.json();
+
             reservedSeatsData.forEach(reservation => {
-                requestAnimationFrame(() => {
-                    const seat = seatContainer.querySelector(`.seat:nth-child(${reservation.seat_number})`);
-                    if (seat) {
-                        seat.classList.add('selected');
-                    }
-                });
+                const seat = document.querySelector(`.seat:nth-child(${String(reservation.seat_number)})`);
+                if (seat) {
+                    seat.classList.add('selected');
+                } else {
+                    console.log('Seat not found for reservation:', reservation);
+                }
             });
+
         } catch (error) {
             console.error('Error fetching available seats:', error);
         }

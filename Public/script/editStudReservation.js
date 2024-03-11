@@ -121,6 +121,44 @@ async function isSeatAvailable(labId, seatNumber, date) {
     return availability.isAvailable; 
 }
 
+function viewAvailability() {
+    const labId = document.getElementById('lab').value;
+    const date = document.getElementById('date').value;
+    fetch(`reservations/byUsername/${studentUsername}?labId=${labId}&reserveDate=${date}`)
+        .then(response => 
+            
+            response.json())
+
+        .then(data => {
+            console.log(JSON.stringify(data))
+            updateReservationsTable(data);
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+function updateReservationsTable(reservations) {
+    const tbody = document.querySelector('.table-container tbody');
+    tbody.innerHTML = '';
+    reservations.userReservations.forEach((reservation, index) => {
+        const row = document.createElement('tr');
+        const editButton = document.createElement('button');
+        editButton.textContent = 'Edit';
+        editButton.addEventListener('click', () => {
+            openPopup(reservation, index);
+        });
+        row.innerHTML = `
+            <td>${reservation.lab_id}</td>
+            <td>${reservation.seat_number}</td>
+            <td>${reservation.reserve_date}</td>
+            <td>${reservation.reserve_time}</td>
+            <td>${formatTndRequested(reservation.tnd_requested)}</td>
+        `;
+        const actionsCell = document.createElement('td');
+        actionsCell.appendChild(editButton);
+        row.appendChild(actionsCell);
+        tbody.appendChild(row);
+    });
+}
 async function submitEdit(event) {
     event.preventDefault();
     const originalId = currentEditingReservation._id;

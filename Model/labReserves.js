@@ -1,3 +1,4 @@
+const { use } = require('../Controller/labController.js');
 const { connectToDB } = require('./labDatabase.js');
 const { ObjectId } = require('mongodb');
 
@@ -52,11 +53,15 @@ async function getReservedSeatsByUsername(username) {
   return userReservations;
 }
 
-async function getReservationsByUsername(username) {
+async function getReservationsByUsername(username, labId = null, reserveDate = null) {
   const db = await connectToDB();
-  const userReservations = await db.collection('reservations').find({ username: username }).toArray();
-  return userReservations;
+  let query = { username: username };
+  if (labId) {
+      query.lab_id = labId;
+  } if (reserveDate) {
+      query.reserve_date = reserveDate;
+  }
+  return await db.collection('reserved_seats').find(query).toArray()
 }
 
-
-module.exports = { createReservation, getReservation, updateReservation, deleteReservation , getReservedSeatsByUsername, getReservationsByUsername };
+module.exports = { getReservationsByUsername, createReservation, getReservation, updateReservation, deleteReservation , getReservedSeatsByUsername, getReservationsByUsername };

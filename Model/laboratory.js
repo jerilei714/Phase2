@@ -27,10 +27,15 @@ async function updateLab(labId, updatedLab) {
   return result.modifiedCount > 0;
 }
 
+async function getLabByName(labName) {
+  const db = await connectToDB();
+  return db.collection('laboratory').findOne({ lab_name: labName });
+}
+
 async function deleteLab(labId) {
   const db = await connectToDB();
   const result = await db.collection('laboratory').deleteOne({ _id: new ObjectId(labId) });
   return result.deletedCount > 0;
 }
 
-module.exports = { createLab, getLab, updateLab, deleteLab, getLabNamesAndIds };
+module.exports = { createLab, getLab, updateLab, deleteLab, getLabNamesAndIds, getLabByName};

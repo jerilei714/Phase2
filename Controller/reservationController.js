@@ -110,13 +110,15 @@ router.put('/update/:reservationId', async (req, res) => {
 router.get('/byUsername/:username', async (req, res) => {
     try {
         const { username } = req.params;
-        const userReservations = await getReservationsByUsername(username);
+        const { labId, reserveDate } = req.query;
+        const userReservations = await getReservationsByUsername(username, labId, reserveDate);
         res.json({ userReservations });
     } catch (error) {
         console.error('Error fetching user reservations:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+
 
 router.delete('/:reservationId', async (req, res) => {
     try {

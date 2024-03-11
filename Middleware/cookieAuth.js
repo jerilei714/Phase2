@@ -31,7 +31,6 @@ const cookieAuth = async (req, res, next) => {
         await removeExpiredRememberMeTokens(user.username);
         await addRememberMeToken(user.username, newToken);
         res.cookie('rememberMe', newToken, { httpOnly: true, maxAge: 1 * 60 * 60 * 1000 });
-        console.log(newToken)
         req.user = { username: user.username, accountType: user.accountType, userId: user.id };
         next();
     } catch (error) {

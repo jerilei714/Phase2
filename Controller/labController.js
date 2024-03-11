@@ -1,5 +1,5 @@
 const express = require('express');
-const { createLab, getLab, updateLab, deleteLab, getLabNamesAndIds  } = require('../Model/laboratory');
+const { createLab, getLab, updateLab, deleteLab, getLabNamesAndIds, getLabByName } = require('../Model/laboratory');
 const { ObjectId } = require('mongodb');
 
 const router = express.Router();
@@ -50,6 +50,21 @@ router.put('/:labId', async (req, res) => {
         }
     } catch (error) {
         console.error('Error updating lab:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+router.get('/name/:labName', async (req, res) => {
+    const { labName } = req.params;
+    try {
+        const lab = await getLabByName(labName);
+        if (lab) {
+            res.json({ total_seats: lab.total_seats });
+        } else {
+            res.status(404).json({ error: 'Lab not found' });
+        }
+    } catch (error) {
+        console.error('Error getting lab by name:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 });

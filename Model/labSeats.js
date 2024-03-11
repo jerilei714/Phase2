@@ -28,13 +28,21 @@ async function deleteSeat(seatId) {
   return result.deletedCount > 0;
 }
 
-async function getAvailableSeatCount(labName) {
-    const db = await connectToDB();
-    const totalSeats = await db.collection('seat').countDocuments({ lab_name: labName });
-    const reservedSeats = await db.collection('seat').countDocuments({ lab_name: labName, seat_status: 'Reserved' });
-
-    return totalSeats - reservedSeats;
+async function getAvailableSeatCount(labName, date) {
+  const db = await connectToDB();
+  const lab = await db.collection('laboratory').findOne({ lab_name: labName });
+  if (!lab) {
+      throw new Error('Laboratory not found');
+  }
+  const totalSeats = lab.total_seats;
+  const reservedSeatsCount = await db.collection('reserved_seats').countDocuments({ 
+      lab_id: labName, 
+      reserve_date: date 
+  });
+  return totalSeats - reservedSeatsCount;
 }
+
+
 
 async function getSeatsByLabName(labName) {
     const db = await connectToDB();

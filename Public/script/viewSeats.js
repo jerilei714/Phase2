@@ -42,8 +42,9 @@ document.addEventListener('DOMContentLoaded', function () {
     async function viewAvailability() {
         try {
             currentLab = document.getElementById('lab').value;
-            const selectedDate = document.getElementById('date').value;
-            const response = await fetch(`/seats/available/${currentLab}`);
+            const selectedDate = document.getElementById('date').value; 
+    
+            const response = await fetch(`/seats/available/${currentLab}?date=${encodeURIComponent(selectedDate)}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch available seats');
             }
@@ -51,10 +52,15 @@ document.addEventListener('DOMContentLoaded', function () {
             const availabilityResults = document.getElementById('availability-results');
             availabilityResults.innerHTML = `<h3>${currentLab} Availability</h3><p class="Available">Available Seats: ${availableSeatCount}</p>`;
             availabilityResults.style.display = 'block';
-    
             const seatContainer = document.createElement('div');
             seatContainer.classList.add('seat-container');
-            generateSeats(seatContainer, defaultTotalSeats);
+            const labInfoResponse = await fetch(`/labs/name/${encodeURIComponent(currentLab)}`);
+            if (!labInfoResponse.ok) {
+                throw new Error('Failed to fetch lab info');
+            }
+            const labInfo = await labInfoResponse.json();
+            defaultTotalSeats = labInfo.total_seats;
+            await generateSeats(seatContainer, defaultTotalSeats);
             availabilityResults.appendChild(seatContainer);
             const reservedSeatsResponse = await fetch(`/reservedseats/lab/${currentLab}?date=${selectedDate}`);
             if (!reservedSeatsResponse.ok) {

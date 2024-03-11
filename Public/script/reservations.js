@@ -11,10 +11,7 @@ while (tbody.firstChild) {
 
 document.addEventListener('DOMContentLoaded', function () {
     const authorizedUsername = sessionStorage.getItem('authorizedUsername');
-const popup = document.querySelector('.popup');
-const timeSelect = document.getElementById('time');
-const startTime = 6; 
-const endTime = 16; 
+
 
 
 function formatTndRequested(tndRequested) {

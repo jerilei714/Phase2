@@ -1,10 +1,6 @@
 let editingReservationIndex = null;
 const authorizedUsername = sessionStorage.getItem('authorizedUsername');
 const popup = document.querySelector('.popup');
-const timeSelect = document.getElementById('time');
-const startTime = 6; 
-const endTime = 16; 
-
 
 fetch(`/reservations/userReservations/${authorizedUsername}`)
     .then(response => response.json())
@@ -43,11 +39,11 @@ fetch(`/reservations/userReservations/${authorizedUsername}`)
         console.error('Error fetching user reservations:', error);
     });
 
-async function isSeatAvailable(date, startTime, endTime, labId, seatNumber) {
-        const response = await fetch(`/reservations/checkAvailability?date=${date}&startTime=${startTime}&endTime=${endTime}&labId=${labId}&seatNumber=${seatNumber}`);
+async function isSeatAvailable(labId, seatNumber, date) {
+        const response = await fetch(`/reservations/checkAvailability?date=${date}&labId=${labId}&seatNumber=${seatNumber}`);
         const availability = await response.json();
         return availability.isAvailable; 
-}
+    }
 
 function formatTndRequested(tndRequested) {
     const tndRequestDate = new Date(tndRequested);
@@ -69,7 +65,44 @@ while (tbody.firstChild) {
     tbody.removeChild(tbody.firstChild);
 }
 
+function viewAvailability() {
+    const labId = document.getElementById('lab').value;
+    const date = document.getElementById('date').value;
+    fetch(`reservations/byUsername/${authorizedUsername}?labId=${labId}&reserveDate=${date}`)
+        .then(response => 
+            
+            response.json())
 
+        .then(data => {
+            console.log(JSON.stringify(data))
+            updateReservationsTable(data);
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+function updateReservationsTable(reservations) {
+    const tbody = document.querySelector('.table-container tbody');
+    tbody.innerHTML = ''; 
+    reservations.userReservations.forEach((reservation, index) => {
+        const row = document.createElement('tr');
+        const editButton = document.createElement('button');
+        editButton.textContent = 'Edit';
+        editButton.addEventListener('click', () => {
+            openPopup(reservation, index);
+        });
+        row.innerHTML = `
+            <td>${reservation.lab_id}</td>
+            <td>${reservation.seat_number}</td>
+            <td>${reservation.reserve_date}</td>
+            <td>${reservation.reserve_time}</td>
+            <td>${formatTndRequested(reservation.tnd_requested)}</td>
+        `;
+        const actionsCell = document.createElement('td');
+        actionsCell.appendChild(editButton);
+        row.appendChild(actionsCell);
+        tbody.appendChild(row);
+    });
+}
 
 let currentEditingReservation = {};
 
@@ -123,8 +156,7 @@ async function submitEdit(event) {
     const updatedStart = document.getElementById('popup-StartTime').value;
     const updatedEnd = document.getElementById('popup-EndTime').value;
 
-    const seatAvailable = await isSeatAvailable(updatedDate, updatedStart, updatedEnd, updatedLab, updatedSeat);
-
+    const seatAvailable = await isSeatAvailable(updatedLab, updatedSeat, updatedDate);
     if (!seatAvailable) {
         alert('This seat is already reserved for the selected date and time. Please choose another seat or time.');
         return; 

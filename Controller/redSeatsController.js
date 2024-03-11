@@ -73,7 +73,6 @@ router.delete('/:seatId', async (req, res) => {
 });
 
 router.get('/lab/:labId', async (req, res) => {
-    console.log("HI")
     try {
         const { labId } = req.params;
         const { date } = req.query; 

@@ -40,7 +40,6 @@ async function deleteReservedSeat(seatId) {
 
 async function getReservedSeatsByLab(labId, date) {
   const db = await connectToDB();
-  console.log(labId + date)
   let query = { lab_id: labId };
   if (date) {
       query.reserve_date = date;
