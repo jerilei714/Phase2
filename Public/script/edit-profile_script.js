@@ -86,6 +86,7 @@ function updateProfilePicture(base64String) {
     .then(response => {
         if (response.ok) {
             console.log('Profile picture updated successfully');
+            window.location.reload();
         } else {
             console.error('Error updating profile picture:', response.statusText);
         }
