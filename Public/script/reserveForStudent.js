@@ -114,6 +114,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const EndTime = document.getElementById('EndTime').value;
         const seatNumber = parseInt(selectedSeat.innerText, 10);
         const studentUsername = urlParams.get('studentUsername');
+        const isAnonymous = document.getElementById('reserveAnon').checked; 
     
         try {
             const response = await fetch(`/users/${studentUsername}`);
@@ -131,7 +132,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 username: student.username,
                 reserve_date: date,
                 reserve_time: StartTime + " - " + EndTime,
-                tnd_requested: new Date().toISOString()
+                tnd_requested: new Date().toISOString(),
+                anonymous: isAnonymous 
             };
 
             const reservationResponse = await fetch('/reservations', {

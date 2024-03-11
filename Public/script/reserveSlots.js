@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 window.location.href = `viewProfile?username=${encodeURIComponent(user.username)}`;
             }); 
             });
-            document.querySelector('#popup-time').textContent = Starttime+EndTime; 
+            document.querySelector('#popup-time').textContent = Starttime+ " - " + EndTime; 
             document.querySelector('.seatNumber').innerHTML = seat.innerText; 
             document.querySelector('#date-reserved').innerHTML = new Date().toLocaleDateString('en-GB').split('/').join('-');
             popup.style.display = 'flex';
@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 seat_number: seatNumber,
                 username: user.username,
                 reserve_date: date,
-                reserve_time: startTime + endTime,
+                reserve_time: startTime + " - " + endTime,
                 tnd_requested: new Date().toISOString(),
                 anonymous: isAnonymous 
             };

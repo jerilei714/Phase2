@@ -10,7 +10,7 @@ for (let hour = startTime; hour < endTime; hour++) {
         const end = formatTime(endHour, endMinute);
         const timeSlot = `${start} - ${end}`;
         const option = new Option(timeSlot, timeSlot);
-        timeSelect.add(option);
+
     }
 }
 
@@ -29,7 +29,7 @@ fetch(`/users/students`)
     .then(users => {
         console.log(users);
         users.students.forEach(student => {
-            fetch(`/reservations/byUsername/${student.username}`)
+            fetch(`/reservations/userReservations/${student.username}`)
                 .then(response => response.json())
                 .then(reservations => {
                     const totalReservedSeats = reservations.userReservations.length;
