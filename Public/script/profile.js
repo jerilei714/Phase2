@@ -117,3 +117,15 @@ function reset() {
     localStorage.clear();
     goToHomePage();
 }
+
+document.getElementById('fileInput').addEventListener('change', function(event) {
+    if (event.target.files && event.target.files[0]) {
+        var reader = new FileReader();
+        
+        reader.onload = function(e) {
+            document.getElementById('pfpSelf').src = e.target.result;
+        }
+        
+        reader.readAsDataURL(event.target.files[0]);
+    }
+});

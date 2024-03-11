@@ -81,7 +81,7 @@ function updateProfilePicture(base64String) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ profilePicture: base64String })
+        body: JSON.stringify({ profilePic: base64String })
     })
     .then(response => {
         if (response.ok) {
@@ -95,14 +95,20 @@ function updateProfilePicture(base64String) {
     });
 }
 
+document.getElementById('select_img').addEventListener('click', function() {
+    document.getElementById('fileInput').click();
+});
+
+
 document.getElementById('fileInput').onchange = function(event) {
     const [file] = event.target.files;
     if (file) {
         const reader = new FileReader();
         reader.onload = function(e) {
             const base64String = e.target.result;
-            document.getElementById('display_pfp').src = base64String;
-            updateProfilePicture(base64String);
+            document.getElementById('pfpSelf').src = base64String;
+            currentProfilePictureBase64 = base64String; 
+            updateProfilePicture(base64String)
         };
         reader.readAsDataURL(file);
     }

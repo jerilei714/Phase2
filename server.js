@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const hbsCtrl = require('hbs')
 const crypto = require('crypto');
+const bodyParser = require('body-parser');
 const exphbs  = require('express-handlebars');
 const cookieParser = require('cookie-parser')
 const routes = require('./Routes/routes')
@@ -18,16 +19,12 @@ const reserveSlotsController = require('./Controller/reserveSlotsController');
 const { router, cookieAuth } = require('./Middleware/cookieAuth'); 
 const Authenticated = require('./Middleware/authenticated'); 
 const app = express();
+app.use(express.json({ limit: '5mb' }));
+app.use(express.urlencoded({ limit: '5mb', extended: true }));
 app.use('/', express.static(path.join(__dirname, '/public')));
 app.use(cookieParser());
 app.use(cookieAuth); 
 app.use(Authenticated);
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-
-
 const hbs = exphbs.create({
     extname: '.hbs',
     defaultLayout: 'main',
