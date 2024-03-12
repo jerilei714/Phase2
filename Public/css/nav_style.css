@@ -234,7 +234,10 @@ footer {
     text-align: center;
     width: 100%;
     padding: 1em 0;
-    position:static;
+    position: relative;
+    bottom: 0;
+    height: max-content;
+    margin-top: 1em;
 }
 
 body {

@@ -2,10 +2,11 @@
     display: flex;
     flex-direction: row;
     row-gap: 1em;
+    column-gap:1em;
 }
 
 .body-container{
-    min-height: 80vh;
+    min-height: 79vh;
     width:100%;
     display: flex;
     justify-content: start;
@@ -13,23 +14,6 @@
     flex-direction: column;
 }
 
-#lab-selection {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center; 
-    margin-top: 10px;
-    margin-bottom: 20px;
-    column-gap: 1em;
-    row-gap: 1em;
-    color: #555; 
-}
-
-#SelectTime{
-    display: flex;
-
-    column-gap: 1em;
-}
 
 #lab-selection select {
     padding: 8px;
@@ -38,6 +22,7 @@
     background-color: #fff;
     width: 300px;
     transition: border-color 0.3s ease;
+
 }
 
 #SelectTime select{
@@ -51,6 +36,19 @@
     align-items: center;
     row-gap: 1em;
 }
+
+
+#SelectTime{
+    display: flex;
+    flex-direction: row;
+    width:100%
+}
+.select-time-wrapper {
+    margin-top:2em;
+    flex-direction: row; 
+
+}
+
 
 #lab-selection input[type="date"],
 #lab-selection input[type="time"] {
@@ -100,9 +98,8 @@
 }
 
 .current-reservations{
-    width: 50%;
+    width: 80%;
 }
-
 
 .popup {
     position: fixed;

@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             }
             const availableSeatCount = await response.json();
             const availabilityResults = document.getElementById('availability-results');
-            availabilityResults.innerHTML = `<h3>${currentLab} Availability</h3><p class="Available">Available Seats: ${availableSeatCount}</p>`;
+            availabilityResults.innerHTML = `<h3>${currentLab} Availability</h3><p class="Available">Available Seats: <span class = "seatCount">${availableSeatCount}</span></p>`;
             availabilityResults.style.display = 'block';
             const seatContainer = document.createElement('div');
             seatContainer.classList.add('seat-container');
@@ -168,7 +168,8 @@ document.addEventListener('DOMContentLoaded', async function () {
                 throw new Error('Failed to make reservation');
             }
             console.log('Reservation successful');
-            alert('Reservation successful!');
+            document.getElementById('reserveAnon').checked = false;
+            document.querySelector('.seatCount').innerHTML = Number(document.querySelector('.seatCount').innerHTML)-1
             hideIt();
             selectedSeat.classList.add('selected');
             selectedSeat.removeEventListener('click', showPopup);
