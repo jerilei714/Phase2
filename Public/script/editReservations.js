@@ -163,8 +163,6 @@ async function submitEdit(event) {
         reserve_date: updatedDate,
         reserve_time: updatedStart + " - " + updatedEnd
     };
-
-    alert(updatedStart + " - " + updatedEnd)
     fetch(`/reservations/update/${decrementedId}`, {
         method: 'PUT',
         headers: {
@@ -200,6 +198,8 @@ async function submitEdit(event) {
         if (data.success) {
             console.log('Reserved seat updated successfully');
             closeEditProfilePopup();
+            window.location.reload();
+     
         } else {
             console.error('Failed to update reserved seat');
         }
