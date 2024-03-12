@@ -33,15 +33,6 @@ router.get('/api/user-info', authenticated, (req, res) => {
     console.log("Logged Out!")
   });
   
-  router.get('/labs/names', async (req, res) => {
-    try {
-        const labs = await getLabNamesAndIds();
-        res.json(labs);
-    } catch (error) {
-        console.error('Error fetching lab names:', error);
-        res.status(500).json({ error: 'Internal server error' });
-    }
-});
 
 
 

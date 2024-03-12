@@ -6,10 +6,11 @@ const router = express.Router();
 
 router.post('/', async (req, res) => {
     try {
-        const { lab_name, total_seats } = req.body;
+        const { lab_name, total_seats, location } = req.body;
         const laboratory = {
             lab_name,
-            total_seats
+            total_seats,
+            location
         };
         const laboratoryId = await createLab(laboratory);
         res.status(201).json({ laboratoryId });
@@ -54,6 +55,18 @@ router.put('/:labId', async (req, res) => {
     }
 });
 
+router.get('/names/labNames', async (req, res) => {
+    try {
+        
+        const labs = await getLabNamesAndIds();
+        res.json(labs);
+    } catch (error) {
+        console.error('Error fetching lab names:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+
 router.get('/name/:labName', async (req, res) => {
     const { labName } = req.params;
     try {
@@ -83,9 +96,6 @@ router.delete('/:labId', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
-
-
-
 
 router.get('/:labName', async (req, res) => {
     try {

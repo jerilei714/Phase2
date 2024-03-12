@@ -31,7 +31,6 @@ router.post('/', async (req, res) => {
             anonymous
         };
         await createReservedSeat(reservedSeatData);
-
         await updateSeatStatus(lab_name, seat_number, 'Reserved');
         res.status(201).json({ reservationId });
     } catch (error) {

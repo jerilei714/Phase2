@@ -11,12 +11,11 @@ async function checkSeatAvailability(lab_id, seat_number, reserve_date) {
   const db = await connectToDB();
   const existingReservation = await db.collection('reserved_seats').findOne({
       lab_id: lab_id,
-      seat_number: seat_number,
+      seat_number: String(seat_number),
       reserve_date: reserve_date
   });
   return !existingReservation; 
 }
-
 
 async function getReservedSeat(seatId) {
   const db = await connectToDB();

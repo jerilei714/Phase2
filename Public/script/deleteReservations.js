@@ -4,9 +4,6 @@ document.addEventListener('DOMContentLoaded', function () {
     let defaultTotalSeats = 40;
     let date = document.getElementById('date').value;
     const authorizedUsername = sessionStorage.getItem('authorizedUsername');
-    const timeSelect = document.getElementById('time');
-    const startTime = 6;
-    const endTime = 16;
     function deleteReservation(reservationId, seat) {
         fetch(`/reservations/${reservationId}`, {
             method: 'DELETE'
@@ -29,11 +26,6 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 
-    function formatTime(hour, minute) {
-        const hour12 = hour % 12 === 0 ? 12 : hour % 12;
-        const amPm = hour < 12 ? 'AM' : 'PM';
-        return `${hour12}:${minute < 10 ? '0' + minute : minute} ${amPm}`;
-    }
 
     function generateSeats(seatContainer, seatCount) {
         seatContainer.innerHTML = '';
@@ -50,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     async function viewAvailability() {
         try {
+            const seatContainer = document.createElement('div');
             currentLab = document.getElementById('lab').value;
             const selectedDate = document.getElementById('date').value; 
     
@@ -61,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const availabilityResults = document.getElementById('availability-results');
             availabilityResults.innerHTML = `<h3>${currentLab} Availability</h3><p class="Available">Available Seats: ${availableSeatCount}</p>`;
             availabilityResults.style.display = 'block';
-            const seatContainer = document.createElement('div');
+            
             seatContainer.classList.add('seat-container');
             const labInfoResponse = await fetch(`/labs/name/${encodeURIComponent(currentLab)}`);
             if (!labInfoResponse.ok) {
@@ -107,7 +100,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 document.querySelector('#popup-time').textContent = reservation.reserve_time;
                 document.querySelector('#userName').innerHTML = reservation.username;
                 document.querySelector('.seatNumber').innerHTML = seat.innerText;
-
+                document.querySelector('#userName').addEventListener('click', function() {
+                    window.location.href = `viewProfile?username=${encodeURIComponent(reservation.username)}`;
+                });
                 const deleteButton = document.getElementById('deleteButton');
                 deleteButton.dataset.reservationId = decrementedId;
                 deleteButton.onclick = () => {

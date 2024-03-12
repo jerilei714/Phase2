@@ -11,7 +11,7 @@ function formatDate(date) {
 document.getElementById('date').value = formatDate(new Date());
 async function fetchLabs() {
     try {
-        const response = await fetch('/labs/names');
+        const response = await fetch('/labs/names/labNames');
         const labNames = await response.json();
         const labSelect = document.getElementById('lab');
         labNames.forEach(lab => {

@@ -6,6 +6,7 @@ const crypto = require('crypto');
 const bodyParser = require('body-parser');
 const exphbs  = require('express-handlebars');
 const cookieParser = require('cookie-parser')
+
 const routes = require('./Routes/routes')
 const { connectToDB } = require('./Model/labDatabase');
 const registrationController = require('./Controller/regController');
@@ -18,6 +19,7 @@ const redSeatsController = require('./Controller/redSeatsController');
 const reserveSlotsController = require('./Controller/reserveSlotsController');
 const { router, cookieAuth } = require('./Middleware/cookieAuth'); 
 const Authenticated = require('./Middleware/authenticated'); 
+const { initializeApplication } = require('./Middleware/initialize'); 
 const app = express();
 app.use(express.json({ limit: '5mb' }));
 app.use(express.urlencoded({ limit: '5mb', extended: true }));
@@ -54,6 +56,6 @@ app.use('/reserve-slots', reserveSlotsController);
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
-    connectToDB();
-    console.log("Connected!")
+    // UNTICK IF YOU WANT TO RESET DATABASE CONTENTS
+    initializeApplication() 
 });

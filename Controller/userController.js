@@ -70,7 +70,6 @@ router.put('/:username', async (req, res) => {
     const { username } = req.params;
     const updatedUserData = req.body;
     const success = await updateUser(username, updatedUserData);
-    console.log(updatedUserData.accountType)
     if (success) {
       if(updatedUserData.accountType === 'Student') {
           const studentUpdateSuccess = await updateStudent(username, updatedUserData);

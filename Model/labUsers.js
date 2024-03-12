@@ -68,7 +68,6 @@ async function deleteUser(username) {
   const deleteUserResult = await db.collection('users').deleteOne({ username:username });
   const userDeletionSuccess = deleteUserResult.deletedCount > 0;
   if (!userDeletionSuccess) {
-    console.log(`User with ID ${username} not found in 'users' collection.`);
     return false;
   }
   await db.collection('student').deleteMany({ username:username });
@@ -78,7 +77,6 @@ async function deleteUser(username) {
     await db.collection('reservations').deleteMany({ _id: reservation.reservation_id });
   });
   await db.collection('reserved_seats').deleteMany({ username:username });
-  console.log(`All records related to user ID ${username} have been deleted.`);
   return true;
 }
 
