@@ -27,11 +27,20 @@ fetch(`/users/students`)
         console.error('Error fetching students:', error);
     });
 
-    function filterStudents() {
+    document.getElementById('studentNameFilter').addEventListener('keypress', (event) => {
+        if (event.key === 'Enter') {
+            const filterValue = studentNameFilter.value;
+            if(filterValue != "")
+                tbody.innerHTML = '';
+            filterStudents(); 
+        }
+    });
+
+    async function filterStudents() {
         const inputName = document.getElementById('studentNameFilter').value.toLowerCase();
         tbody.innerHTML = ''; 
     
-        fetch(`/users/students`)
+        await fetch(`/users/students`)
             .then(response => response.json())
             .then(users => {
                 const filteredStudents = users.students.filter(student => student.username.toLowerCase().includes(inputName));

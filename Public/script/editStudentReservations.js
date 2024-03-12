@@ -42,7 +42,9 @@ function fetchAndDisplayStudents(filter = '') {
 
 fetchAndDisplayStudents();
 
-studentNameFilter.addEventListener('input', () => {
-    const filterValue = studentNameFilter.value;
-    fetchAndDisplayStudents(filterValue);
+studentNameFilter.addEventListener('keypress', (event) => {
+    if (event.key === 'Enter') {
+        const filterValue = studentNameFilter.value;
+        fetchAndDisplayStudents(filterValue);
+    }
 });
