@@ -17,11 +17,16 @@ body, html {
     height: 88%;
 }
 
+.about-us p{
+    font-size: 18px;
+}
+
 .about-us {
     background-color: #f0f0f0;
     padding: 20px;
     border-radius: 5px;
     height: 100%;
+    font-size: 30px;
 }
 
 .right-section {

@@ -44,6 +44,17 @@ body {
     border-radius: 1em;
 }
 
+.buttons{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    column-gap: 1em;
+}
+
+.buttons button {
+    width: 100%;
+}
+
 input,
 select {
     width: 100%;
