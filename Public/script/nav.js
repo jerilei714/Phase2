@@ -32,7 +32,15 @@ document.addEventListener('DOMContentLoaded', function() {
     let reservationDropdown = document.querySelector('.reservation')
     let EditDropdown = document.querySelector('.edit')
     let viewSlotAvailability = document.getElementById('viewSlotAvailability')
-   
+    document.getElementById('reserveForStudent').style.display = "none";
+    document.getElementById('removeReservations').style.display = "none";
+    editReservation.style.display = "none";
+    document.getElementById('reserveSlot').style.display = "none";
+    document.getElementById('viewReservations').style.display = "none";
+    editStudentReservation.style.display = "none";
+
+
+
       if (!sessionStorage.getItem('authorized')) {
             let profileArea = document.querySelector('.user-actions');
             let unauthorized = '<button id="signInButton">Sign-in</button>';
@@ -90,16 +98,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (usernameDisplay) {
                     usernameDisplay.textContent = authorizedUsername;
                 }
-    
-                
+
                 if (sessionStorage.getItem('AccountType') === "Student") {
-                    document.getElementById('reserveForStudent').style.display = "none";
-                    document.getElementById('removeReservations').style.display = "none";
-                    editStudentReservation.style.display = "none";
+                    editReservation.style.display = "block";
+                    document.getElementById('reserveSlot').style.display = "block";
+                    document.getElementById('viewReservations').style.display = "block";
                 } else if (sessionStorage.getItem('AccountType') === "Lab Facilitator") {
-                    editReservation.style.display = "none";
-                    document.getElementById('reserveSlot').style.display = "none";
-                    document.getElementById('viewReservations').style.display = "none";
+                    document.getElementById('reserveForStudent').style.display = "block";
+                    document.getElementById('removeReservations').style.display = "block";
+                    editStudentReservation.style.display = "block";
                 }
                 
                 profile.onclick = function(){

@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const seat = seatContainer.querySelector(`.seat:nth-child(${reservation.seat_number})`);
                 if (seat) {
                     seat.classList.add('selected');
-                    seat.dataset.reservationId = reservation._id;
+                    seat.dataset.reservationId = reservation.reservation_id;
                 }
             });
         } catch (error) {
@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function showPopup(seat) {
         const popup = document.querySelector('.popup-contents');
         const reservationId = seat.dataset.reservationId;
-        const decrementedId = decrementLastHexChar(reservationId)
+        const decrementedId = reservationId
     
         fetch(`/reservations/${decrementedId}`)
             .then(response => {
@@ -116,17 +116,6 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     } 
     
-    function decrementLastHexChar(hexString) {
-        let lastChar = hexString[hexString.length - 1];
-        let rest = hexString.slice(0, -1);
-        let lastNum = parseInt(lastChar, 16) - 1;
-        if (lastNum < 0) {
-            lastNum = 15;
-            rest = decrementLastHexChar(rest);
-        }
-        lastChar = lastNum.toString(16);
-        return rest + lastChar;
-    }
 
     function hidePopup() {
         const popup = document.querySelector('.popup-contents');
