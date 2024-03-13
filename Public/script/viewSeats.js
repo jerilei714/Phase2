@@ -98,29 +98,23 @@ document.addEventListener('DOMContentLoaded', function () {
                 document.querySelector('#date-reserved').innerHTML = new Date(reservation.tnd_requested).toLocaleDateString('en-GB').split('/').join(' - ');
 
                 const userNameElement = document.querySelector('#userName');
-                userNameElement.innerHTML = reservation.username;
-                userNameElement.addEventListener('click', function() {
-                    window.location.href = `viewProfile?username=${encodeURIComponent(reservation.username)}`;
-                });
-    
+                const anchorElement = document.createElement('a');
+                anchorElement.id = "userName"
+                anchorElement.innerHTML = reservation.username;
+                if(reservation.username !="Anonymous"){
+                    anchorElement.classList.add("userName")
+                    anchorElement.href = `viewProfile?username=${encodeURIComponent(reservation.username)}`
+                } else{
+                    userNameElement.classList.remove("userName")
+                }
                 popup.style.display = 'flex';
+                userNameElement.parentNode.replaceChild(anchorElement, userNameElement);
             })
             .catch(error => {
                 console.error('Error fetching reservation details:', error);
             });
     }    
     
-    function decrementLastHexChar(hexString) {
-        let lastChar = hexString[hexString.length - 1];
-        let rest = hexString.slice(0, -1);
-        let lastNum = parseInt(lastChar, 16) - 1;
-        if (lastNum < 0) {
-            lastNum = 15;
-            rest = decrementLastHexChar(rest);
-        }
-        lastChar = lastNum.toString(16);
-        return hexString;
-    }
 
     function hidePopup() {
         const popup = document.querySelector('.popup-contents');

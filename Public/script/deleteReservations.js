@@ -100,16 +100,23 @@ document.addEventListener('DOMContentLoaded', function () {
                 document.querySelector('#popup-time').textContent = reservation.reserve_time;
                 document.querySelector('#userName').innerHTML = reservation.username;
                 document.querySelector('.seatNumber').innerHTML = seat.innerText;
-                document.querySelector('#userName').addEventListener('click', function() {
-                    window.location.href = `viewProfile?username=${encodeURIComponent(reservation.username)}`;
-                });
                 const deleteButton = document.getElementById('deleteButton');
                 deleteButton.dataset.reservationId = decrementedId;
                 deleteButton.onclick = () => {
                     deleteReservation(decrementedId, seat);
                 };
-    
+                const userNameElement = document.querySelector('#userName');
+                const anchorElement = document.createElement('a');
+                anchorElement.id = "userName"
+                anchorElement.innerHTML = reservation.username;
+                if(reservation.username !="Anonymous"){
+                    anchorElement.classList.add("userName")
+                    anchorElement.href = `viewProfile?username=${encodeURIComponent(reservation.username)}`
+                } else{
+                    userNameElement.classList.remove("userName")
+                }
                 popup.style.display = 'flex';
+                userNameElement.parentNode.replaceChild(anchorElement, userNameElement)                
             })
             .catch(error => {
                 console.error('Error fetching reservation details:', error);

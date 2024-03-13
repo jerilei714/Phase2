@@ -183,7 +183,7 @@ button {
     border-radius: 0.5em;
 }
 
-#userName {
+.userName {
     cursor: pointer;
     color: blue; 
     text-decoration: underline;
