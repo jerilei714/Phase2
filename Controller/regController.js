@@ -12,6 +12,9 @@ router.post('/', async (req, res) => {
         if (userExists) {
             return res.status(409).send('Username already exists.');
         }
+        if (username == "Anonymous"){
+            return res.status(410).send('Username Invalid.');
+        }
         let defaultProfilePic = 'image/Default_pfp.jpg';
         let defaultDescription = 'Comp Sci Baddie Account';
         if (accountType === 'Student') {

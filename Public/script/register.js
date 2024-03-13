@@ -17,17 +17,22 @@ document.getElementById('registerForm').addEventListener('submit', function(even
             return response.text();
         } else if (response.status === 409) {
             throw new Error('Username already exists');
-        } else {
+        } else if (response.status === 410) {
+            throw new Error('Username invalid');
+        }else {
             throw new Error('Registration failed');
         }
     })
     .then(data => {
-        document.getElementById('message').textContent = data;
+        alert(data)
+        window.location.href = "login"
     })
     .catch(error => {
         console.error('Error:', error);
         if (error.message === 'Username already exists') {
             alert("Username already exists");
+        }else if (error.message === 'Username invalid') {
+            alert("Username invalid");
         } else {
             document.getElementById('message').textContent = error.message;
         }
