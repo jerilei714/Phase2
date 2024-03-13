@@ -132,13 +132,12 @@ function checkLogoutParameter() {
 
 function logout() {
     const cookies = document.cookie.split(';');
-  
+    goToHomePage();
     fetch('/logout')
     .then(response => {
       if(response.ok) {
         console.log("Logged out successfully");
         sessionStorage.clear()
-        goToHomePage();
       }
     })
     .catch(error => console.error('Logout failed', error));
