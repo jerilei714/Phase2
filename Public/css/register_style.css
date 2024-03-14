@@ -45,6 +45,7 @@ body {
 }
 
 .buttons{
+    font-family: "Work Sans", sans-serif;
     display: flex;
     width: 100%;
     justify-content: center;
@@ -275,6 +276,10 @@ h2 {
 .text-overlay p {
     font-size: 0.8em;
     margin: 0;
+}
+
+.account-font{
+    font-family: "Work Sans", sans-serif;
 }
 
 

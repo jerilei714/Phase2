@@ -1,11 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: "Work Sans", sans-serif;
     margin: 0;
     padding: 0;
 }
 
+#availabilityButton{
+    font-family: "Work Sans", sans-serif;
+    padding: 10px 20px;
+    background-color: #3A5A40;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
 #lab-selection {
     display: flex;
     flex-direction: row;
@@ -26,6 +38,7 @@ body {
 
 
 #lab-selection select {
+    font-family: "Work Sans", sans-serif;
     padding: 8px;
     border-radius: 5px;
     border: 1px solid #ccc;
@@ -41,10 +54,12 @@ body {
 
 #lab-selection label {
     color: #555; 
+    font-family: "Work Sans", sans-serif;
 }
 
 #lab-selection input[type="date"],
 #lab-selection input[type="time"] {
+    font-family: "Work Sans", sans-serif;
     padding: 8px;
     border-radius: 5px;
     border: 1px solid #ccc;
@@ -209,6 +224,7 @@ button:hover::after{
 }
 
 .popup-contents {
+    font-family: "Work Sans", sans-serif;
     background-color: rgba(58, 140, 94, 0.8);
     flex-direction: column;
     width: 18em;
@@ -246,6 +262,7 @@ button:hover::after{
 }
 
 .popup-contents hr {
+    font-family: "Work Sans", sans-serif;
     border: 0;
     height: 0.2em;
     margin: 1em 0;
@@ -254,6 +271,7 @@ button:hover::after{
 
 .popup-contents div button,
 .popup-contents div input {
+    font-family: "Work Sans", sans-serif;
     border-radius: 0.5em;
     width: 10rem;
     height: 5rem;
@@ -262,11 +280,13 @@ button:hover::after{
 }
 
 .popup-buttons {
+    font-family: "Work Sans", sans-serif;
     margin: auto;
 }
 
 .popup-contents h4,
 .popup-contents h2 {
+    font-family: "Work Sans", sans-serif;
     margin: 0;
 }
 

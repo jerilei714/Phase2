@@ -6,6 +6,9 @@
     <link rel="stylesheet" href="css/profile.css"> 
     <script src="script/profile.js" defer></script>
     <script src="script/edit-profile_script.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <title>Lab Reservation System</title>
 </head>
 <body>
@@ -69,28 +72,28 @@
             <h2>Edit Profile</h2>
             <form id="edit-profile-form" onsubmit="submitEditProfile(event)">
                 <label for="fullName">Full Name:</label>
-                <input type="text" id="edit-name" name="full-name" placeholder="Enter your full name" value="{{fullName}}"><br>
+                <input type="text" id="edit-name" name="full-name" placeholder="Enter your full name" value="{{fullName}}"class="form-font"><br>
     
                 <label for="username">Username:</label>
-                <input type="text" id="edit-username" placeholder="Enter your username" value="{{username}}"><br>
+                <input type="text" id="edit-username" placeholder="Enter your username" value="{{username}}"class="form-font"><br>
     
                 <label for="email">Email:</label>
-                <input type="email" id="edit-email" name="email" placeholder="Enter your email" value="{{email}}"><br>
+                <input type="email" id="edit-email" name="email" placeholder="Enter your email" value="{{email}}"class="form-font"><br>
     
                 <label for="course">Course:</label>
-                <input type="text" id="edit-course" name="course" placeholder="Enter your course" value="{{course}}"><br>
+                <input type="text" id="edit-course" name="course" placeholder="Enter your course" value="{{course}}"class="form-font"><br>
     
                 <label for="account-type">Account Type:</label>
-                <select id="edit-accountType" name="account-type">
+                <select id="edit-accountType" name="account-type"class="form-font">
                     <option value="Student" {{#if accountTypeIsStudent}}selected{{/if}}>Student</option>
                     <option value="Lab Facilitator" {{#if accountTypeIsLabFacilitator}}selected{{/if}}>Lab Facilitator</option>
                 </select><br>
     
                 <label for="password">Edit Password:</label>
-                <input required type="password" id="edit-password" name="password" placeholder="Enter your password"><br>
+                <input required type="password" id="edit-password" name="password" placeholder="Enter your password"class="form-font"><br>
 
                 <label for="oldPassword">Old Password:</label>
-                <input type="password" id="edit-old-password" name="old-password" placeholder="Enter your old password"><br>
+                <input type="password" id="edit-old-password" name="old-password" placeholder="Enter your old password"class="form-font"><br>
                 
                 <label for="description">Description:</label><br>
                 <textarea name="description" id="edit-description" cols="50" rows="5" placeholder="{{description}}">Just an account</textarea><br>
