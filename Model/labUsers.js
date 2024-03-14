@@ -87,4 +87,8 @@ async function getUsersByAccountType(accountType) {
   return Students;
 }
 
-module.exports = { doesUserExist, removeRememberMeToken, createUser, getUser, updateUser, deleteUser, getUsersByAccountType, addRememberMeToken, removeExpiredRememberMeTokens, getUserByToken };
+function comparePasswords(oldPassword, userPassword) {
+  return oldPassword === userPassword;
+}
+
+module.exports = { doesUserExist, removeRememberMeToken, createUser, getUser, updateUser, deleteUser, getUsersByAccountType, addRememberMeToken, removeExpiredRememberMeTokens, getUserByToken, comparePasswords };

@@ -8,7 +8,8 @@ function submitEditProfile(event) {
         course: document.getElementById('edit-course').value,
         accountType: document.getElementById('edit-accountType').value,
         description: document.getElementById('edit-description').value, 
-        password: document.getElementById('edit-password').value
+        password: document.getElementById('edit-password').value,
+        oldPassword: document.getElementById('edit-old-password').value
     };
 
     fetch(`/users/${authorizedUsername}`, {
@@ -23,6 +24,8 @@ function submitEditProfile(event) {
             console.log('User updated successfully');
             alert('You need to sign back for the changes to take effect. :)');
             logout();
+        } else if (response.status === 401) {
+            alert('Old password is incorrect');
         } else {
             console.error('Error updating user:', response.statusText);
         }
@@ -33,7 +36,6 @@ function submitEditProfile(event) {
 
     closeEditProfilePopup();
 }
-
 
 function openEditProfilePopup() {
     document.getElementById('edit-profile-popup').style.display = 'block';

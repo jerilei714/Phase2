@@ -1,5 +1,5 @@
 const express = require('express');
-const { getUser, getUsersByAccountType, updateUser, deleteUser} = require('../Model/labUsers');
+const { getUser, getUsersByAccountType, updateUser, deleteUser, comparePasswords  } = require('../Model/labUsers');
 const { getReservedSeatsByLab } = require('../Model/labReservedSeats');
 const { getReservation } = require('../Model/labReserves');
 const { updateStudent } = require('../Model/labStudents'); 
@@ -65,7 +65,7 @@ router.delete('/:username', async (req, res) => {
 });
 
 
-router.put('/:username', async (req, res) => {
+/* router.put('/:username', async (req, res) => {
   try {
     const { username } = req.params;
     const updatedUserData = req.body;
@@ -85,5 +85,34 @@ router.put('/:username', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+ */
+
+router.put('/:username', async (req, res) => {
+  try {
+    const { username } = req.params;
+    const { oldPassword, ...updatedUserData } = req.body;
+    const user = await getUser(username);
+
+    if (!user || !comparePasswords(oldPassword, user.password)) {
+      return res.status(401).json({ error: 'Old password is incorrect' });
+    }
+
+    const success = await updateUser(username, updatedUserData);
+    if (success) {
+      if(updatedUserData.accountType === 'Student') {
+          const studentUpdateSuccess = await updateStudent(username, updatedUserData);
+      } else if(updatedUserData.accountType === 'Staff') {
+          const staffUpdateSuccess = await updateStaff(username, updatedUserData);
+      }
+      res.status(200).json({ message: 'User updated successfully' });
+    } else {
+      res.status(404).json({ error: 'User not found' });
+    }
+  } catch (error) {
+    console.error('Error updating user:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 
 module.exports = router;
