@@ -16,6 +16,7 @@ to this after.
 7. After that, start the server by typing "node server.js" on your command prompt/terminal, and if successful, you should see these:
   Server running on port 3000
   Connected to MongoDB Atlas :)
+  The data loading should also be seen.
 8. Then, go to your preferred web browser and enter: localhost:3000.
 9. After entering, you should see the frontend website.
 10. You can click sign in, click register, and after registering, you should be able to login and use the features of a student or staff account.
