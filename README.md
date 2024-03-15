@@ -13,7 +13,7 @@ to this after.
 4. Click connect, and you should be able to see a schema called "lab_reserve", click on that.
 5. Open your terminal/command prompt.
 6. CD (change directory) to the path of the project folder (Phase2) on your machine
-7. After that, start the server by typing "node server.js" on your command prompt/terminal, and if successful, you should see these:
+7. After that, start the server by typing "node server" or "npm start" on your command prompt/terminal, and if successful, you should see these:
   Server running on port 3000
   Connected to MongoDB Atlas :).
   The data loading should also be seen.
