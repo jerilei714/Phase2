@@ -71,13 +71,14 @@
     <div id="edit-profile-popup" class="popup">
         <div class="popup-content">
             <span class="close" onclick="closeEditProfilePopup()">&times;</span>
-            <h2>Edit Profile</h2>
+            <h2>Edit Your Reservation</h2>
             <form id="edit-profile-form" onsubmit="submitEdit(event)">
-                <label for="Lab">Laboratory:</label>
-                <input type="text" id="popup-lab" name="full-name" placeholder="Enter your full name"><br>
+                <select id="popup-lab" name="lab_name" placeholder="Choose a Lab">
+
+                </select>
     
                 <label for="Seat Number">Seat Number:</label>
-                <input type="text" id="popup-seat"  placeholder="Enter your username"><br>
+                <input type="text" id="popup-seat"  placeholder="Enter the seat number"><br>
     
                 <label for="Date">Date:</label><br>
                 <input type="date" id="popup-date" name="email" placeholder="Enter your email"><br>

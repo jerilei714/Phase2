@@ -57,4 +57,4 @@ async function deleteLab(labId) {
   return result.deletedCount > 0;
 }
 
-module.exports = { createLab, getLab, updateLab, deleteLab, getLabNamesAndIds, getLabByName, getMostReservedLabs};
+module.exports = { createLab, getLab, updateLab, deleteLab, getLabNamesAndIds, getLabByName, getMostReservedLabs };

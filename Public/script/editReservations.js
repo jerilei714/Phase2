@@ -1,6 +1,7 @@
 let editingReservationIndex = null;
 const authorizedUsername = sessionStorage.getItem('authorizedUsername');
 const popup = document.querySelector('.popup');
+fetchLabs();
 
 fetch(`/reservations/userReservations/${authorizedUsername}`)
     .then(response => response.json())
@@ -140,8 +141,24 @@ function decrementLastHexChar(hexString) {
     lastChar = lastNum.toString(16);
     return rest + lastChar;
 }
+async function isSeatNumberValid(labName, seatNumber) {
+    try {
+      const response = await fetch(`/labs/name/${labName}`);
+      const lab = await response.json();
+      if (lab && lab.total_seats) {
+        return seatNumber >= 1 && seatNumber <= lab.total_seats;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      console.error('Error checking seat number validity:', error);
+      throw new Error('Internal server error');
+    }
+  }
+  
 
-async function submitEdit(event) {
+
+/* async function submitEdit(event) {
     event.preventDefault();
     const originalId = currentEditingReservation._id;
     const decrementedId = decrementLastHexChar(originalId);
@@ -207,7 +224,84 @@ async function submitEdit(event) {
     .catch(error => {
         console.error('Error updating reservation or reserved seat:', error);
     });
+}  */
+
+async function submitEdit(event) {
+    event.preventDefault();
+    const originalId = currentEditingReservation._id;
+    const decrementedId = decrementLastHexChar(originalId);
+    const updatedLab = document.getElementById('popup-lab').value;
+    const updatedSeat = document.getElementById('popup-seat').value;
+    const updatedDate = document.getElementById('popup-date').value;
+    const updatedStart = document.getElementById('popup-StartTime').value;
+    const updatedEnd = document.getElementById('popup-EndTime').value;
+
+    try {
+        const seatAvailable = await isSeatAvailable(updatedLab, updatedSeat, updatedDate);
+        if (!seatAvailable) {
+            alert('This seat is already reserved for the selected date and time. Please choose another seat or time.');
+            return;
+        }
+
+        const seatValid = await isSeatNumberValid(updatedLab, updatedSeat);
+        if (!seatValid) {
+            alert('Invalid seat number. Please choose a valid seat.');
+            return;
+        }
+
+        const updatedReservationDetails = {
+            lab_id: updatedLab,
+            lab_name: updatedLab,
+            seat_number: updatedSeat,
+            reserve_date: updatedDate,
+            reserve_time: updatedStart + " - " + updatedEnd
+        };
+
+        const reservationResponse = await fetch(`/reservations/update/${decrementedId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(updatedReservationDetails)
+        });
+
+        const reservationData = await reservationResponse.json();
+
+        if (reservationData.success) {
+            console.log('Reservation updated successfully');
+
+            const reservedSeatDetails = {
+                lab_id: updatedLab,
+                seat_number: updatedSeat,
+                reserve_date: updatedDate,
+                reserve_time: updatedStart + " - " + updatedEnd
+            };
+
+            const reservedSeatResponse = await fetch(`/reservedseats/updateByReservationId/${decrementedId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(reservedSeatDetails)
+            });
+
+            const reservedSeatData = await reservedSeatResponse.json();
+
+            if (reservedSeatData.success) {
+                console.log('Reserved seat updated successfully');
+                closeEditProfilePopup();
+                window.location.reload();
+            } else {
+                console.error('Failed to update reserved seat');
+            }
+        } else {
+            throw new Error('Failed to update reservation');
+        }
+    } catch (error) {
+        console.error('Error updating reservation or reserved seat:', error);
+    }
 }
+
 
 function closeEditProfilePopup() {
     popup.style.display = "none";
@@ -270,6 +364,24 @@ function updateEndTimeOptions() {
     }
 }
 
+async function fetchLabs() {
+    try {
+        const response = await fetch('/labs/names/labNames');
+        const labNames = await response.json();
+        const labSelect = document.getElementById('popup-lab');
+        labNames.forEach(lab => {
+            const option = document.createElement('option');
+            option.value = lab.lab_name;
+            option.textContent = lab.lab_name; 
+            labSelect.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Failed to fetch lab names:', error);
+    }
+}
+
 fillTimeOptions();
 setInitialEndTime();
 document.getElementById('popup-StartTime').addEventListener('change', updateEndTimeOptions);
+
+
