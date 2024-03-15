@@ -15,10 +15,10 @@ to this after.
 6. CD (change directory) to the path of the project folder (Phase2) on your machine
 7. After that, start the server by typing "node server.js" on your command prompt/terminal, and if successful, you should see these:
   Server running on port 3000
-  Connected to MongoDB Atlas :)
+  Connected to MongoDB Atlas :).
   The data loading should also be seen.
-8. Then, go to your preferred web browser and enter: localhost:3000.
+8. Then, go to your preferred web browser and enter: localhost:3000. (Preferrably after the data has been loaded.)
 9. After entering, you should see the frontend website.
-10. You can click sign in, click register, and after registering, you should be able to login and use the features of a student or staff account.
+10. You can click sign in, click register, and after registering, you should be able to login and use the features of a student or staff account. (Another option is to use the pre-loaded accounts, so you don't have to make one.)
 11. Every data is be fetched, stored, updated, and deleted in the database.
    
