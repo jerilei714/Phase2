@@ -7,7 +7,7 @@ If you have not installed everything that is mentioned above, do install them fi
 to this after. 
 
 ----------------- How to Use ------------------
-1. Download the Phase2 folder on this repository.
+1. Download the Phase2 folder on this repository. (Another option is to clone this repository.)
 2. Then, open MongoDB compass.
 3. You should see "New Connection", and in the URI textbox below, paste this: mongodb+srv://masterUser122:Y6SDtkXn09rMDZTO@cluster0.req0igx.mongodb.net/
 4. Click connect, and you should be able to see a schema called "lab_reserve", click on that.
