@@ -1,6 +1,7 @@
 let editingReservationIndex = null;
 const authorizedUsername = sessionStorage.getItem('authorizedUsername');
 const popup = document.querySelector('.popup');
+fetchLabs();
 
 
 function getUrlParam(parameter) {
@@ -156,6 +157,21 @@ function updateReservationsTable(reservations) {
         tbody.appendChild(row);
     });
 }
+async function isSeatNumberValid(labName, seatNumber) {
+    try {
+      const response = await fetch(`/labs/name/${labName}`);
+      const lab = await response.json();
+      if (lab && lab.total_seats) {
+        return seatNumber >= 1 && seatNumber <= lab.total_seats;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      console.error('Error checking seat number validity:', error);
+      throw new Error('Internal server error');
+    }
+  }
+
 async function submitEdit(event) {
     event.preventDefault();
     const originalId = currentEditingReservation._id;
@@ -171,6 +187,12 @@ async function submitEdit(event) {
         alert('This seat is already reserved for the selected date and time. Please choose another seat or time.');
         return; 
     }
+
+    const seatValid = await isSeatNumberValid(updatedLab, updatedSeat);
+        if (!seatValid) {
+            alert('Invalid seat number. Please choose a valid seat.');
+            return;
+        }
     const updatedReservationDetails = {
         lab_id: updatedLab,
         lab_name: updatedLab,
@@ -283,6 +305,22 @@ function updateEndTimeOptions() {
         const optionValue = startTimeSelect.options[i].value;
         const optionText = startTimeSelect.options[i].text;
         endTimeSelect.options.add(new Option(optionText, optionValue));
+    }
+}
+
+async function fetchLabs() {
+    try {
+        const response = await fetch('/labs/names/labNames');
+        const labNames = await response.json();
+        const labSelect = document.getElementById('popup-lab');
+        labNames.forEach(lab => {
+            const option = document.createElement('option');
+            option.value = lab.lab_name;
+            option.textContent = lab.lab_name; 
+            labSelect.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Failed to fetch lab names:', error);
     }
 }
 
