@@ -38,6 +38,9 @@ hbsCtrl.registerPartials(path.join(__dirname, 'View', 'partials'))
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'View'));
+app.set('css', path.join(__dirname, 'Public', 'css'));
+app.set('images', path.join(__dirname, 'Public', 'images'));
+app.set('script', path.join(__dirname, 'Public', 'script'));
 app.use((req,res,next) =>{
     next()
 })
