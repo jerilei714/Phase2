@@ -23,7 +23,7 @@ const { initializeApplication } = require('./Middleware/initialize');
 const app = express();
 app.use(express.json({ limit: '5mb' }));
 app.use(express.urlencoded({ limit: '5mb', extended: true }));
-app.use('/', express.static(path.join(__dirname, '/public')));
+app.use('/', express.static(path.join(__dirname, 'Public')));
 app.use(cookieParser());
 app.use(cookieAuth); 
 app.use(Authenticated);
@@ -38,9 +38,6 @@ hbsCtrl.registerPartials(path.join(__dirname, 'View', 'partials'))
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'View'));
-app.set('css', path.join(__dirname, 'Public', 'css'));
-app.set('images', path.join(__dirname, 'Public', 'images'));
-app.set('script', path.join(__dirname, 'Public', 'script'));
 app.use((req,res,next) =>{
     next()
 })
